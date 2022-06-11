@@ -19,6 +19,8 @@
 - Compositor: picom
 
 * Packages to install
+(The name of the packages used here might defer on other distros besides Void GNU/Linux)
+
 - stow
 - xfce4
 - i3-gaps
