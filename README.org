@@ -22,6 +22,7 @@
 - xfce4
 - i3-gaps
 - i3status-rust
+- feh
 - picom
 - emacs
 - vim
@@ -34,4 +35,3 @@
    cd ~/dotfiles
    stow .
    #+end_src
-4. enjoy!
