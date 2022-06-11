@@ -1,0 +1,452 @@
+#+TITLE: ID's GNU Emacs Configuration File
+#+AUTHOR: CToID
+#+OPTIONS: num:nil 
+
+* TABLE OF CONTENTS :TOC:
+- [[#configure-package-and-use-package][Configure Package and Use-package]]
+- [[#gcmh-setup][gcmh setup]]
+- [[#appearance-packages-setup][Appearance packages setup]]
+  - [[#themes-and-icons][Themes and icons]]
+  - [[#startup-screen-dashboard][Startup Screen (Dashboard)]]
+- [[#key-bindings-packages-setup][Key bindings packages setup]]
+  - [[#general][General]]
+  - [[#evil][Evil]]
+- [[#org-mode][Org Mode]]
+  - [[#org-bullets][org-bullets]]
+  - [[#toc-org][toc-org]]
+  - [[#org-contrib][org-contrib]]
+  - [[#org-present][org-present]]
+- [[#other-packages-setup][Other packages setup]]
+  - [[#undo-tree][undo-tree]]
+  - [[#which-key][which-key]]
+  - [[#neotree][neotree]]
+  - [[#recentf][recentf]]
+  - [[#sudo-edit][sudo-edit]]
+- [[#language-minor-modes][Language minor modes]]
+  - [[#arduino][Arduino]]
+- [[#emms-packages-and-setup][Emms packages and setup]]
+  - [[#emms][emms]]
+  - [[#emms-mpv-volume-control][Emms mpv volume control]]
+  - [[#emms-mpv-toggle-video][Emms mpv toggle video]]
+  - [[#emms-state][emms-state]]
+- [[#key-bindings-setup][Key bindings setup]]
+  - [[#leader-key][Leader key]]
+  - [[#buffer-controls][Buffer controls]]
+  - [[#window-controls][Window controls]]
+  - [[#file-actions][File actions]]
+  - [[#org-actions][Org actions]]
+  - [[#emms-actions][Emms actions]]
+  - [[#emacs-actions][Emacs actions]]
+- [[#setting-up-some-not-that-important-things-after-startup][Setting up some not that important things after startup]]
+
+* Configure Package and Use-package
+Add package archives and make sure use-package is installed.
+#+begin_src elisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/")
+             '("gnu" . "https://elpa.gnu.org/packages/"))
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  ;; (add-to-list 'load-path "/home/id/.emacs.d/elpa")
+  (require 'use-package))
+;; (setq use-package-verbose t)
+
+(setq package-enable-at-startup nil
+      package--init-file-ensured t)
+#+end_src
+
+* gcmh setup
+the Garbage Collector Magic Hack package will adjust garbage collection interference, thus speeding up Emacs startup process.
+#+begin_src elisp
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode 1))
+#+end_src
+
+* Appearance packages setup
+** Themes and icons
+#+begin_src elisp
+(use-package doom-themes
+  :ensure t
+  :init
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  :config
+  (load-theme 'doom-dracula t))
+
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p))
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1))
+#+end_src
+
+** Startup Screen (Dashboard)
+#+begin_src elisp
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
+        dashboard-items nil)
+  :config
+  (dashboard-setup-startup-hook))
+#+end_src
+
+* Key bindings packages setup
+** General
+For binding leader keys.
+#+begin_src elisp
+(use-package general
+  :ensure t
+  :config
+  (general-evil-setup t))
+#+end_src
+
+** Evil
+An extensible "vim" layer for Emacs.
+#+begin_src elisp
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-C-u-scroll t
+        evil-want-integration t
+        evil-want-keybinding nil)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+#+end_src
+
+* Org Mode
+** org-bullets
+Org-bullets gives us attractive bullets rather than asterisks.
+#+begin_src elisp 
+(use-package org-bullets
+  :commands org-bullets-mode
+  :ensure t
+  :hook (org-mode . (lambda () (org-bullets-mode 1))))
+#+end_src
+
+** toc-org
+For creating table of contents in Org mode.
+#+begin_src elisp 
+(use-package toc-org
+  :commands toc-org-enable
+  :ensure t
+  :hook (org-mode . toc-org-enable))
+#+end_src
+
+** org-contrib
+For lesser-known language support.
+#+begin_src elisp
+(use-package org-contrib
+  :after toc-org
+  :ensure t)
+#+end_src
+
+** org-present
+For presentation in org-mode.
+#+begin_src elisp
+(use-package org-present
+  :commands org-present
+  :bind (:map org-present-mode-keymap
+              ("C-c C-t" . global-display-line-numbers-mode)
+              ("C-c C-j" . org-present-next)
+              ("C-c C-k" . org-present-prev))
+  :ensure t
+  :config
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (global-display-line-numbers-mode -1)
+              (org-present-big)
+              (org-display-inline-images)
+              (org-present-read-only)))
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (global-display-line-numbers-mode 1)
+              (org-present-small)
+              (org-remove-inline-images)
+              (org-present-read-write))))
+#+end_src
+
+* Other packages setup
+** undo-tree
+An undo system to work with Evil.
+#+begin_src elisp
+(use-package undo-tree
+  :after evil
+  :ensure t
+  :init
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo_tree")))
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
+#+end_src
+
+** which-key
+Minor mode for showing following key bindings based on your currently entered incomplete command.
+#+begin_src elisp
+(use-package which-key
+  :ensure t
+  :init
+  (setq which-key-side-window-location 'bottom
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-side-window-max-height 0.25
+        which-key-idle-delay 0.5
+        which-key-max-description-length 25)
+  :config
+  (which-key-mode))
+#+end_src
+
+** neotree
+A file tree viewer.
+| COMMAND        | DESCRIPTION                 | KEYBINDING |
+|----------------+-----------------------------+------------|
+| neotree-toggle | Toggle neotree              | SPC n t    |
+| neotree-dir    | Open a directory in neotree | SPC n d    |
+
+#+begin_src elisp
+(use-package neotree
+  :commands (neotree-toggle neotree-dir)
+  :ensure t
+  :config
+  (setq neo-smart-open t
+        neo-window-width 30
+        neo-window-fixed-size nil
+        neo-theme (if (display-graphic-p) 'icons 'arrow)
+        inhibit-compacting-font-caches t))
+#+end_src
+
+** recentf
+For showing recently open files.
+#+begin_src elisp
+(use-package recentf
+  :init
+  (setq recentf-max-menu-items 10
+        recentf-max-saved-items 10)
+  :config
+  (recentf-mode 1))
+#+end_src
+
+** sudo-edit
+For editing a file in sudo.
+| COMMAND   | DESCRIPTION              | KEYBINDING |
+|-----------+--------------------------+------------|
+| sudo-edit | Open/Edit a file as sudo | SPC f s    |
+
+#+begin_src elisp
+(use-package sudo-edit
+  :commands (sudo-edit)
+  :ensure t
+  :config
+  (sudo-edit-indicator-mode 1))
+#+end_src
+* Language minor modes
+** Arduino
+#+begin_src elisp
+(use-package arduino-mode
+  :mode "\\.ino\\'")
+#+end_src
+
+* Emms packages and setup
+The emacs multimedia system.
+** emms
+#+begin_src elisp
+(use-package emms
+  :commands emms
+  :ensure t
+  :config
+  (use-package emms-setup)
+  (emms-all)
+  (setq emms-source-file-default-directory "~/Music/"
+        emms-seek-seconds 5
+        emms-player-list '(emms-player-mpv)))
+
+#+end_src
+
+** Emms mpv volume control
+For controling mpv volume inside emms.
+#+begin_src elisp
+(defvar emms-player-mpv-volume 70)
+
+(defun emms-player-mpv-get-volume ()
+  "Sets `emms-player-mpv-volume' to the current volume value
+and sends a message of the current volume status."
+  (emms-player-mpv-cmd '(get_property volume)
+                       #'(lambda (vol err)
+                           (unless err
+                             (let ((vol (truncate vol)))
+                               (setq emms-player-mpv-volume vol)
+                               (message "Music volume: %s%%"
+                                        vol))))))
+
+(defun emms-player-mpv-raise-volume (&optional amount)
+  (interactive)
+  (let* ((amount (or amount 10))
+         (new-volume (+ emms-player-mpv-volume amount)))
+    (if (> new-volume 100)
+        (emms-player-mpv-cmd '(set_property volume 100))
+      (emms-player-mpv-cmd `(add volume ,amount))))
+  (emms-player-mpv-get-volume))
+
+(defun emms-player-mpv-lower-volume (&optional amount)
+  (interactive)
+  (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
+  (emms-player-mpv-get-volume))
+#+end_src
+
+** Emms mpv toggle video
+For controling mpv to play video or audio-only.
+#+begin_src elisp
+;; (setq emms-player-mpv-parameters (cons "--quiet" (cons "--really-quiet" (cons "--no-audio-display" "--no-video"))))
+(setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
+
+(defun emms-mpv-toggle-video ()
+  (interactive)
+
+  (if (equal emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
+      (progn
+        (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display"))
+        (message "Play video"))
+    (progn
+      (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
+      (message "Don't play video")))
+
+  (redraw-display))
+#+end_src
+** emms-state
+Display track desciption and playing time in mode line.
+#+begin_src elisp
+(use-package emms-state
+  :after emms
+  :ensure t)
+#+end_src
+
+* COMMENT EXWM
+Emacs X Window Manager.
+#+begin_src elisp
+(use-package exwm
+  :ensure t
+  :init
+  (display-time)
+  :config
+  (require 'exwm-config)
+  (require 'exwm-randr)
+  (require 'exwm-systemtray)
+  (exwm-config-default)
+  (setq exwm-randr-workspace-output-plist '(0 "DisplayPort-0" 1 "DisplayPort-1"))
+  (exwm-randr-enable)
+  (add-hook 'exwm-randr-screen-change-hook
+            (lambda ()
+              (start-process-shell-command
+               "xrandr" nil "--output DisplayPort-0 --primary --mode 2560x1440 --pos 1940x0 --rotate normal --output DisplayPort-1 --mode 1920x1080 --pos 0x360 --rotate normal --output DisplayPort-2 --off --output HDMI-A-0 --off")))
+  (exwm-systemtray-enable))
+#+end_src
+
+* Key bindings setup
+** Leader key
+#+begin_src elisp
+(nvmap :prefix "SPC"
+#+end_src
+
+** Buffer controls
+#+begin_src elisp
+  "b c" '(kill-current-buffer :which-key "Close current buffer")
+  "b C" '(kill-buffer :which-key "Close buffer")
+  "b h" '(previous-buffer :which-key "Previous buffer")
+  "b l" '(next-buffer :which-key "Next buffer")
+  "b s" '(switch-to-buffer :which-key "Switch to buffer")
+  "b r" '(revert-buffer :whitch_key "Revert buffer")
+#+end_src
+
+** Window controls
+#+begin_src elisp
+  "w c" '(delete-window :which-key "Close current window")
+  "w C" '(delete-other-windows :which-key "Close other windows")
+  "w s" '(split-window-right :which-key "Split window Horizontally")
+  "w v" '(split-window-below :which-key "Split window Vertically")
+  "w h" '(windmove-left :which-key "Window left")
+  "w j" '(windmove-down :which-key "Window down")
+  "w k" '(windmove-up :which-key "Window up")
+  "w l" '(windmove-right :which-key "Window right")
+  "w b" '(balance-windows :which-key "Balance windows")
+  "w H" '(shrink-window-horizontally :which-key "Shrink horizontal window")
+  "w J" '(enlarge-window :which-key "Enlarge window")
+  "w K" '(shrink-window :which-key "Shrink vertical window")
+  "w L" '(enlarge-window-horizontally :which-key "Enlarge horizontal window")
+#+end_src
+
+** File actions
+#+begin_src elisp
+  "f r" '(recentf-open-files :which-key "Open recent file list")
+  "f s" '(sudo-edit :which-key "Open/Edit file as sudo")
+  "n t" '(neotree-toggle :which-key "Toggle neotree file viewer")
+  "n d" '(neotree-dir :whick-key "Open directory in neotree")
+#+end_src
+
+** Org actions
+#+begin_src elisp
+  "o s" '(org-insert-structure-template :which-key "Insert Org structure")
+  "o t c" '(org-table-create :which-key "Create Org table")
+  "o t t" '(org-table-toggle-coordinate-overlays :which-key "Toggle Org table coordinates")
+#+end_src
+
+** Emms actions
+#+begin_src elisp
+  "m p" '(emms-pause :which-key "Play/Pause emms")
+  "m m" '(emms :which-key "Open emms")
+  "m f" '(emms-seek-forward :which-key "Emms seek forward")
+  "m b" '(emms-seek-backward :which-key "Emms seek backward")
+  "m -" '(emms-player-mpv-lower-volume :which-key "Lower volume")
+  "m =" '(emms-player-mpv-raise-volume :which-key "Raise volume")
+  "m r" '(emms-toggle-repeat-track :which-key "Toggle repeat track")
+  "m R" '(emms-toggle-repeat-playlist :which-key "Toggle repeat playlist")
+  "m l" '(emms-next :which-key "Next track")
+  "m h" '(emms-previous :which-key "Previous track")
+  "m a u" '(emms-add-url :which-key "Add URL to playlist")
+  "m t v" '(emms-mpv-toggle-video :which-key "Toggle to play video or not")
+#+end_src
+
+** Emacs actions
+#+begin_src elisp
+  "E r c" '((lambda () (interactive)
+                (load-file "~/.emacs.d/init.el"))
+              :which-key "Reload emacs config")
+  "E t t" '(toggle-truncate-lines :which-key "Toggle truncate lines")
+  "E t m" '(menu-bar-mode :which-key "Toggle menu bar"))
+#+end_src
+
+* Setting up some not that important things after startup
+#+begin_src elisp
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist temp-alist
+                  gc-cons-threshold (* 2 1000 1000)
+                  gc-cons-percentage 0.1
+                  indent-line-funtion 'insert-tab
+                  frame-title-format "%b - GNU Emacs")
+            (setq-default python-indent-offset 2)
+            (set-fontset-font "fontset-default" 'han "Noto Sans Mono CJK TC")
+            (global-set-key (kbd "C-SPC") nil) 
+            (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+            (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+            (add-hook 'org-mode-hook 'org-indent-mode)
+            (package-initialize)))
+#+end_src
+

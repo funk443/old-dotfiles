@@ -1,0 +1,37 @@
+#+TITLE: ID's Dotfiles
+#+AUTHOR: CToID
+#+OPTIONS: toc:nil num:nil
+
+* Table of contents                                                     :TOC:
+- [[#system-info][System info]]
+- [[#packages-to-install][Packages to install]]
+- [[#how-to-install][How to install]]
+
+* System info
+[[./images/Desktop.png]]
+
+- OS: Void GNU/Linux
+- Shell: bash
+- Terminal: xfce4-terminal
+- WM: i3-gaps
+- Status bar: i3status-rust
+- Compositor: picom
+
+* Packages to install
+- stow
+- xfce4
+- i3-gaps
+- i3status-rust
+- picom
+- emacs
+- vim
+
+* How to install
+1. Install GNU stow.
+2. Clone this repo.
+3. run the following commands:
+   #+begin_src sh
+   cd ~/dotfiles
+   stow .
+   #+end_src
+4. enjoy!
