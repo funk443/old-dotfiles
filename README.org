@@ -19,10 +19,11 @@
 - Compositor: picom
 
 * Packages to install
-(The name of the packages used here might defer on other distros besides Void GNU/Linux)
+(The name of the packages used here might defer on any distro that is not Void GNU/Linux)
 
 - stow
 - xfce4
+- dmenu
 - i3-gaps
 - i3status-rust
 - feh
