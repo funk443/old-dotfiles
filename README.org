@@ -32,15 +32,15 @@
 1. Install GNU stow.
 2. Clone this repo.
 3. Run the following commands:
-   #+begin_src sh
-   cd dotfiles
-   stow .
-   #+end_src
+   #+begin_example 
+   $ cd dotfiles
+   $ stow .
+   #+end_example
 
 * Cleaning up symbolic links
 1. Install GNU stow.
 2. Run the following commands:
-   #+begin_src sh
-   cd dotfiles
-   stow -D .
-   #+end_src
+   #+begin_example 
+   $ cd dotfiles
+   $ stow -D .
+   #+end_example
