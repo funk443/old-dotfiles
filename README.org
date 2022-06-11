@@ -6,6 +6,7 @@
 - [[#system-info][System info]]
 - [[#packages-to-install][Packages to install]]
 - [[#how-to-install][How to install]]
+- [[#cleaning-up-symbolic-links][Cleaning up symbolic links]]
 
 * System info
 [[./images/Desktop.png]]
@@ -30,8 +31,16 @@
 * How to install
 1. Install GNU stow.
 2. Clone this repo.
-3. run the following commands:
+3. Run the following commands:
    #+begin_src sh
-   cd ~/dotfiles
+   cd dotfiles
    stow .
+   #+end_src
+
+* Cleaning up symbolic links
+1. Install GNU stow.
+2. Run the following commands:
+   #+begin_src sh
+   cd dotfiles
+   stow -D .
    #+end_src
