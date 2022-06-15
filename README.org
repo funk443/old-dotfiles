@@ -21,15 +21,17 @@
 * Packages to install
 (The name of the packages used here might defer on any distro that is not Void GNU/Linux)
 
-- stow
-- xfce4
-- dmenu
-- i3-gaps
-- i3status-rust
-- feh
-- picom
-- emacs
-- vim
+| Package       | Description                                   |
+|---------------+-----------------------------------------------|
+| stow          | To create symbolic links easily               |
+| xfce4         | Desktop environment and some of its utilities |
+| dmenu         | App launcher                                  |
+| i3-gaps       | Window manager                                |
+| i3status-rust | Replacement for i3status                      |
+| feh           | Image viewer                                  |
+| picom         | Compositor                                    |
+| emacs         | This has a text editor                        |
+| vim           | This is a text editor                         |
 
 * How to install
 1. Install GNU stow.
