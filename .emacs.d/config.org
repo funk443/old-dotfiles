@@ -17,6 +17,8 @@
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
 - [[#other-packages-setup][Other packages setup]]
+  - [[#elfeed][elfeed]]
+  - [[#vterm][vterm]]
   - [[#undo-tree][undo-tree]]
   - [[#which-key][which-key]]
   - [[#neotree][neotree]]
@@ -187,6 +189,32 @@ For presentation in org-mode.
 #+end_src
 
 * Other packages setup
+** elfeed
+Web feed reader.
+#+begin_src elisp
+(use-package elfeed
+  :commands elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+        '("https://feeds.feedburner.com/ettoday/realtime"
+          "https://feeds.feedburner.com/rsscna/intworld"
+          "https://feeds.feedburner.com/ettoday/global"
+          "https://feeds.feedburner.com/ettoday/news"
+          "https://news.ltn.com.tw/rss/world.xml"
+          "https://news.ltn.com.tw/rss/politics.xml"
+          "https://news.ltn.com.tw/rss/society.xml"
+          "https://news.ltn.com.tw/rss/all.xml")))
+#+end_src
+
+** vterm
+Terminal emulator.
+#+begin_src elisp
+(use-package vterm
+  :commands vterm
+  :ensure t)
+#+end_src
+
 ** undo-tree
 An undo system to work with Evil.
 #+begin_src elisp

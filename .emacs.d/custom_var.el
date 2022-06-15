@@ -7,6 +7,7 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
  '(blink-cursor-mode nil)
+ '(browse-url-browser-function 'eww-browse-url)
  '(column-number-mode t)
  '(current-language-environment "UTF-8")
  '(custom-safe-themes '(default))
@@ -26,7 +27,7 @@
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(package-selected-packages
-   '(highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
+   '(elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
