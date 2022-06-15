@@ -23,10 +23,10 @@
  '(org-image-actual-width 300)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
- '(org-src-preserve-indentation nil)
+ '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(package-selected-packages
-   '(org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
+   '(highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
