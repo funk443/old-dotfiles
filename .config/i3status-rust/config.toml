@@ -33,6 +33,7 @@ format = "{1m}"
 
 [[block]]
 block = "sound"
+on_click = "pavucontrol"
 
 [[block]]
 block = "time"
