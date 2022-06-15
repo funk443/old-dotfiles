@@ -22,7 +22,8 @@
   - [[#neotree][neotree]]
   - [[#recentf][recentf]]
   - [[#sudo-edit][sudo-edit]]
-- [[#language-minor-modes][Language minor modes]]
+  - [[#highlight-indent-guides][highlight-indent-guides]]
+- [[#language-specific-packages][Language specific packages]]
   - [[#arduino][Arduino]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
   - [[#emms][emms]]
@@ -171,12 +172,14 @@ For presentation in org-mode.
   :config
   (add-hook 'org-present-mode-hook
             (lambda ()
+              (setq org-image-actual-width 1000)
               (global-display-line-numbers-mode -1)
               (org-present-big)
               (org-display-inline-images)
               (org-present-read-only)))
   (add-hook 'org-present-mode-quit-hook
             (lambda ()
+              (setq org-image-actual-width 300)
               (global-display-line-numbers-mode 1)
               (org-present-small)
               (org-remove-inline-images)
@@ -257,11 +260,27 @@ For editing a file in sudo.
   :config
   (sudo-edit-indicator-mode 1))
 #+end_src
-* Language minor modes
+
+** highlight-indent-guides
+For highlighting indentation levels.
+#+begin_src elisp
+(use-package highlight-indent-guides
+  :commands (highlight-indent-guides-mode)
+  :ensure t
+  :config
+  (setq highlight-indent-guides-method 'column
+        highlight-indent-guides-responsive 'top))
+
+#+end_src
+
+* Language specific packages
 ** Arduino
+*** arduino-mode
+For Arduino minor mode.
 #+begin_src elisp
 (use-package arduino-mode
-  :mode "\\.ino\\'")
+  :mode "\\.ino\\'"
+  :ensure t)
 #+end_src
 
 * Emms packages and setup
@@ -429,7 +448,8 @@ Emacs X Window Manager.
                 (load-file "~/.emacs.d/init.el"))
               :which-key "Reload emacs config")
   "E t t" '(toggle-truncate-lines :which-key "Toggle truncate lines")
-  "E t m" '(menu-bar-mode :which-key "Toggle menu bar"))
+  "E t m" '(menu-bar-mode :which-key "Toggle menu bar")
+  "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides"))
 #+end_src
 
 * Setting up some not that important things after startup
