@@ -40,8 +40,9 @@
   - [[#org-actions][Org actions]]
   - [[#emms-actions][Emms actions]]
   - [[#emacs-actions][Emacs actions]]
-- [[#setting-up-some-not-that-important-things-after-startup][Setting up some not that important things after startup]]
-- [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
+- [[#hooks][Hooks]]
+  - [[#setting-up-some-not-that-important-things-after-startup][Setting up some not that important things after startup]]
+  - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -481,7 +482,8 @@ Emacs X Window Manager.
   "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides"))
 #+end_src
 
-* Setting up some not that important things after startup
+* Hooks
+** Setting up some not that important things after startup
 #+begin_src elisp
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -493,6 +495,7 @@ Emacs X Window Manager.
                   elfeed-db nil)
             (setq-default python-indent-offset 2)
             (set-fontset-font "fontset-default" 'han "Noto Sans Mono CJK TC")
+            (set-fontset-font "fontset-default" 'big5 "Noto Sans Mono CJK TC")
             (global-set-key (kbd "C-SPC") nil) 
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
@@ -500,7 +503,7 @@ Emacs X Window Manager.
             (package-initialize)))
 #+end_src
 
-* Unload elfeed database to prevent bugs
+** Unload elfeed database to prevent bugs
 #+begin_src elisp
 (add-hook 'kill-emacs-hook
           (lambda ()

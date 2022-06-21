@@ -15,4 +15,3 @@
 
 (defun display-startup-echo-area-message ()
   (message "ad astra per aspera"))
-
