@@ -494,12 +494,13 @@ Emacs X Window Manager.
                   frame-title-format "%b - GNU Emacs"
                   elfeed-db nil)
             (setq-default python-indent-offset 2)
-            (set-fontset-font "fontset-default" 'han "Noto Sans Mono CJK TC")
-            (set-fontset-font "fontset-default" 'big5 "Noto Sans Mono CJK TC")
+            (set-fontset-font t 'han "Noto Sans Mono CJK TC-12")
+            (set-fontset-font t 'big5 "Noto Sans Mono CJK TC-12")
             (global-set-key (kbd "C-SPC") nil) 
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (add-hook 'org-mode-hook 'org-indent-mode)
+            (ido-mode t)
             (package-initialize)))
 #+end_src
 
