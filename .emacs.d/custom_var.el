@@ -27,7 +27,7 @@
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(package-selected-packages
-   '(elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
+   '(evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard org-bullets toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree arduino-mode vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)

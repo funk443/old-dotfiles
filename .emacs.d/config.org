@@ -128,12 +128,22 @@ An extensible "vim" layer for Emacs.
         evil-want-keybinding nil)
   :config
   (evil-mode 1))
+#+end_src
 
+Evil mode extesions for many other modes
+#+begin_src elisp
 (use-package evil-collection
   :after evil
   :ensure t
   :config
   (evil-collection-init))
+#+end_src
+
+Multi cursors implementation for evil-mode
+#+begin_src elisp
+(use-package evil-mc
+  :commands (evil-mc-mode) 
+  :ensure t)
 #+end_src
 
 * Org Mode
@@ -479,6 +489,7 @@ Emacs X Window Manager.
               :which-key "Reload emacs config")
   "E t t" '(toggle-truncate-lines :which-key "Toggle truncate lines")
   "E t m" '(menu-bar-mode :which-key "Toggle menu bar")
+  "E t c" '(evil-mc-mode :which-key "Toggle Multi cursors mode")
   "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides"))
 #+end_src
 
