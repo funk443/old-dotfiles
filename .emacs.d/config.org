@@ -25,8 +25,8 @@
   - [[#recentf][recentf]]
   - [[#sudo-edit][sudo-edit]]
   - [[#highlight-indent-guides][highlight-indent-guides]]
+  - [[#visual-line-mode][visual-line-mode]]
 - [[#language-specific-packages][Language specific packages]]
-  - [[#arduino][Arduino]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
@@ -193,17 +193,29 @@ For presentation in org-mode.
   (add-hook 'org-present-mode-hook
             (lambda ()
               (setq org-image-actual-width 1000)
+              (setq-local face-remapping-alist '((default (:height 1.5) default)
+                                                 (header-line (:height 4.0) header-line)
+                                                 (org-document-title (:height 1.75) org-document-title)
+                                                 (org-code (:height 1.5) org-code)
+                                                 (org-verbatim (:height 1.5) org-verbatim)
+                                                 (org-block (:height 1.25) org-block)
+                                                 (org-block-begin-line (:height 0.75) org-block-begin-line)))
               (global-display-line-numbers-mode -1)
-              (org-present-big)
+              ;; (org-present-big)
               (org-display-inline-images)
-              (org-present-read-only)))
+              (org-present-read-only)
+              (visual-fill-column-mode 1)
+              (visual-line-mode 0)))
   (add-hook 'org-present-mode-quit-hook
             (lambda ()
               (setq org-image-actual-width 300)
+              (setq-local face-remapping-alist '((default (:height 1.0) default)))
               (global-display-line-numbers-mode 1)
-              (org-present-small)
+              ;; (org-present-small)
               (org-remove-inline-images)
-              (org-present-read-write))))
+              (org-present-read-write)
+              (visual-fill-column-mode 0)
+              (visual-line-mode 0))))
 #+end_src
 
 * Other packages setup
@@ -310,6 +322,9 @@ For editing a file in sudo.
 
 ** highlight-indent-guides
 For highlighting indentation levels.
+| COMMAND                      | DESCRIPTION                    | KEYBINDING |
+|------------------------------+--------------------------------+------------|
+| highlight-indent-guides-mode | Toggle highlight indent guides | SPC E t g  |
 #+begin_src elisp
 (use-package highlight-indent-guides
   :commands (highlight-indent-guides-mode)
@@ -317,11 +332,21 @@ For highlighting indentation levels.
   :config
   (setq highlight-indent-guides-method 'column
         highlight-indent-guides-responsive 'top))
+#+end_src
 
+** visual-line-mode
+A package to make org-present better.
+#+begin_src elisp
+(use-package visual-fill-column
+  :after org-present
+  :ensure t
+  :init
+  (setq visual-fill-column-width 110
+        visual-fill-column-center-text t))
 #+end_src
 
 * Language specific packages
-** Arduino
+** COMMENT Arduino
 *** arduino-mode
 For Arduino minor mode.
 #+begin_src elisp
@@ -468,7 +493,7 @@ Emacs X Window Manager.
 
 ** Org actions
 #+begin_src elisp
-  "o s" '(org-insert-structure-template :which-key "Insert Org structure")
+  ;; "o s" '(org-insert-structure-template :which-key "Insert Org structure")
   "o t c" '(org-table-create :which-key "Create Org table")
   "o t t" '(org-table-toggle-coordinate-overlays :which-key "Toggle Org table coordinates")
 #+end_src
