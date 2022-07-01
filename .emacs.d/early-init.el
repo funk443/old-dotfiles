@@ -12,6 +12,7 @@
   (make-directory "~/.emacs.d/undo_tree"))
 
 (add-to-list 'default-frame-alist '(font . "NovaMono-12"))
-
+(set-frame-parameter (selected-frame) 'alpha '(97 . 100))
+(add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 (defun display-startup-echo-area-message ()
   (message "ad astra per aspera"))

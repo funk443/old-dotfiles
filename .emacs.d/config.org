@@ -2,7 +2,7 @@
 #+AUTHOR: CToID
 #+OPTIONS: num:nil 
 
-* TABLE OF CONTENTS :TOC:
+* TABLE OF CONTENTS :TOC:noexport:
 - [[#configure-package-and-use-package][Configure Package and Use-package]]
 - [[#gcmh-setup][gcmh setup]]
 - [[#appearance-packages-setup][Appearance packages setup]]
@@ -12,7 +12,6 @@
   - [[#general][General]]
   - [[#evil-mode][Evil Mode]]
 - [[#org-mode][Org Mode]]
-  - [[#org-bullets][org-bullets]]
   - [[#toc-org][toc-org]]
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
@@ -27,6 +26,7 @@
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
 - [[#language-specific-packages][Language specific packages]]
+  - [[#rust][Rust]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
@@ -153,7 +153,7 @@ Multi cursors implementation for evil-mode
 #+end_src
 
 * Org Mode
-** org-bullets
+** COMMENT org-bullets
 Org-bullets gives us attractive bullets rather than asterisks.
 #+begin_src elisp 
 (use-package org-bullets
@@ -196,16 +196,16 @@ For presentation in org-mode.
               (setq-local face-remapping-alist '((default (:height 1.5) default)
                                                  (header-line (:height 4.0) header-line)
                                                  (org-document-title (:height 1.75) org-document-title)
-                                                 (org-code (:height 1.5) org-code)
-                                                 (org-verbatim (:height 1.5) org-verbatim)
-                                                 (org-block (:height 1.25) org-block)
+                                                 (org-code (:height 1.25) org-code)
+                                                 (org-verbatim (:height 1.25) org-verbatim)
+                                                 (org-block (:height 1.0) org-block)
                                                  (org-block-begin-line (:height 0.75) org-block-begin-line)))
               (global-display-line-numbers-mode -1)
               ;; (org-present-big)
               (org-display-inline-images)
               (org-present-read-only)
               (visual-fill-column-mode 1)
-              (visual-line-mode 0)))
+              (visual-line-mode 1)))
   (add-hook 'org-present-mode-quit-hook
             (lambda ()
               (setq org-image-actual-width 300)
@@ -341,7 +341,7 @@ A package to make org-present better.
   :after org-present
   :ensure t
   :init
-  (setq visual-fill-column-width 110
+  (setq visual-fill-column-width 200
         visual-fill-column-center-text t))
 #+end_src
 
@@ -352,6 +352,14 @@ For Arduino minor mode.
 #+begin_src elisp
 (use-package arduino-mode
   :mode "\\.ino\\'"
+  :ensure t)
+#+end_src
+
+** Rust
+*** rust-mode
+#+begin_src elisp
+(use-package rust-mode
+  :mode "\\.rs\\'"
   :ensure t)
 #+end_src
 
@@ -535,8 +543,11 @@ Emacs X Window Manager.
                   gc-cons-percentage 0.1
                   indent-line-funtion 'insert-tab
                   frame-title-format "%b - GNU Emacs"
+                  ido-enable-flex-matching t
+                  ido-everywhere t
                   elfeed-db nil)
-            (setq-default python-indent-offset 2)
+            (setq-default python-indent-offset 2
+                          rust-indent-offset 2)
             (global-set-key (kbd "C-SPC") nil) 
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
@@ -560,7 +571,16 @@ Emacs X Window Manager.
             (set-fontset-font "fontset-default" '(#xf11b . #xf11b)
                               "Font Awesome 5 Free-12")
             (set-fontset-font "fontset-default" '(#xf121 . #xf121)
-                              "Font Awesome 5 Free-12")))
+                              "Font Awesome 5 Free-12")
+            (dolist (face '((org-level-1 . 1.6)
+                            (org-level-2 . 1.5)
+                            (org-level-3 . 1.4)
+                            (org-level-4 . 1.3)
+                            (org-level-5 . 1.2)
+                            (org-level-6 . 1.1)
+                            (org-level-7 . 1.05)
+                            (org-level-8 . 1.0)))
+            (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face)))))
 #+end_src
 
 ** Unload elfeed database to prevent bugs
