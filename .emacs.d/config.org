@@ -44,6 +44,8 @@
   - [[#setting-up-some-not-that-important-things-after-startup][Setting up some not that important things after startup]]
   - [[#setting-up-fonts-after-startup][Setting up fonts after startup]]
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
+- [[#functions][Functions]]
+  - [[#toggle-transparency][toggle-transparency]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -531,6 +533,7 @@ Emacs X Window Manager.
   "E t m" '(menu-bar-mode :which-key "Toggle menu bar")
   "E t c" '(evil-mc-mode :which-key "Toggle Multi cursors mode")
   "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides"))
+
 #+end_src
 
 * Hooks
@@ -591,4 +594,19 @@ Emacs X Window Manager.
           (lambda ()
             (if elfeed-db
                 (elfeed-db-unload))))
+#+end_src
+
+* Functions
+** toggle-transparency
+#+begin_src elisp
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '(90 . 75) '(100 . 100)))))
 #+end_src
