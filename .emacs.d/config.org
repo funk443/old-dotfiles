@@ -26,7 +26,6 @@
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
 - [[#language-specific-packages][Language specific packages]]
-  - [[#rust][Rust]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
@@ -357,7 +356,7 @@ For Arduino minor mode.
   :ensure t)
 #+end_src
 
-** Rust
+** COMMENT Rust
 *** rust-mode
 #+begin_src elisp
 (use-package rust-mode
@@ -585,7 +584,8 @@ Emacs X Window Manager.
                             (org-level-6 . 1.0)
                             (org-level-7 . 1.0)
                             (org-level-8 . 1.0)))
-              (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face)))))
+              ;; (set-face-attribute (car face) nil :font "Noto Sans CJK TC-12" :height (cdr face)))))
+              (set-face-attribute (car face) nil :font "NovaRound-12" :height 1.0))))
 #+end_src
 
 ** Unload elfeed database to prevent bugs
