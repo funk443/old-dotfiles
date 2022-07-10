@@ -103,9 +103,11 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
 (use-package dashboard
   :ensure t
   :init
+  ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
+  ;;       dashboard-center-content t
+  ;;       dashboard-items '((recents . 5)))
   (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-        dashboard-center-content t
-        dashboard-items '((recents . 5)))
+        dashboard-items nil)
   :config
   (dashboard-setup-startup-hook))
 #+end_src
