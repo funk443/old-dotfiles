@@ -534,8 +534,8 @@ Emacs X Window Manager.
   "E t t" '(toggle-truncate-lines :which-key "Toggle truncate lines")
   "E t m" '(menu-bar-mode :which-key "Toggle menu bar")
   "E t c" '(evil-mc-mode :which-key "Toggle Multi cursors mode")
-  "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides"))
-
+  "E t g" '(highlight-indent-guides-mode :which-key "Toggle indentation guides")
+  "E t w" '(whitespace-mode :which-key "Toggle whitespace mode"))
 #+end_src
 
 * Hooks
