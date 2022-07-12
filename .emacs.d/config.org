@@ -636,7 +636,7 @@ Emacs X Window Manager.
 #+begin_src elisp
 (defun increase-font-size ()
   (interactive)
-  (if (boundp 'old-size)
+  (if (or (boundp 'old-size) (not 'old-size))
       (setq-local old-size new-size
                   new-size (* old-size 1.2))
     (setq-local old-size 12.0
@@ -652,7 +652,7 @@ Emacs X Window Manager.
 #+begin_src elisp
 (defun decrease-font-size ()
   (interactive)
-  (if (boundp 'old-size)
+  (if (or (boundp 'old-size) (not 'old-size))
       (setq-local old-size new-size
                   new-size (/ old-size 1.2))
     (setq-local old-size 12.0
@@ -668,8 +668,8 @@ Emacs X Window Manager.
 #+begin_src elisp
 (defun reset-font-size ()
   (interactive)
-  (makunbound 'old-size)
-  (setq-local new-size 12.0)
+  (setq-local old-size nil
+              new-size 12.0)
   (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
   (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
                     nil 'append)
