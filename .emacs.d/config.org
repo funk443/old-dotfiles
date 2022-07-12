@@ -633,6 +633,7 @@ Emacs X Window Manager.
 #+end_src
 
 ** increase-font-size
+Wrote these font size related function for adjusting sizes of different fonts at the same time.
 #+begin_src elisp
 (defun increase-font-size (arg)
   (interactive "P")
