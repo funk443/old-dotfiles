@@ -201,9 +201,9 @@ For presentation in org-mode.
             (lambda ()
               (setq org-image-actual-width 1000
                     header-line-format " ")
-              (setq-local face-remapping-alist '((default (:height 1.5) default)
-                                                 (header-line (:height 4.0) header-line)
-                                                 (org-document-title (:height 1.75) org-document-title)
+              (setq-local face-remapping-alist '((default (:height 2.0) default)
+                                                 (header-line (:height 5.0) header-line)
+                                                 (org-document-title (:height 2.25) org-document-title)
                                                  (org-code (:height 1.25) org-code)
                                                  (org-verbatim (:height 1.25) org-verbatim)
                                                  (org-block (:height 1.0) org-block)
@@ -365,7 +365,6 @@ A package to make org-present better.
 * Language specific packages
 ** COMMENT Arduino
 *** arduino-mode
-For Arduino minor mode.
 #+begin_src elisp
 (use-package arduino-mode
   :mode "\\.ino\\'"
