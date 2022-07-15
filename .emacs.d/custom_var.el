@@ -18,6 +18,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
+ '(org-agenda-files '("~/Documents/agenda.org"))
  '(org-edit-src-content-indentation 0)
  '(org-export-preserve-breaks t)
  '(org-export-with-sub-superscripts '{})
@@ -26,6 +27,7 @@
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
+ '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
    '(visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree vterm emms magit evil ##))
  '(save-place-mode t)

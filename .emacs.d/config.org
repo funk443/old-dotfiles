@@ -519,6 +519,7 @@ Emacs X Window Manager.
 #+begin_src elisp
   ;; "o s" '(org-insert-structure-template :which-key "Insert Org structure")
   "o t c" '(org-table-create :which-key "Create Org table")
+  "o a" '(org-agenda :which-key "Open Org agenda view")
   "o t t" '(org-table-toggle-coordinate-overlays :which-key "Toggle Org table coordinates")
 #+end_src
 
