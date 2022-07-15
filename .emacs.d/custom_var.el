@@ -23,6 +23,7 @@
  '(org-export-preserve-breaks t)
  '(org-export-with-sub-superscripts '{})
  '(org-image-actual-width 500)
+ '(org-log-done 'note)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
  '(org-src-preserve-indentation t)

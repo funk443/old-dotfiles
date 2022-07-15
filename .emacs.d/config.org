@@ -106,11 +106,14 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
 (use-package dashboard
   :ensure t
   :init
-  ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-  ;;       dashboard-center-content t
-  ;;       dashboard-items '((recents . 5)))
   (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-        dashboard-items nil)
+        dashboard-center-content t
+        dashboard-week-agenda nil
+        dashboard-agenda-time-string-format "%Y-%m-%d %H:%M"
+        dashboard-agenda-prefix-format "%-10s"
+        dashboard-items '((agenda . 5)))
+  ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
+        ;; dashboard-items nil)
   :config
   (dashboard-setup-startup-hook))
 #+end_src
@@ -204,8 +207,8 @@ For presentation in org-mode.
               (setq-local face-remapping-alist '((default (:height 2.0) default)
                                                  (header-line (:height 5.0) header-line)
                                                  (org-document-title (:height 2.25) org-document-title)
-                                                 (org-code (:height 1.25) org-code)
-                                                 (org-verbatim (:height 1.25) org-verbatim)
+                                                 (org-code (:height 1.0) org-code)
+                                                 (org-verbatim (:height 1.0) org-verbatim)
                                                  (org-block (:height 1.0) org-block)
                                                  (org-block-begin-line (:height 0.75) org-block-begin-line)))
               (set-fontset-font "fontset-default" 'han "Noto Sans TC-20")
@@ -358,7 +361,7 @@ A package to make org-present better.
   :after org-present
   :ensure t
   :init
-  (setq visual-fill-column-width 200
+  (setq visual-fill-column-width 225
         visual-fill-column-center-text t))
 #+end_src
 
