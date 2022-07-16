@@ -111,7 +111,8 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
         dashboard-week-agenda nil
         dashboard-agenda-time-string-format "%Y-%m-%d %H:%M"
         dashboard-agenda-prefix-format "%?-12t% s"
-        dashboard-items '((agenda . 5)))
+        dashboard-agenda-release-buffers t
+        dashboard-items '((agenda)))
   ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
         ;; dashboard-items nil)
   :config
