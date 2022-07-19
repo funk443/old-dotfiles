@@ -2,7 +2,6 @@
 "call plug#end ()
 
 set t_Co=256
-
 set encoding=utf-8
 set number
 set relativenumber
@@ -17,11 +16,6 @@ set expandtab
 set hlsearch
 
 set splitbelow splitright
-
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 nnoremap <silent> <S-h> :vertical resize +3<CR>
 nnoremap <silent> <S-l> :vertical resize -3<CR>
