@@ -30,7 +30,7 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key evil-collection undo-tree vterm emms magit evil ##))
+   '(evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)

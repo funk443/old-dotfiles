@@ -81,6 +81,7 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
 
 * Appearance packages setup
 ** Themes and icons
+Using Doom Dracula theme.
 #+begin_src elisp
 (use-package doom-themes
   :ensure t
