@@ -11,6 +11,7 @@
  '(column-number-mode t)
  '(current-language-environment "UTF-8")
  '(custom-safe-themes '(default))
+ '(default-input-method "chinese-array30")
  '(display-line-numbers-type 'relative)
  '(emms-volume-change-function 'emms-player-mpv-raise-volume)
  '(fringe-mode 0 nil (fringe))
