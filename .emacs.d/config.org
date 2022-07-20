@@ -46,9 +46,6 @@
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
-  - [[#increase-font-size][increase-font-size]]
-  - [[#decrease-font-size][decrease-font-size]]
-  - [[#reset-font-size][reset-font-size]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -214,10 +211,10 @@ For presentation in org-mode.
                                                  (org-verbatim (:height 1.0) org-verbatim)
                                                  (org-block (:height 1.0) org-block)
                                                  (org-block-begin-line (:height 0.75) org-block-begin-line)))
-              (set-fontset-font "fontset-default" 'han "Noto Sans TC-20")
-              (set-fontset-font "fontset-default" 'han "Noto Sans SC-20"
-                                nil 'append)
-              (set-fontset-font "fontset-default" 'big5 "Noto Sans TC-20")
+              ;; (set-fontset-font "fontset-default" 'han "Noto Sans TC-20")
+              ;; (set-fontset-font "fontset-default" 'han "Noto Sans SC-20"
+              ;;                   nil 'append)
+              ;; (set-fontset-font "fontset-default" 'big5 "Noto Sans TC-20")
               (global-display-line-numbers-mode -1)
               ;; (org-present-big)
               (org-display-inline-images)
@@ -229,10 +226,10 @@ For presentation in org-mode.
               (setq org-image-actual-width 300
                     header-line-format nil)
               (setq-local face-remapping-alist '((default (:height 1.0) default)))
-              (set-fontset-font "fontset-default" 'han "Noto Sans TC-12")
-              (set-fontset-font "fontset-default" 'han "Noto Sans SC-12"
-                                nil 'append)
-              (set-fontset-font "fontset-default" 'big5 "Noto Sans TC-12")
+              ;; (set-fontset-font "fontset-default" 'han "Noto Sans TC-12")
+              ;; (set-fontset-font "fontset-default" 'han "Noto Sans SC-12"
+              ;;                   nil 'append)
+              ;; (set-fontset-font "fontset-default" 'big5 "Noto Sans TC-12")
               (global-display-line-numbers-mode 1)
               ;; (org-present-small)
               (org-remove-inline-images)
@@ -581,9 +578,9 @@ Emacs X Window Manager.
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
             (global-set-key (kbd "C-SPC") nil) 
-            (global-set-key (kbd "C-X C-=") 'increase-font-size)
-            (global-set-key (kbd "C-X C--") 'decrease-font-size)
-            (global-set-key (kbd "C-X C-0") 'reset-font-size)
+            ;; (global-set-key (kbd "C-X C-=") 'increase-font-size)
+            ;; (global-set-key (kbd "C-X C--") 'decrease-font-size)
+            ;; (global-set-key (kbd "C-X C-0") 'reset-font-size)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (add-hook 'org-mode-hook 'org-indent-mode)
@@ -595,11 +592,14 @@ Emacs X Window Manager.
 #+begin_src elisp
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (set-fontset-font "fontset-default" 'han "Noto Sans TC-12")
-            (set-fontset-font "fontset-default" 'han "Noto Sans SC-12"
+            (set-fontset-font "fontset-default" 'han "Noto Sans TC")
+            (set-fontset-font "fontset-default" 'han "Noto Sans SC"
                              nil 'append)
-            (set-fontset-font "fontset-default" 'big5 "Noto Sans TC-12")
-            (set-fontset-font "fontset-default" 'kana "Noto Sans JP-12")
+            (set-fontset-font "fontset-default" 'big5 "Noto Sans TC")
+            (set-fontset-font "fontset-default" 'kana "Noto Sans JP")
+            (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
+                                            ("Noto Sans SC" . 1.0)
+                                            ("Noto Sans JP" . 1.0)))
             ;; (set-fontset-font "fontset-default" '(#xe007 . #xe007)
                               ;; "Font Awesome 5 Brands-12")
             ;; (set-fontset-font "fontset-default" '(#xf392 . #xf392)
@@ -651,7 +651,7 @@ Emacs X Window Manager.
          '(90 . 75) '(100 . 100)))))
 #+end_src
 
-** increase-font-size
+** COMMENT increase-font-size
 Wrote these font size related function for adjusting sizes of different fonts at the same time.
 #+begin_src elisp
 (defun increase-font-size (arg)
@@ -685,7 +685,7 @@ Wrote these font size related function for adjusting sizes of different fonts at
         (text-scale-increase 1.0)))))
 #+end_src
 
-** decrease-font-size
+** COMMENT decrease-font-size
 #+begin_src elisp
 (defun decrease-font-size (arg)
   (interactive "P")
@@ -717,7 +717,7 @@ Wrote these font size related function for adjusting sizes of different fonts at
         (text-scale-decrease 1.0)))))
 #+end_src
 
-** reset-font-size
+** COMMENT reset-font-size
 #+begin_src elisp
 (defun reset-font-size ()
   (interactive)
