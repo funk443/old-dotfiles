@@ -634,7 +634,6 @@ Emacs X Window Manager.
                             (org-level-6 . 1.0)
                             (org-level-7 . 1.0)
                             (org-level-8 . 1.0)))
-              ;; (set-face-attribute (car face) nil :font "Noto Sans CJK TC-12" :height (cdr face)))))
               (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face)))))
 #+end_src
 
