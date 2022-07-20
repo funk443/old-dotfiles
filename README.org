@@ -13,7 +13,7 @@
 
 - OS: Void GNU/Linux
 - Shell: bash
-- Terminal: xfce4-terminal
+- Terminal: alacritty
 - WM: i3-gaps
 - Status bar: i3status-rust
 - Compositor: picom
@@ -25,6 +25,7 @@
 |---------------+-----------------------------------------------|
 | stow          | To create symbolic links easily               |
 | xfce4         | Desktop environment and some of its utilities |
+| alacritty     | A GPU-accelerated terminal emulator           |
 | dmenu         | App launcher                                  |
 | i3-gaps       | Window manager                                |
 | i3status-rust | Replacement for i3status                      |
