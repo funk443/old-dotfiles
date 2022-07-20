@@ -460,7 +460,8 @@ For controling mpv to play video or audio-only.
     (progn
       (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
       (message "Don't play video")))
-  (redraw-display))
+  (redraw-display)
+  (emms-player-mpv-cmd `(quit)))
 #+end_src
 ** emms-state
 Display track desciption and playing time in mode line.
