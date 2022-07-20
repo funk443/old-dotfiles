@@ -42,8 +42,8 @@
   - [[#emms-actions][Emms actions]]
   - [[#emacs-actions][Emacs actions]]
 - [[#hooks][Hooks]]
-  - [[#setting-up-some-not-that-important-things-after-startup][Setting up some not that important things after startup]]
-  - [[#setting-up-fonts-after-startup][Setting up fonts after startup]]
+  - [[#startup-hook][Startup Hook]]
+- [[#font-settings][Font Settings]]
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
@@ -571,7 +571,7 @@ Emacs X Window Manager.
 #+end_src
 
 * Hooks
-** Setting up some not that important things after startup
+** Startup Hook
 #+begin_src elisp
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -596,7 +596,7 @@ Emacs X Window Manager.
             (package-initialize)))
 #+end_src
 
-** Setting up fonts after startup
+* Font Settings
 #+begin_src elisp
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -624,6 +624,8 @@ Emacs X Window Manager.
                                 :font "NovaMono-12")
             (set-face-attribute 'dashboard-items-face nil
                                 :height 120)
+            (set-face-attribute 'dashboard-banner-logo-title nil
+                                :font "NovaRound-12")
             (set-face-attribute 'header-line nil
                                 :inherit nil)
             (dolist (face '((org-level-1 . 1.3)
