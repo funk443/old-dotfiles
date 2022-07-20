@@ -624,8 +624,6 @@ Emacs X Window Manager.
                                 :font "NovaMono-12")
             (set-face-attribute 'dashboard-items-face nil
                                 :height 120)
-            (set-face-attribute 'dashboard-banner-logo-title nil
-                                :font "NovaRound-12")
             (set-face-attribute 'header-line nil
                                 :inherit nil)
             (dolist (face '((org-level-1 . 1.3)
