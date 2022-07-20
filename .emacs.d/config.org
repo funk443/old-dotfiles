@@ -460,7 +460,6 @@ For controling mpv to play video or audio-only.
     (progn
       (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
       (message "Don't play video")))
-
   (redraw-display))
 #+end_src
 ** emms-state
@@ -554,6 +553,7 @@ Emacs X Window Manager.
   "m l" '(emms-next :which-key "Next track")
   "m h" '(emms-previous :which-key "Previous track")
   "m a u" '(emms-add-url :which-key "Add URL to playlist")
+  "m a f" '(emms-add-file :which-key "Add a file to playlist")
   "m t v" '(emms-mpv-toggle-video :which-key "Toggle to play video or not")
 #+end_src
 
