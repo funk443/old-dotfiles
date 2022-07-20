@@ -27,6 +27,7 @@
   - [[#visual-line-mode][visual-line-mode]]
 - [[#language-specific-packages][Language specific packages]]
   - [[#vimscript][VimScript]]
+  - [[#yaml][YAML]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
@@ -385,6 +386,14 @@ A package to make org-present better.
 #+begin_src elisp
 (use-package vimrc-mode
   :mode "\\.vim\\'"
+  :ensure t)
+#+end_src
+
+** YAML
+*** yaml-mode
+#+begin_src elisp
+(use-package yaml-mode
+  :mode "\\.yml\\'"
   :ensure t)
 #+end_src
 

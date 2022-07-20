@@ -31,7 +31,7 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
+   '(yaml-mode evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
@@ -40,3 +40,9 @@
  '(tool-bar-mode nil)
  '(window-divider-mode t)
  '(x-select-enable-clipboard-manager nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
