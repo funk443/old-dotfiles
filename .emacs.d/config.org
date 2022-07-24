@@ -107,7 +107,7 @@ Using Doom Dracula theme.
   :ensure t
   :init
   (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-        dashboard-startup-banner "~/.emacs.d/emacs.png"
+        dashboard-startup-banner (nth (% (random) 6) '(official logo 1 2 3 "~/.emacs.d/emacs.png"))
         dashboard-center-content t
         dashboard-week-agenda nil
         dashboard-agenda-time-string-format "%Y-%m-%d %H:%M"
@@ -117,6 +117,7 @@ Using Doom Dracula theme.
   ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
         ;; dashboard-items nil)
   :config
+  (add-to-list 'dashboard-footer-messages "Free as in Freedom")
   (dashboard-setup-startup-hook))
 #+end_src
 
