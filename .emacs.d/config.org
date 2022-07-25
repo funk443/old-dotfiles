@@ -16,6 +16,7 @@
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
 - [[#other-packages-setup][Other packages setup]]
+  - [[#xclip][xclip]]
   - [[#elfeed][elfeed]]
   - [[#vterm][vterm]]
   - [[#undo-tree][undo-tree]]
@@ -240,6 +241,11 @@ For presentation in org-mode.
 #+end_src
 
 * Other packages setup
+** xclip
+#+begin_src elisp
+(use-package xclip
+  :ensure t)
+#+end_src
 ** elfeed
 Web feed reader.
 #+begin_src elisp

@@ -34,9 +34,11 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(yaml-mode evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
+   '(xclip yaml-mode evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
+ '(select-enable-clipboard nil)
+ '(sh-basic-offset 2)
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(tab-width 2)
