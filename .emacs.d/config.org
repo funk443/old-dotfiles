@@ -140,7 +140,8 @@ An extensible "vim" layer for Emacs.
   :init
   (setq evil-want-C-u-scroll t
         evil-want-integration t
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        evil-want-minibuffer t)
   :config
   (evil-mode 1))
 #+end_src
