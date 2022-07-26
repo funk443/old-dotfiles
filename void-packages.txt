@@ -331,6 +331,7 @@ libexttextcat
 libfbclient3
 libfdisk
 libffi
+libffi-devel
 libfftw
 libfl-devel
 libflac
@@ -861,5 +862,6 @@ yt-dlp
 zd1211-firmware
 zip
 zlib
+zlib-devel
 zstd
 zxing-cpp
