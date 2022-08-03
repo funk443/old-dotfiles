@@ -16,6 +16,7 @@
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
 - [[#other-packages-setup][Other packages setup]]
+  - [[#magit][magit]]
   - [[#xclip][xclip]]
   - [[#elfeed][elfeed]]
   - [[#vterm][vterm]]
@@ -82,6 +83,7 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
 * Appearance packages setup
 ** Themes and icons
 Using Doom Dracula theme.
+Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correctly.
 #+begin_src elisp
 (use-package doom-themes
   :ensure t
@@ -95,6 +97,10 @@ Using Doom Dracula theme.
   :ensure t
   :if (display-graphic-p))
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+(use-package all-the-icons-dired
+  :ensure t
+  :after all-the-icons)
 
 (use-package doom-modeline
   :ensure t
@@ -242,11 +248,20 @@ For presentation in org-mode.
 #+end_src
 
 * Other packages setup
+** magit
+A git client for emacs.
+#+begin_src elisp
+(use-package magit
+  :ensure t
+  :commands (magit magit-clone))
+#+end_src
+
 ** xclip
 #+begin_src elisp
 (use-package xclip
   :ensure t)
 #+end_src
+
 ** elfeed
 Web feed reader.
 #+begin_src elisp

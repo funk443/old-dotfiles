@@ -243,7 +243,7 @@ bindsym $mod+shift+m exec urxvt -e ncmpcpp
 # exec_always --no-startup-id ~/.config/i3/launch.sh
 # exec_always --no-startup-id feh --bg-fill --randomize ~/Pictures/wallpapers/*
 exec --no-startup-id picom -CGb --experimental-backends
-exec --no-startup-id ~/Documents/screen.sh
+exec_always --no-startup-id ~/Documents/scripts/screen.sh
 # exec dunst -conf ~/.config/dunst/dunstrc1
 # exec --no-startup-id xfce4-clipman
 # exec /usr/lib/xfce4/notifyd/xfce4-notifyd
