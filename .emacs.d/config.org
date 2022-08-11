@@ -45,8 +45,8 @@
   - [[#emacs-actions][Emacs actions]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
-- [[#font-settings][Font Settings]]
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
+- [[#font-settings][Font Settings]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
 
@@ -606,6 +606,7 @@ Emacs X Window Manager.
                   frame-title-format "%b - GNU Emacs"
                   ido-enable-flex-matching t
                   ido-everywhere t
+                  default-input-method "chinese-array30"
                   elfeed-db nil)
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
@@ -617,7 +618,16 @@ Emacs X Window Manager.
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
+            (set-default-coding-systems 'utf-8)
             (package-initialize)))
+#+end_src
+
+** Unload elfeed database to prevent bugs
+#+begin_src elisp
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (if elfeed-db
+                (elfeed-db-unload))))
 #+end_src
 
 * Font Settings
@@ -659,14 +669,6 @@ Emacs X Window Manager.
                             (org-level-7 . 1.0)
                             (org-level-8 . 1.0)))
               (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face)))))
-#+end_src
-
-** Unload elfeed database to prevent bugs
-#+begin_src elisp
-(add-hook 'kill-emacs-hook
-          (lambda ()
-            (if elfeed-db
-                (elfeed-db-unload))))
 #+end_src
 
 * Functions
