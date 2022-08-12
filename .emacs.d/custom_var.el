@@ -42,6 +42,7 @@
  '(size-indication-mode t)
  '(tab-width 2)
  '(tool-bar-mode nil)
+ '(warning-suppress-types '((comp) (comp)))
  '(window-divider-mode t)
  '(x-select-enable-clipboard-manager nil))
 (custom-set-faces
