@@ -293,7 +293,6 @@ libcdio-paranoia
 libcdparanoia
 libcdr
 libchewing
-libchewing-data
 libcloudproviders
 libcolord
 libconfig
@@ -729,7 +728,6 @@ tzdata
 uchardet
 udisks2
 units
-unrar
 unzip
 upower
 usbredir
