@@ -28,6 +28,7 @@
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
 - [[#language-specific-packages][Language specific packages]]
+  - [[#arduino][Arduino]]
   - [[#vimscript][VimScript]]
   - [[#yaml][YAML]]
 - [[#emms-packages-and-setup][Emms packages and setup]]
@@ -389,7 +390,7 @@ A package to make org-present better.
 #+end_src
 
 * Language specific packages
-** COMMENT Arduino
+** Arduino
 *** arduino-mode
 #+begin_src elisp
 (use-package arduino-mode
