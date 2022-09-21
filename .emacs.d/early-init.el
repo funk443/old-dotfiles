@@ -1,8 +1,8 @@
 (setq initial-scratch-message nil
       custom-file (locate-user-emacs-file "custom_var.el")
       gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.75
-      initial-frame-alist '((width . 160)))
+      gc-cons-percentage 0.75)
+      ;; initial-frame-alist '((width . 160)))
 
 (load custom-file 'noerror 'nomessage)
 (unless (file-directory-p "~/.emacs.d/autosave")
@@ -14,8 +14,8 @@
 
 (add-to-list 'default-frame-alist '(font . "NovaMono-12"))
 
-(set-frame-parameter (selected-frame) 'alpha '(98 . 80))
-(add-to-list 'default-frame-alist '(alpha . (98 . 80)))
+(set-frame-parameter (selected-frame) 'alpha '(90 . 75))
+(add-to-list 'default-frame-alist '(alpha . (90 . 75)))
 
 (defun display-startup-echo-area-message ()
   (message "ad astra per aspera"))

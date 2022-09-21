@@ -27,7 +27,6 @@
   - [[#sudo-edit][sudo-edit]]
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
-  - [[#exwm][EXWM]]
 - [[#language-specific-packages][Language specific packages]]
   - [[#arduino][Arduino]]
   - [[#vimscript][VimScript]]
@@ -664,7 +663,7 @@ Display track desciption and playing time in mode line.
                     ((numberp (cdr alpha)) (cdr alpha))
                     ((numberp (cadr alpha)) (cadr alpha)))
               100)
-         '(98 . 80) '(100 . 100)))))
+         '(90 . 75) '(100 . 100)))))
 #+end_src
 
 ** COMMENT increase-font-size
