@@ -14,6 +14,7 @@
  '(custom-safe-themes '(default))
  '(display-line-numbers-type 'relative)
  '(emms-volume-change-function 'emms-player-mpv-raise-volume)
+ '(frame-resize-pixelwise t)
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
  '(indent-tabs-mode nil)
