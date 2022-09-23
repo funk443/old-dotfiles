@@ -587,7 +587,8 @@ Display track desciption and playing time in mode line.
                   ido-enable-flex-matching t
                   ido-everywhere t
                   default-input-method "chinese-array30"
-                  elfeed-db nil)
+                  elfeed-db nil
+                  default-text-properties '(line-spacing 0.1 line-height 1.25))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
             (global-set-key (kbd "C-SPC") nil) 
@@ -619,9 +620,9 @@ Display track desciption and playing time in mode line.
                              nil 'append)
             (set-fontset-font "fontset-default" 'big5 "Noto Sans TC")
             (set-fontset-font "fontset-default" 'kana "Noto Sans JP")
-            (setq face-font-rescale-alist '(("Noto Sans TC" . 0.95)
-                                            ("Noto Sans SC" . 0.95)
-                                            ("Noto Sans JP" . 0.95)))
+            (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
+                                            ("Noto Sans SC" . 1.0)
+                                            ("Noto Sans JP" . 1.0)))
             ;; (set-fontset-font "fontset-default" '(#xe007 . #xe007)
                               ;; "Font Awesome 5 Brands-12")
             ;; (set-fontset-font "fontset-default" '(#xf392 . #xf392)
@@ -635,7 +636,9 @@ Display track desciption and playing time in mode line.
             (set-face-attribute 'variable-pitch nil
                                 :font "NovaRound-12")
             (set-face-attribute 'fixed-pitch nil
-                                :font "NovaMono-12")
+                                :font "ShareTechMono-12")
+            ;; (set-face-attribute 'fixed-pitch nil
+                                ;; :font "NovaMono-12")
             (set-face-attribute 'dashboard-items-face nil
                                 :height 120)
             (set-face-attribute 'header-line nil

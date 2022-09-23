@@ -21,6 +21,7 @@
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
  '(js-indent-level 2)
+ '(line-spacing nil)
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Documents/agenda.org"))
  '(org-edit-src-content-indentation 0)
