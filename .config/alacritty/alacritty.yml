@@ -22,6 +22,7 @@ env:
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
   TERM: alacritty
+  # TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -67,7 +68,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.6
+  opacity: 0.95
 
   # Startup Mode (changes require restart)
   #
@@ -117,7 +118,9 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: NovaMono
+    # family: NovaMono
+    # family: ShareTechMono
+    family: ShareTechMono
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -128,7 +131,8 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: NovaMono
+    # family: NovaMono
+    family: ShareTechMono
 
     # The `style` can be specified to pick a specific face.
     style: Bold
