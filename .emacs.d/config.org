@@ -46,10 +46,11 @@
   - [[#emacs-actions][Emacs actions]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
+  - [[#server-hook][Server Hook]]
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
-- [[#font-settings][Font Settings]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
+  - [[#font-settings][Font Settings]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -603,7 +604,15 @@ Display track desciption and playing time in mode line.
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
+            (set-fonts)
             (package-initialize)))
+#+end_src
+
+** Server Hook
+#+begin_src elisp
+(add-hook 'server-after-make-frame-hook
+          (lambda ()
+            (set-fonts)))
 #+end_src
 
 ** Unload elfeed database to prevent bugs
@@ -612,49 +621,6 @@ Display track desciption and playing time in mode line.
           (lambda ()
             (if elfeed-db
                 (elfeed-db-unload))))
-#+end_src
-
-* Font Settings
-#+begin_src elisp
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (set-fontset-font "fontset-default" 'han "Noto Sans TC")
-            (set-fontset-font "fontset-default" 'han "Noto Sans SC"
-                             nil 'append)
-            (set-fontset-font "fontset-default" 'big5 "Noto Sans TC")
-            (set-fontset-font "fontset-default" 'kana "Noto Sans JP")
-            (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
-                                            ("Noto Sans SC" . 1.0)
-                                            ("Noto Sans JP" . 1.0)))
-            ;; (set-fontset-font "fontset-default" '(#xe007 . #xe007)
-                              ;; "Font Awesome 5 Brands-12")
-            ;; (set-fontset-font "fontset-default" '(#xf392 . #xf392)
-                              ;; "Font Awesome 5 Brands-12")
-            ;; (set-fontset-font "fontset-default" '(#xf1b6 . #xf1b6)
-                              ;; "Font Awesome 5 Brands-12")
-            ;; (set-fontset-font "fontset-default" '(#xf11b . #xf11b)
-                              ;; "Font Awesome 5 Free-12")
-            ;; (set-fontset-font "fontset-default" '(#xf121 . #xf121)
-                              ;; "Font Awesome 5 Free-12")
-            (set-face-attribute 'variable-pitch nil
-                                :font "NovaRound-12")
-            (set-face-attribute 'fixed-pitch nil
-                                :font "ShareTechMono-12")
-            ;; (set-face-attribute 'fixed-pitch nil
-                                ;; :font "NovaMono-12")
-            (set-face-attribute 'dashboard-items-face nil
-                                :height 120)
-            (set-face-attribute 'header-line nil
-                                :inherit nil)
-            (dolist (face '((org-level-1 . 1.3)
-                            (org-level-2 . 1.2)
-                            (org-level-3 . 1.15)
-                            (org-level-4 . 1.1)
-                            (org-level-5 . 1.05)
-                            (org-level-6 . 1.0)
-                            (org-level-7 . 1.0)
-                            (org-level-8 . 1.0)))
-              (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face)))))
 #+end_src
 
 * Functions
@@ -670,6 +636,48 @@ Display track desciption and playing time in mode line.
                     ((numberp (cadr alpha)) (cadr alpha)))
               100)
          '(90 . 75) '(100 . 100)))))
+#+end_src
+
+** Font Settings
+#+begin_src elisp
+(defun set-fonts ()
+  (set-fontset-font "fontset-default" 'han "Noto Sans TC")
+  (set-fontset-font "fontset-default" 'han "Noto Sans SC"
+                    nil 'append)
+  (set-fontset-font "fontset-default" 'big5 "Noto Sans TC")
+  (set-fontset-font "fontset-default" 'kana "Noto Sans JP")
+  (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
+                                  ("Noto Sans SC" . 1.0)
+                                  ("Noto Sans JP" . 1.0)))
+  ;; (set-fontset-font "fontset-default" '(#xe007 . #xe007)
+  ;; "Font Awesome 5 Brands-12")
+  ;; (set-fontset-font "fontset-default" '(#xf392 . #xf392)
+  ;; "Font Awesome 5 Brands-12")
+  ;; (set-fontset-font "fontset-default" '(#xf1b6 . #xf1b6)
+  ;; "Font Awesome 5 Brands-12")
+  ;; (set-fontset-font "fontset-default" '(#xf11b . #xf11b)
+  ;; "Font Awesome 5 Free-12")
+  ;; (set-fontset-font "fontset-default" '(#xf121 . #xf121)
+  ;; "Font Awesome 5 Free-12")
+  (set-face-attribute 'variable-pitch nil
+                      :font "NovaRound-12")
+  (set-face-attribute 'fixed-pitch nil
+                      :font "ShareTechMono-12")
+  ;; (set-face-attribute 'fixed-pitch nil
+  ;; :font "NovaMono-12")
+  (set-face-attribute 'dashboard-items-face nil
+                      :height 120)
+  (set-face-attribute 'header-line nil
+                      :inherit nil)
+  (dolist (face '((org-level-1 . 1.3)
+                  (org-level-2 . 1.2)
+                  (org-level-3 . 1.15)
+                  (org-level-4 . 1.1)
+                  (org-level-5 . 1.05)
+                  (org-level-6 . 1.0)
+                  (org-level-7 . 1.0)
+                  (org-level-8 . 1.0)))
+    (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face))))
 #+end_src
 
 ** COMMENT increase-font-size
