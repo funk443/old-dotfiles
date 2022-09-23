@@ -223,4 +223,4 @@ def autostart_once ():
 
 @hook.subscribe.shutdown
 def shutdown_hook ():
-    subprocess.run ("emacsclient -e '(save-buffers-kill-emacs'")
+    subprocess.run ("emacsclient", "-e", "'(save-buffers-kill-emacs)'")
