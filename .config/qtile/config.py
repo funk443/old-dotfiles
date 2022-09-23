@@ -24,8 +24,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+import subprocess, os
+from libqtile import bar, layout, widget, extension
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -36,47 +37,59 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key ([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key ([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key ([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key ([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key ([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key ([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key ([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key ([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key ([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key ([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key ([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key ([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key ([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key ([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key(
+    Key (
         [mod, "shift"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "e", lazy.spawn ("emacs"), desc = "Launch Emacs"),
+    Key ([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key ([mod], "e", lazy.spawn ("emacsclient -c -a 'emacs'"), desc = "Launch Emacs"),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "d", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([mod, "shift"], "space", lazy.window.toggle_floating (), desc = "Toggle between floating"),
-    Key([mod], "f", lazy.window.toggle_fullscreen (), desc = "Toggle fullscreen"),
+    Key ([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key ([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key ([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key ([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTechMono-15"))),
+    Key ([mod, "shift"], "space", lazy.window.toggle_floating (), desc = "Toggle between floating"),
+    Key ([mod], "f", lazy.window.toggle_fullscreen (), desc = "Toggle fullscreen"),
+    Key ([mod], "Print", lazy.spawn ("xfce4-screenshooter -cr"), desc = "Take a region screeshot and copy to clipboard"),
+    Key ([mod, "shift"], "Print", lazy.spawn ("xfce4-screenshooter"), desc = "Open xfce4-screenshooter"),
+    Key ([mod, "control"], "Print", lazy.spawn ("xfce4-screenshooter -fc"), desc = "Take a full screenshot and copy to clipboard"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group (name = "1", label = "1: "),
+          Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
+          Group (name = "3", label = "3: "),
+          Group (name = "4", label = "4: "),
+          Group (name = "5"),
+          Group (name = "6"),
+          Group (name = "7"),
+          Group (name = "8"),
+          Group (name = "9", matches = [Match (wm_class = "Steam")]),
+          Group (name = "0")]
 
 for i in groups:
     keys.extend(
@@ -103,11 +116,11 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2, margin = 2),
+    layout.Bsp(border_width=2, margin = 4, fair = False),
+    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2, margin = 4, insert_position = 1),
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
@@ -119,8 +132,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
+    font="ShareTechMono",
+    fontsize=14,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -130,19 +143,26 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
+                widget.Sep (),
+                widget.GroupBox(highlight_method = "block", hide_unused = True),
+                widget.Sep (),
+                # widget.Prompt(),
                 widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
+                # widget.Chord(
+                #     chords_colors={
+                #         "launch": ("#ff0000", "#ffffff"),
+                #     },
+                #     name_transform=lambda name: name.upper(),
+                # ),
                 widget.Systray(),
+                widget.Sep (),
+                widget.CPU (),
+                widget.Sep (),
+                widget.Memory (),
+                widget.Sep (),
                 widget.Clock(format="%Y-%m-%d %a %H:%M"),
             ],
-            20,
+            25,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
@@ -160,7 +180,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
@@ -195,3 +215,12 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+@hook.subscribe.startup_once
+def autostart_once ():
+    sh = os.path.expanduser ("~/dotfiles/qtile_startup_once.sh")
+    subprocess.run (sh)
+
+@hook.subscribe.shutdown
+def shutdown_hook ():
+    subprocess.run ("emacsclient -e '(save-buffers-kill-emacs'")
