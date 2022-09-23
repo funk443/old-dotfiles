@@ -115,7 +115,8 @@ Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correct
   :ensure t
   :init
   (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-        dashboard-startup-banner (nth (% (random most-positive-fixnum) 6) '(official logo 1 2 3 "~/.emacs.d/emacs.png"))
+        ;; dashboard-startup-banner (nth (% (random most-positive-fixnum) 6) '(official logo 1 2 3 "~/.emacs.d/emacs.png"))
+        dashboard-startup-banner "~/.emacs.d/emacs.png"
         dashboard-center-content t
         dashboard-week-agenda nil
         dashboard-agenda-time-string-format "%Y-%m-%d %H:%M"
@@ -588,7 +589,8 @@ Display track desciption and playing time in mode line.
                   ido-everywhere t
                   default-input-method "chinese-array30"
                   elfeed-db nil
-                  default-text-properties '(line-spacing 0.1 line-height 1.25))
+                  default-text-properties '(line-spacing 0.1 line-height 1.25)
+                  initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
             (global-set-key (kbd "C-SPC") nil) 
@@ -597,6 +599,7 @@ Display track desciption and playing time in mode line.
             ;; (global-set-key (kbd "C-X C-0") 'reset-font-size)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+            (global-set-key (kbd "C-x C-b") 'ibuffer)
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
