@@ -595,9 +595,6 @@ Display track desciption and playing time in mode line.
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
             (global-set-key (kbd "C-SPC") nil) 
-            ;; (global-set-key (kbd "C-X C-=") 'increase-font-size)
-            ;; (global-set-key (kbd "C-X C--") 'decrease-font-size)
-            ;; (global-set-key (kbd "C-X C-0") 'reset-font-size)
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
             (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -680,82 +677,3 @@ Display track desciption and playing time in mode line.
     (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face))))
 #+end_src
 
-** COMMENT increase-font-size
-Wrote these font size related function for adjusting sizes of different fonts at the same time.
-#+begin_src elisp
-(defun increase-font-size (arg)
-  (interactive "P")
-  (let ((i 0))
-    (if arg
-        (while (< i arg)
-          (if (or (boundp 'old-size) (not 'old-size))
-              (setq-local old-size new-size
-                          new-size (* old-size 1.2))
-            (setq-local old-size 12.0
-                        new-size (* old-size 1.2)))
-          (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
-          (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
-                            nil 'append)
-          (set-fontset-font "fontset-default" 'big5 (font-spec :name "Noto Sans TC" :size new-size))
-          (set-fontset-font "fontset-default" 'kana (font-spec :name "Noto Sans JP" :size new-size))
-          (text-scale-increase 1.0)
-          (setq i (+ i 1)))
-      (progn 
-        (if (or (boundp 'old-size) (not 'old-size))
-            (setq-local old-size new-size
-                        new-size (* old-size 1.2))
-          (setq-local old-size 12.0
-                      new-size (* old-size 1.2)))
-        (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
-        (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
-                          nil 'append)
-        (set-fontset-font "fontset-default" 'big5 (font-spec :name "Noto Sans TC" :size new-size))
-        (set-fontset-font "fontset-default" 'kana (font-spec :name "Noto Sans JP" :size new-size))
-        (text-scale-increase 1.0)))))
-#+end_src
-
-** COMMENT decrease-font-size
-#+begin_src elisp
-(defun decrease-font-size (arg)
-  (interactive "P")
-  (let ((i 0))
-    (if arg
-        (while (< i arg)
-          (if (or (boundp 'old-size) (not 'old-size))
-              (setq-local old-size new-size
-                          new-size (/ old-size 1.2))
-            (setq-local old-size 12.0
-                        new-size (/ old-size 1.2)))
-          (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
-          (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
-                            nil 'append)
-          (set-fontset-font "fontset-default" 'big5 (font-spec :name "Noto Sans TC" :size new-size))
-          (set-fontset-font "fontset-default" 'kana (font-spec :name "Noto Sans JP" :size new-size))
-          (text-scale-decrease 1.0)
-          (setq i (+ i 1)))
-      (progn
-        (if (or (boundp 'old-size) (not 'old-size))
-            (setq-local old-size new-size
-                        new-size (/ old-size 1.2))
-          (setq-local old-size 12.0
-                      new-size (/ old-size 1.2)))
-        (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
-        (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
-                          nil 'append)
-        (set-fontset-font "fontset-default" 'big5 (font-spec :name "Noto Sans TC" :size new-size))
-        (text-scale-decrease 1.0)))))
-#+end_src
-
-** COMMENT reset-font-size
-#+begin_src elisp
-(defun reset-font-size ()
-  (interactive)
-  (setq-local old-size nil
-              new-size 12.0)
-  (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans TC" :size new-size))
-  (set-fontset-font "fontset-default" 'han (font-spec :name "Noto Sans SC" :size new-size)
-                    nil 'append)
-  (set-fontset-font "fontset-default" 'big5 (font-spec :name "Noto Sans TC" :size new-size))
-  (set-fontset-font "fontset-default" 'kana (font-spec :name "Noto Sans JP" :size new-size))
-  (text-scale-set 0))
-#+end_src
