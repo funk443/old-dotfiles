@@ -657,7 +657,7 @@ Display track desciption and playing time in mode line.
   ;; (set-fontset-font "fontset-default" '(#xf121 . #xf121)
   ;; "Font Awesome 5 Free-12")
   (set-face-attribute 'variable-pitch nil
-                      :font "NovaRound-12")
+                      :font "ShareTech-12")
   (set-face-attribute 'fixed-pitch nil
                       :font "ShareTechMono-12")
   ;; (set-face-attribute 'fixed-pitch nil
@@ -674,6 +674,6 @@ Display track desciption and playing time in mode line.
                   (org-level-6 . 1.0)
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "NovaRound-12" :height (cdr face))))
+    (set-face-attribute (car face) nil :font "ShareTech-12" :height (cdr face))))
 #+end_src
 
