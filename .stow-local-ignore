@@ -2,3 +2,4 @@ images
 \.git
 void-packages.txt
 README.org
+qtile_startup_once.sh
