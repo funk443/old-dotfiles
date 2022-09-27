@@ -84,7 +84,7 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
 
 * Appearance packages setup
 ** Themes and icons
-Using Doom Dracula theme.
+Using Challenger Deep theme.
 Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correctly.
 #+begin_src elisp
 (use-package doom-themes
@@ -93,16 +93,19 @@ Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correct
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   :config
-  (load-theme 'doom-dracula t))
+  (load-theme 'doom-challenger-deep t))
 
 (use-package all-the-icons
   :ensure t
   :if (display-graphic-p))
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (use-package all-the-icons-dired
   :ensure t
-  :after all-the-icons)
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
 
 (use-package doom-modeline
   :ensure t
