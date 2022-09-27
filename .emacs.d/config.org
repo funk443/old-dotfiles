@@ -2,11 +2,11 @@
 #+AUTHOR: CToID
 #+OPTIONS: num:nil 
 
-* TABLE OF CONTENTS :TOC:noexport:
+* Table of Contents                                            :TOC:noexport:
 - [[#configure-package-and-use-package][Configure Package and Use-package]]
-- [[#gcmh-setup][gcmh setup]]
-- [[#appearance-packages-setup][Appearance packages setup]]
-  - [[#themes-and-icons][Themes and icons]]
+- [[#gcmh-setup][Gcmh Setup]]
+- [[#appearance-packages-setup][Appearance Packages Setup]]
+  - [[#themes-and-icons][Themes and Icons]]
   - [[#startup-screen-dashboard][Startup Screen (Dashboard)]]
 - [[#key-bindings-packages-setup][Key bindings packages setup]]
   - [[#general][General]]
@@ -15,7 +15,7 @@
   - [[#toc-org][toc-org]]
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
-- [[#other-packages-setup][Other packages setup]]
+- [[#other-packages-setup][Other Packages Setup]]
   - [[#magit][magit]]
   - [[#xclip][xclip]]
   - [[#elfeed][elfeed]]
@@ -27,16 +27,16 @@
   - [[#sudo-edit][sudo-edit]]
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
-- [[#language-specific-packages][Language specific packages]]
+- [[#language-specific-packages][Language Specific Packages]]
   - [[#arduino][Arduino]]
   - [[#vimscript][VimScript]]
   - [[#yaml][YAML]]
-- [[#emms-packages-and-setup][Emms packages and setup]]
+- [[#emms-packages-and-setup][Emms Packages and Setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
   - [[#emms-mpv-toggle-video][Emms mpv toggle video]]
   - [[#emms-state][emms-state]]
-- [[#key-bindings-setup][Key bindings setup]]
+- [[#key-bindings-setup][Key Bindings Setup]]
   - [[#leader-key][Leader key]]
   - [[#buffer-controls][Buffer controls]]
   - [[#window-controls][Window controls]]
@@ -73,7 +73,7 @@ Add package archives and make sure use-package is installed.
       package--init-file-ensured t)
 #+end_src
 
-* gcmh setup
+* Gcmh Setup
 the Garbage Collector Magic Hack package will adjust garbage collection interference, thus speeding up Emacs startup process.
 #+begin_src elisp
 (use-package gcmh
@@ -82,8 +82,8 @@ the Garbage Collector Magic Hack package will adjust garbage collection interfer
   (gcmh-mode 1))
 #+end_src
 
-* Appearance packages setup
-** Themes and icons
+* Appearance Packages Setup
+** Themes and Icons
 Using Challenger Deep theme.
 Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correctly.
 #+begin_src elisp
@@ -101,10 +101,12 @@ Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correct
 
 (use-package all-the-icons-dired
   :ensure t
+  :after all-the-icons
   :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package all-the-icons-ibuffer
   :ensure t
+  :after all-the-icons
   :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
 
 (use-package doom-modeline
@@ -253,7 +255,7 @@ For presentation in org-mode.
               (visual-line-mode 0))))
 #+end_src
 
-* Other packages setup
+* Other Packages Setup
 ** magit
 A git client for emacs.
 #+begin_src elisp
@@ -394,7 +396,7 @@ A package to make org-present better.
         visual-fill-column-center-text t))
 #+end_src
 
-* Language specific packages
+* Language Specific Packages
 ** Arduino
 *** arduino-mode
 #+begin_src elisp
@@ -427,7 +429,7 @@ A package to make org-present better.
   :ensure t)
 #+end_src
 
-* Emms packages and setup
+* Emms Packages and Setup
 The emacs multimedia system.
 ** emms
 #+begin_src elisp
@@ -501,7 +503,7 @@ Display track desciption and playing time in mode line.
   :ensure t)
 #+end_src
 
-* Key bindings setup
+* Key Bindings Setup
 ** Leader key
 #+begin_src elisp
 (nvmap :prefix "SPC"
@@ -600,6 +602,8 @@ Display track desciption and playing time in mode line.
             (global-set-key (kbd "C-SPC") nil) 
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+            (require 'ibuf-ext)
+            (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (global-set-key (kbd "C-x C-b") 'ibuffer)
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
@@ -649,22 +653,10 @@ Display track desciption and playing time in mode line.
   (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
                                   ("Noto Sans SC" . 1.0)
                                   ("Noto Sans JP" . 1.0)))
-  ;; (set-fontset-font "fontset-default" '(#xe007 . #xe007)
-  ;; "Font Awesome 5 Brands-12")
-  ;; (set-fontset-font "fontset-default" '(#xf392 . #xf392)
-  ;; "Font Awesome 5 Brands-12")
-  ;; (set-fontset-font "fontset-default" '(#xf1b6 . #xf1b6)
-  ;; "Font Awesome 5 Brands-12")
-  ;; (set-fontset-font "fontset-default" '(#xf11b . #xf11b)
-  ;; "Font Awesome 5 Free-12")
-  ;; (set-fontset-font "fontset-default" '(#xf121 . #xf121)
-  ;; "Font Awesome 5 Free-12")
   (set-face-attribute 'variable-pitch nil
                       :font "ShareTech-12")
   (set-face-attribute 'fixed-pitch nil
                       :font "ShareTechMono-12")
-  ;; (set-face-attribute 'fixed-pitch nil
-  ;; :font "NovaMono-12")
   (set-face-attribute 'dashboard-items-face nil
                       :height 120)
   (set-face-attribute 'header-line nil
