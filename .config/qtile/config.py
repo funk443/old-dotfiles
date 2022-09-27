@@ -72,7 +72,7 @@ keys = [
     Key ([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key ([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key ([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTechMono-15"))),
+    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTech-15"))),
     Key ([mod, "shift"], "space", lazy.window.toggle_floating (), desc = "Toggle between floating"),
     Key ([mod], "f", lazy.window.toggle_fullscreen (), desc = "Toggle fullscreen"),
     Key ([mod], "Print", lazy.spawn ("xfce4-screenshooter -cr"), desc = "Take a region screeshot and copy to clipboard"),
@@ -132,7 +132,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="ShareTechMono",
+    font="ShareTech",
     fontsize=14,
     padding=3,
 )
