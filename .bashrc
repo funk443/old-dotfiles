@@ -6,7 +6,8 @@ figlet -kf slant "ad astra" | lolcat
 figlet -kf slant "per aspera" | lolcat
 
 export PATH="/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
-export EDITOR="vim"
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -c -a emacs"
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
