@@ -2,39 +2,26 @@
 #+AUTHOR: CToID
 #+OPTIONS: toc:nil num:nil
 
-* Table of contents                                                     :TOC:
-- [[#system-info][System info]]
-- [[#packages-to-install][Packages to install]]
-- [[#how-to-install][How to install]]
-- [[#cleaning-up-symbolic-links][Cleaning up symbolic links]]
+* Table of Contents                                                     :TOC:
+- [[#system-info][System Info]]
+- [[#installing-required-packages][Installing Required Packages]]
+- [[#how-to-install][How to Install]]
+- [[#cleaning-up-symbolic-links][Cleaning up Symbolic Links]]
 
-* System info
-[[./images/Desktop.png]]
-
+* System Info
 - OS: Void GNU/Linux
 - Shell: bash
 - Terminal: alacritty
-- WM: i3-gaps
-- Status bar: i3status-rust
+- WM: qtile
 - Compositor: picom
+- Preferred Text Editor: GNU Emacs
 
-* Packages to install
-(The name of the packages used here might defer on any distro that is not Void GNU/Linux)
+* Installing Required Packages
+#+begin_src sh
+# xbps-install $(cat void-packages.txt)
+#+end_src
 
-| Package       | Description                                   |
-|---------------+-----------------------------------------------|
-| stow          | To create symbolic links easily               |
-| xfce4         | Desktop environment and some of its utilities |
-| alacritty     | A GPU-accelerated terminal emulator           |
-| dmenu         | App launcher                                  |
-| i3-gaps       | Window manager                                |
-| i3status-rust | Replacement for i3status                      |
-| feh           | Image viewer                                  |
-| picom         | Compositor                                    |
-| emacs         | This has a text editor                        |
-| vim           | This is a text editor                         |
-
-* How to install
+* How to Install
 1. Install GNU stow.
 2. Clone this repo.
 3. Run the following commands in your terminal:
@@ -43,7 +30,7 @@
    $ stow .
    #+end_src
 
-* Cleaning up symbolic links
+* Cleaning up Symbolic Links
 1. Install GNU stow.
 2. Run the following commands in your terminal:
    #+begin_src sh 
