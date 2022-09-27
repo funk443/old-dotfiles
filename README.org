@@ -18,7 +18,7 @@
 
 * Installing Required Packages
 #+begin_src sh
-# xbps-install $(cat void-packages.txt)
+xbps-install $(cat void-packages.txt)
 #+end_src
 
 * How to Install
@@ -26,14 +26,14 @@
 2. Clone this repo.
 3. Run the following commands in your terminal:
    #+begin_src sh 
-   $ cd dotfiles
-   $ stow .
+cd dotfiles
+stow .
    #+end_src
 
 * Cleaning up Symbolic Links
 1. Install GNU stow.
 2. Run the following commands in your terminal:
    #+begin_src sh 
-   $ cd dotfiles
-   $ stow -D .
+cd dotfiles
+stow -D .
    #+end_src
