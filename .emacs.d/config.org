@@ -51,7 +51,7 @@
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
   - [[#font-settings][Font Settings]]
-  - [[#switch-buffer-visibility-in-ibuffer][Switch Buffer Visibility in ibuffer]]
+  - [[#toggle-buffer-visibility-in-ibuffer][Toggle Buffer Visibility in ibuffer]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -673,9 +673,10 @@ Display track desciption and playing time in mode line.
     (set-face-attribute (car face) nil :font "ShareTech-12" :height (cdr face))))
 #+end_src
 
-** Switch Buffer Visibility in ibuffer
+** Toggle Buffer Visibility in ibuffer
+Show/Hide buffers start with * in ibuffer.
 #+begin_src elisp
-(defun switch-ibuffer-visibility ()
+(defun toggle-ibuffer-visibility ()
   (interactive)
   (if ibuffer-never-show-predicates
       (setq ibuffer-never-show-predicates nil)
