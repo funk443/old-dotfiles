@@ -142,12 +142,10 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.Sep (),
-                widget.GroupBox(highlight_method = "block", hide_unused = True),
-                widget.Sep (),
+                widget.GroupBox(highlight_method = "block", hide_unused = True, this_current_screen_border = "#478062"),
+                widget.CurrentLayout(fmt = "{} ="),
                 # widget.Prompt(),
-                widget.WindowName(),
+                widget.WindowName(background = "#478062"),
                 # widget.Chord(
                 #     chords_colors={
                 #         "launch": ("#ff0000", "#ffffff"),

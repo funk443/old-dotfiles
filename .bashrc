@@ -18,6 +18,7 @@ alias ls='ls --color=auto -alsh'
 alias bc='bc -l'
 alias feh='feh --auto-zoom --scale-down'
 alias ed='ed -p ":"'
+alias lock='xlock -mode blank'
 PS1='[\u@\h \W]\$ '
 
 y ()
