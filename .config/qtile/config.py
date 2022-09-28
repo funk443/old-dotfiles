@@ -166,7 +166,7 @@ screens = [
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
-        wallpaper = "~/Pictures/wallpapers/void_linux_chan.png",
+        wallpaper = "~/dotfiles/wallpapers/void_linux_chan.png",
         wallpaper_mode = "fill",
     ),
 ]
