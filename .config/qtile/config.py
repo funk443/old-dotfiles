@@ -72,7 +72,7 @@ keys = [
     Key ([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key ([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key ([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTech-15"))),
+    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTech-15", selected_background = "#478062"))),
     Key ([mod, "shift"], "space", lazy.window.toggle_floating (), desc = "Toggle between floating"),
     Key ([mod], "f", lazy.window.toggle_fullscreen (), desc = "Toggle fullscreen"),
     Key ([mod], "Print", lazy.spawn ("xfce4-screenshooter -cr"), desc = "Take a region screeshot and copy to clipboard"),
@@ -142,8 +142,10 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(highlight_method = "block", hide_unused = True, this_current_screen_border = "#478062"),
-                widget.CurrentLayout(fmt = "{} ="),
+                widget.GroupBox(highlight_method = "block", hide_unused = True, this_current_screen_border = "#478062", margin_x = 0, rounded = False),
+                widget.Spacer (length = 5),
+                widget.CurrentLayout(fmt = "[{}]"),
+                widget.Spacer (length = 5),
                 # widget.Prompt(),
                 widget.WindowName(background = "#478062"),
                 # widget.Chord(
@@ -152,13 +154,14 @@ screens = [
                 #     },
                 #     name_transform=lambda name: name.upper(),
                 # ),
-                widget.Systray(),
-                widget.Sep (),
-                widget.CPU (),
-                widget.Sep (),
-                widget.Memory (),
-                widget.Sep (),
+                widget.Spacer (length = 5),
+                widget.CPU (format = "[CPU {load_percent}%]"),
+                widget.Spacer (length = 5),
+                widget.Memory (format = "[RAM {MemUsed:.1f}G]", measure_mem = "G"),
+                widget.Spacer (length = 5),
                 widget.Clock(format="%Y-%m-%d %a %H:%M"),
+                widget.Spacer (length = 5),
+                widget.Systray(),
             ],
             25,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
