@@ -31,6 +31,7 @@
   - [[#arduino][Arduino]]
   - [[#vimscript][VimScript]]
   - [[#yaml][YAML]]
+  - [[#slime][SLIME]]
 - [[#emms-packages-and-setup][Emms Packages and Setup]]
   - [[#emms][emms]]
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
@@ -129,7 +130,7 @@ Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correct
         dashboard-agenda-time-string-format "%Y-%m-%d %H:%M"
         dashboard-agenda-prefix-format "%?-12t% s"
         dashboard-agenda-release-buffers t
-        dashboard-items '((agenda)))
+        dashboard-items nil)
   ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
         ;; dashboard-items nil)
   :config
@@ -428,6 +429,16 @@ A package to make org-present better.
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :ensure t)
+#+end_src
+
+** SLIME
+For Common Lisp.
+#+begin_src elisp
+(use-package slime
+  :commands (slime)
+  :ensure t
+  :init
+  (setq inferior-lisp-program "sbcl"))
 #+end_src
 
 * Emms Packages and Setup

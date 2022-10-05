@@ -14,6 +14,7 @@
  '(custom-safe-themes '(default))
  '(display-line-numbers-type 'relative)
  '(emms-volume-change-function 'emms-player-mpv-raise-volume)
+ '(erc-nick "CToID")
  '(frame-resize-pixelwise t)
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
@@ -35,7 +36,7 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(all-the-icons-ibuffer arduino-mode xclip yaml-mode evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
+   '(slime all-the-icons-ibuffer arduino-mode xclip yaml-mode evil-collection visual-fill-column visual-fill-column-mode visual-line-mode evil-mc elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree general all-the-icons-dired doom-modeline which-key undo-tree vterm emms magit evil ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(select-enable-clipboard nil)
