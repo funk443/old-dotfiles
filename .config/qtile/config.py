@@ -26,7 +26,7 @@
 
 import subprocess, os
 from libqtile import bar, layout, widget, extension
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -69,6 +69,7 @@ keys = [
     Key ([mod], "e", lazy.spawn ("emacsclient -c -a emacs"), desc = "Launch Emacs"),
     # Toggle between different layouts as defined below
     Key ([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key ([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
     Key ([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key ([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key ([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -89,7 +90,7 @@ groups = [Group (name = "1", label = "1: "),
           Group (name = "7"),
           Group (name = "8"),
           Group (name = "9", matches = [Match (wm_class = "Steam")]),
-          Group (name = "0")]
+          Group (name = "0"),]
 
 for i in groups:
     keys.extend(
@@ -117,8 +118,8 @@ for i in groups:
 
 layouts = [
     layout.Bsp(border_width=2, margin = 4, fair = False),
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2, margin = 4, insert_position = 1),
     layout.Max(),
+    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2, margin = 4, insert_position = 1),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(),
@@ -155,6 +156,8 @@ screens = [
                 #     name_transform=lambda name: name.upper(),
                 # ),
                 widget.Spacer (length = 5),
+                widget.PulseVolume (fmt = "[Vol {}]", step = 5, volume_app = "pavucontrol", mouse_callback = {"Button_1": lazy.spawn ("pavucontrol")}),
+                widget.Spacer (length = 5),
                 widget.CPU (format = "[CPU {load_percent}%]"),
                 widget.Spacer (length = 5),
                 widget.Memory (format = "[RAM {MemUsed:.1f}G]", measure_mem = "G"),
@@ -187,7 +190,7 @@ cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
+        *layout.Floating.default_float_rules[:-2],
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
