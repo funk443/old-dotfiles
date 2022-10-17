@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import subprocess, os
+import subprocess, os, traverse
 from libqtile import bar, layout, widget, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook, ScratchPad, DropDown
 from libqtile.lazy import lazy
@@ -80,6 +80,13 @@ keys = [
     Key ([mod, "shift"], "Print", lazy.spawn ("xfce4-screenshooter"), desc = "Open xfce4-screenshooter"),
     Key ([mod, "control"], "Print", lazy.spawn ("xfce4-screenshooter -fc"), desc = "Take a full screenshot and copy to clipboard"),
 ]
+
+keys.extend ([
+    Key ([mod], "k", lazy.function (traverse.up)),
+    Key ([mod], "j", lazy.function (traverse.down)),
+    Key ([mod], "h", lazy.function (traverse.left)),
+    Key ([mod], "l", lazy.function (traverse.right)),
+    ])
 
 groups = [Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
@@ -190,7 +197,7 @@ cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules[:-2],
+        *layout.Floating.default_float_rules[:-1],
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
