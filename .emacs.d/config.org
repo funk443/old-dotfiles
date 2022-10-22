@@ -4,19 +4,17 @@
 
 * Table of Contents                                            :TOC:noexport:
 - [[#configure-package-and-use-package][Configure Package and Use-package]]
-- [[#gcmh-setup][Gcmh Setup]]
 - [[#appearance-packages-setup][Appearance Packages Setup]]
   - [[#themes-and-icons][Themes and Icons]]
   - [[#startup-screen-dashboard][Startup Screen (Dashboard)]]
-- [[#key-bindings-packages-setup][Key bindings packages setup]]
-  - [[#general][General]]
-  - [[#evil-mode][Evil Mode]]
 - [[#org-mode][Org Mode]]
   - [[#toc-org][toc-org]]
   - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
 - [[#other-packages-setup][Other Packages Setup]]
   - [[#magit][magit]]
+  - [[#browse-kill-ring][browse-kill-ring]]
+  - [[#helpful][helpful]]
   - [[#xclip][xclip]]
   - [[#elfeed][elfeed]]
   - [[#vterm][vterm]]
@@ -37,14 +35,6 @@
   - [[#emms-mpv-volume-control][Emms mpv volume control]]
   - [[#emms-mpv-toggle-video][Emms mpv toggle video]]
   - [[#emms-state][emms-state]]
-- [[#key-bindings-setup][Key Bindings Setup]]
-  - [[#leader-key][Leader key]]
-  - [[#buffer-controls][Buffer controls]]
-  - [[#window-controls][Window controls]]
-  - [[#file-actions][File actions]]
-  - [[#org-actions][Org actions]]
-  - [[#emms-actions][Emms actions]]
-  - [[#emacs-actions][Emacs actions]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
   - [[#server-hook][Server Hook]]
@@ -75,7 +65,7 @@ Add package archives and make sure use-package is installed.
       package--init-file-ensured t)
 #+end_src
 
-* Gcmh Setup
+* COMMENT Gcmh Setup
 the Garbage Collector Magic Hack package will adjust garbage collection interference, thus speeding up Emacs startup process.
 #+begin_src elisp
 (use-package gcmh
@@ -134,11 +124,11 @@ Don't forget to run ~all-the-icons-install-fonts~ if icons are not shown correct
   ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
         ;; dashboard-items nil)
   :config
-  (add-to-list 'dashboard-footer-messages "Free as in Freedom")
+  (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (dashboard-setup-startup-hook))
 #+end_src
 
-* Key bindings packages setup
+* COMMENT Key bindings packages setup
 ** General
 For binding leader keys.
 #+begin_src elisp
@@ -239,6 +229,7 @@ For presentation in org-mode.
               (org-display-inline-images)
               (org-present-read-only)
               (visual-fill-column-mode 1)
+              (org-present-show-cursor)
               (visual-line-mode 1)))
   (add-hook 'org-present-mode-quit-hook
             (lambda ()
@@ -254,6 +245,7 @@ For presentation in org-mode.
               (org-remove-inline-images)
               (org-present-read-write)
               (visual-fill-column-mode 0)
+              (org-present-show-cursor)
               (visual-line-mode 0))))
 #+end_src
 
@@ -264,6 +256,22 @@ A git client for emacs.
 (use-package magit
   :ensure t
   :commands (magit magit-clone))
+#+end_src
+
+** browse-kill-ring
+A nice little kill ring browser.
+#+begin_src elisp
+(use-package browse-kill-ring
+  :ensure t
+  :config
+  (browse-kill-ring-default-keybindings))
+#+end_src
+
+** helpful
+A better help buffer.
+#+begin_src elisp
+(use-package helpful
+  :ensure t)
 #+end_src
 
 ** xclip
@@ -515,7 +523,7 @@ Display track desciption and playing time in mode line.
   :ensure t)
 #+end_src
 
-* Key Bindings Setup
+* COMMENT Key Bindings Setup
 ** Leader key
 #+begin_src elisp
 (nvmap :prefix "SPC"
@@ -600,22 +608,30 @@ Display track desciption and playing time in mode line.
           (lambda ()
             (require 'ibuf-ext)
             (setq file-name-handler-alist temp-alist
-                  gc-cons-threshold (* 2 1000 1000)
-                  gc-cons-percentage 0.1
-                  indent-line-funtion 'insert-tab
                   frame-title-format "%b - GNU Emacs"
                   ido-enable-flex-matching t
                   ido-everywhere t
                   default-input-method "chinese-array30"
                   elfeed-db nil
                   default-text-properties '(line-spacing 0.1 line-height 1.25)
+                  gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
+                  gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))
                   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
-            (global-set-key (kbd "C-SPC") nil) 
             (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
             (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+            (global-set-key (kbd "C-x C-r") 'recentf-open-files)
             (global-set-key (kbd "C-x C-b") 'ibuffer)
+            (global-set-key (kbd "C-x M-n") 'neotree-toggle)
+            (global-set-key (kbd "C-x C-y y") 'clipboard-yank)
+            (global-set-key (kbd "C-x C-y k") 'clipboard-kill-ring-save)
+            (global-set-key (kbd "C-x C-y C-k") 'clipboard-kill-region)
+            (global-set-key (kbd "M-z") 'zap-up-to-char)
+            (global-set-key (kbd "C-z") 'zap-to-char)
+            (global-set-key (kbd "C-M-z") 'suspend-frame)
+            (global-set-key (kbd "M-p") 'scroll-down-line)
+            (global-set-key (kbd "M-n") 'scroll-up-line)
             (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
