@@ -18,7 +18,6 @@
   - [[#xclip][xclip]]
   - [[#elfeed][elfeed]]
   - [[#vterm][vterm]]
-  - [[#undo-tree][undo-tree]]
   - [[#which-key][which-key]]
   - [[#neotree][neotree]]
   - [[#recentf][recentf]]
@@ -43,6 +42,7 @@
   - [[#toggle-transparency][toggle-transparency]]
   - [[#font-settings][Font Settings]]
   - [[#toggle-buffer-visibility-in-ibuffer][Toggle Buffer Visibility in ibuffer]]
+  - [[#set-keys][Set Keys]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -164,9 +164,6 @@ Evil mode extesions for many other modes
 
 *** evil-mc
 Multi cursors implementation for evil-mode
-| COMMAND      | DESCRIPTION                 | KEYBINDING |
-|--------------+-----------------------------+------------|
-| evil-mc-mode | Toggle evil mc mode locally | SPC E t c  |
 #+begin_src elisp
 (use-package evil-mc
   :commands (evil-mc-mode) 
@@ -306,7 +303,7 @@ Terminal emulator.
   :ensure t)
 #+end_src
 
-** undo-tree
+** COMMENT undo-tree
 An undo system to work with Evil.
 #+begin_src elisp
 (use-package undo-tree
@@ -338,11 +335,6 @@ Minor mode for showing following key bindings based on your currently entered in
 
 ** neotree
 A file tree viewer.
-| COMMAND        | DESCRIPTION                 | KEYBINDING |
-|----------------+-----------------------------+------------|
-| neotree-toggle | Toggle neotree              | SPC n t    |
-| neotree-dir    | Open a directory in neotree | SPC n d    |
-
 #+begin_src elisp
 (use-package neotree
   :commands (neotree-toggle neotree-dir)
@@ -369,10 +361,6 @@ For showing recently open files.
 
 ** sudo-edit
 For editing a file in sudo.
-| COMMAND   | DESCRIPTION              | KEYBINDING |
-|-----------+--------------------------+------------|
-| sudo-edit | Open/Edit a file as sudo | SPC f s    |
-
 #+begin_src elisp
 (use-package sudo-edit
   :commands (sudo-edit)
@@ -383,9 +371,6 @@ For editing a file in sudo.
 
 ** highlight-indent-guides
 For highlighting indentation levels.
-| COMMAND                      | DESCRIPTION                    | KEYBINDING |
-|------------------------------+--------------------------------+------------|
-| highlight-indent-guides-mode | Toggle highlight indent guides | SPC E t g  |
 #+begin_src elisp
 (use-package highlight-indent-guides
   :commands (highlight-indent-guides-mode)
@@ -619,28 +604,17 @@ Display track desciption and playing time in mode line.
                   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
-            (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-            (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
-            (global-set-key (kbd "C-x C-r") 'recentf-open-files)
-            (global-set-key (kbd "C-x C-b") 'ibuffer)
-            (global-set-key (kbd "C-x M-n") 'neotree-toggle)
-            (global-set-key (kbd "C-x C-y y") 'clipboard-yank)
-            (global-set-key (kbd "C-x C-y k") 'clipboard-kill-ring-save)
-            (global-set-key (kbd "C-x C-y C-k") 'clipboard-kill-region)
-            (global-set-key (kbd "M-z") 'zap-up-to-char)
-            (global-set-key (kbd "C-z") 'zap-to-char)
-            (global-set-key (kbd "C-M-z") 'suspend-frame)
-            (global-set-key (kbd "M-p") 'scroll-down-line)
-            (global-set-key (kbd "M-n") 'scroll-up-line)
             (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (add-hook 'org-mode-hook 'org-indent-mode)
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
             (set-fonts)
+            (set-keys)
             (package-initialize)))
 #+end_src
 
 ** Server Hook
+Set fonts again after spawning a frame.
 #+begin_src elisp
 (add-hook 'server-after-make-frame-hook
           (lambda ()
@@ -708,4 +682,22 @@ Show/Hide buffers start with * in ibuffer.
   (if ibuffer-never-show-predicates
       (setq ibuffer-never-show-predicates nil)
     (add-to-list 'ibuffer-never-show-predicates "^\\*")))
+#+end_src
+
+** Set Keys
+#+begin_src elisp
+(defun set-keys ()
+  (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+  (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+  (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-x M-n") 'neotree-toggle)
+  (global-set-key (kbd "C-x C-y y") 'clipboard-yank)
+  (global-set-key (kbd "C-x C-y k") 'clipboard-kill-ring-save)
+  (global-set-key (kbd "C-x C-y C-k") 'clipboard-kill-region)
+  (global-set-key (kbd "C-M-z") 'isearch-yank-until-char)
+  (global-set-key (kbd "M-z") 'zap-up-to-char)
+  (global-set-key (kbd "C-z") 'zap-to-char)
+  (global-set-key (kbd "M-p") 'scroll-down-line)
+  (global-set-key (kbd "M-n") 'scroll-up-line))
 #+end_src
