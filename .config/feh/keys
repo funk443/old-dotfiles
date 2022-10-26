@@ -1,4 +1,2 @@
-toggle_keep_vp K
-
-next_img j
-prev_img k
+next_img C-n
+prev_img C-p
