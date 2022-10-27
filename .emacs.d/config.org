@@ -671,7 +671,11 @@ Set fonts again after spawning a frame.
                         :weight 'normal)
     (set-face-attribute 'line-number-current-line nil
                         :slant 'normal
-                        :weight 'semi-bold))
+                        :weight 'semi-bold)
+    (set-face-attribute 'dashboard-banner-logo-title nil
+                        :weight 'bold)
+    (set-face-attribute 'dashboard-footer nil
+                        :slant 'italic))
   (dolist (face '((org-level-1 1.3 bold)
                   (org-level-2 1.2 semi-bold)
                   (org-level-3 1.15 semi-bold)
