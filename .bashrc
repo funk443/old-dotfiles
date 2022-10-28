@@ -6,7 +6,7 @@ figlet -kf slant "ad astra" | lolcat
 figlet -kf slant "per aspera" | lolcat
 
 export PATH="/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
-export EDITOR="emacsclient -t"
+export EDITOR="emacsclient -t -a 'emacs -nw'"
 export VISUAL="emacsclient -c -a emacs"
 
 # If not running interactively, don't do anything
@@ -19,6 +19,7 @@ alias bc='bc -l'
 alias feh='feh --auto-zoom --scale-down'
 alias ed='ed -p ":"'
 alias lock='xlock -mode blank'
+alias em='emacsclient -c -nw -a "emacs -nw"'
 PS1='[\u@\h \W]\$ '
 
 y ()
