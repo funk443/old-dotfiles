@@ -73,12 +73,13 @@ keys = [
     Key ([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key ([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key ([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "ShareTech-15", selected_background = "#478062"))),
+    Key ([mod], "d", lazy.run_extension (extension.DmenuRun (dmenu_prompt = ">", dmenu_font = "IBMPlexMono-14", selected_background = "#478062"))),
     Key ([mod, "shift"], "space", lazy.window.toggle_floating (), desc = "Toggle between floating"),
     Key ([mod], "f", lazy.window.toggle_fullscreen (), desc = "Toggle fullscreen"),
     Key ([mod], "Print", lazy.spawn ("xfce4-screenshooter -cr"), desc = "Take a region screeshot and copy to clipboard"),
     Key ([mod, "shift"], "Print", lazy.spawn ("xfce4-screenshooter"), desc = "Open xfce4-screenshooter"),
     Key ([mod, "control"], "Print", lazy.spawn ("xfce4-screenshooter -fc"), desc = "Take a full screenshot and copy to clipboard"),
+    Key ([mod, "shift"], "x", lazy.spawn ("i3lock -i /home/id/dotfiles/wallpapers/void_linux_1_1080.png"), desc = "Lock the screen"),
 ]
 
 keys.extend ([
@@ -88,7 +89,9 @@ keys.extend ([
     Key ([mod], "l", lazy.function (traverse.right)),
     ])
 
-groups = [Group (name = "1", label = "1: "),
+groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty", height = 0.5, width = 0.5,
+                                               x = 0.25, y = 0.25, opacity = 1)]),
+          Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
           Group (name = "3", label = "3: "),
           Group (name = "4", label = "4: "),
@@ -99,7 +102,7 @@ groups = [Group (name = "1", label = "1: "),
           Group (name = "9", matches = [Match (wm_class = "Steam")]),
           Group (name = "0"),]
 
-for i in groups:
+for i in groups[1:]:
     keys.extend(
         [
             # mod1 + letter of group = switch to group
@@ -123,6 +126,8 @@ for i in groups:
         ]
     )
 
+keys.append (Key ([mod], "grave", lazy.group["scratchpad"].dropdown_toggle ("term")))
+
 layouts = [
     layout.Bsp(border_width=2, margin = 4, fair = False),
     layout.Max(),
@@ -140,7 +145,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="ShareTech",
+    font="IBMPlexMono",
     fontsize=14,
     padding=3,
 )
@@ -162,8 +167,6 @@ screens = [
                 #     },
                 #     name_transform=lambda name: name.upper(),
                 # ),
-                widget.Spacer (length = 5),
-                widget.PulseVolume (fmt = "[Vol {}]", step = 5, volume_app = "pavucontrol", mouse_callback = {"Button_1": lazy.spawn ("pavucontrol")}),
                 widget.Spacer (length = 5),
                 widget.CPU (format = "[CPU {load_percent}%]"),
                 widget.Spacer (length = 5),
