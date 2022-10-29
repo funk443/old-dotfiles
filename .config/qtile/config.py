@@ -94,7 +94,7 @@ groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty", height = 0.5
           Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
           Group (name = "3", label = "3: "),
-          Group (name = "4", label = "4: "),
+          Group (name = "4", label = "4: ", spawn = "emacs -f server-start"),
           Group (name = "5"),
           Group (name = "6"),
           Group (name = "7"),
@@ -170,7 +170,7 @@ screens = [
                 widget.Spacer (length = 5),
                 widget.CPU (format = "[CPU {load_percent}%]"),
                 widget.Spacer (length = 5),
-                widget.Memory (format = "[RAM {MemUsed:.1f}G]", measure_mem = "G"),
+                widget.Memory (format = "[RAM {MemUsed:.1f}GiB]", measure_mem = "G"),
                 widget.Spacer (length = 5),
                 widget.Clock(format="%Y-%m-%d %a %H:%M"),
                 widget.Spacer (length = 5),
@@ -236,5 +236,5 @@ def autostart_once ():
     subprocess.run (sh)
 
 @hook.subscribe.shutdown
-def shutdown_hook ():
+def qtile_shutdown ():
     subprocess.run ("emacsclient", "-e", "'(save-buffers-kill-emacs)'")
