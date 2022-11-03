@@ -37,7 +37,7 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode elfeed highlight-indent-guides org-present org-present-mode org-contrib emms-state dashboard toc-org sudo-edit neotree doom-modeline which-key undo-tree vterm emms magit ##))
+   '(all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree doom-modeline which-key undo-tree vterm magit ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(scroll-error-top-bottom t)

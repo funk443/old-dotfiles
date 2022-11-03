@@ -17,7 +17,6 @@
   - [[#browse-kill-ring][browse-kill-ring]]
   - [[#helpful][helpful]]
   - [[#xclip][xclip]]
-  - [[#elfeed][elfeed]]
   - [[#vterm][vterm]]
   - [[#which-key][which-key]]
   - [[#neotree][neotree]]
@@ -29,14 +28,10 @@
   - [[#arduino][Arduino]]
   - [[#yaml][YAML]]
   - [[#common-lisp][Common Lisp]]
-- [[#emms-packages-and-setup][Emms Packages and Setup]]
-  - [[#emms][emms]]
-  - [[#emms-mpv-volume-control][Emms mpv volume control]]
-  - [[#emms-mpv-toggle-video][Emms mpv toggle video]]
-  - [[#emms-state][emms-state]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
   - [[#server-hook][Server Hook]]
+  - [[#hl-line-mode-hook][hl-line-mode-hook]]
   - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
@@ -113,7 +108,7 @@ Using Challenger Deep theme.
 (use-package dashboard
   :ensure t
   :init
-  (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
+  (setq dashboard-banner-logo-title "GNU EMACS - Editor MACroS"
         ;; dashboard-startup-banner (nth (% (random most-positive-fixnum) 6) '(official logo 1 2 3 "~/.emacs.d/emacs.png"))
         dashboard-startup-banner "~/.emacs.d/emacs.png"
         dashboard-center-content t
@@ -284,7 +279,7 @@ A better help buffer.
   :ensure t)
 #+end_src
 
-** elfeed
+** COMMENT elfeed
 Web feed reader.
 #+begin_src elisp
 (use-package elfeed
@@ -388,7 +383,7 @@ For highlighting indentation levels.
 #+end_src
 
 ** visual-line-mode
-A package to make org-present better.
+A package to make org-present looks better.
 #+begin_src elisp
 (use-package visual-fill-column
   :after org-present
@@ -442,7 +437,7 @@ For Common Lisp.
   (setq inferior-lisp-program "sbcl"))
 #+end_src
 
-* Emms Packages and Setup
+* COMMENT Emms Packages and Setup
 The emacs multimedia system.
 ** emms
 #+begin_src elisp
@@ -605,14 +600,22 @@ Display track desciption and playing time in mode line.
                   ido-everywhere t
                   default-input-method "chinese-array30"
                   elfeed-db nil
-                  default-text-properties '(line-spacing 0.1 line-height 1.25)
+                  ibuffer-saved-filter-groups '(("customized"
+                                                 ("Dired" (mode . dired-mode))
+                                                 ("Magit" (name . "magit[-:].+"))
+                                                 ("Emacs" (name . "\*[a-zA-Z]+\*"))))
+                  ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
+                  default-text-properties '(line-height 24)
                   gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
                   gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))
                   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
-            (add-to-list 'ibuffer-never-show-predicates "^\\*")
+            ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (add-hook 'org-mode-hook 'org-indent-mode)
+            (add-hook 'ibuffer-mode-hook
+                      (lambda ()
+                        (ibuffer-switch-to-saved-filter-groups "customized")))
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
             (set-fonts)
@@ -626,6 +629,17 @@ Set fonts again after spawning a frame.
 (add-hook 'server-after-make-frame-hook
           (lambda ()
             (set-fonts)))
+#+end_src
+
+** hl-line-mode-hook
+#+begin_src elisp
+(add-hook 'hl-line-mode-hook
+          (lambda ()
+            (if hl-line-mode
+                (set-face-attribute 'line-number-current-line nil
+                                    :inherit 'hl-line)
+              (set-face-attribute 'line-number-current-line nil
+                                  :inherit 'default))))
 #+end_src
 
 ** Unload elfeed database to prevent bugs
@@ -654,14 +668,14 @@ Set fonts again after spawning a frame.
 ** Font and Face Settings
 #+begin_src elisp
 (defun set-fonts ()
-  (set-fontset-font "fontset-default" 'han "Noto Sans TC")
-  (set-fontset-font "fontset-default" 'han "Noto Sans SC"
+  (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans TC"))
+  (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans SC")
                     nil 'append)
-  (set-fontset-font "fontset-default" 'big5 "Noto Sans TC")
-  (set-fontset-font "fontset-default" 'kana "Noto Sans JP")
-  (setq face-font-rescale-alist '(("Noto Sans TC" . 1.0)
-                                  ("Noto Sans SC" . 1.0)
-                                  ("Noto Sans JP" . 1.0)))
+  (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC"))
+  (set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
+  ;; (setq face-font-rescale-alist '(("Noto Sans TC" . 0.9)
+                                  ;; ("Noto Sans SC" . 0.9)
+                                  ;; ("Noto Sans JP" . 0.9)))
   (set-face-attribute 'variable-pitch nil
                       :font "IBMPlexSans-12")
   (set-face-attribute 'fixed-pitch nil
@@ -718,12 +732,13 @@ Show/Hide buffers start with * in ibuffer.
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x M-n") 'neotree-toggle)
   (global-set-key (kbd "C-x C-y y") 'clipboard-yank)
+  (global-set-key (kbd "C-x C-y C-y") 'clipboard-yank)
   (global-set-key (kbd "C-x C-y k") 'clipboard-kill-ring-save)
   (global-set-key (kbd "C-x C-y C-k") 'clipboard-kill-region)
   (global-set-key (kbd "C-M-z") 'isearch-yank-until-char)
   (global-set-key (kbd "M-z") 'zap-up-to-char)
   (global-set-key (kbd "C-z") 'zap-to-char)
   (global-set-key (kbd "M-p") 'scroll-down-line)
-  (global-set-key (kbd "M-n") 'scroll-up-line)
-  (define-key ibuffer-mode-map "i" 'toggle-ibuffer-visibility))
+  (global-set-key (kbd "M-n") 'scroll-up-line))
+  ;; (define-key ibuffer-mode-map "i" 'toggle-ibuffer-visibility))
 #+end_src
