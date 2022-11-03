@@ -7,6 +7,7 @@
 - [[#installing-required-packages][Installing Required Packages]]
 - [[#how-to-install][How to Install]]
 - [[#cleaning-up-symbolic-links][Cleaning up Symbolic Links]]
+- [[#todos][TODOs]]
 
 * System Info
 - OS: Void GNU/Linux
@@ -37,3 +38,7 @@ stow .
 cd dotfiles
 stow -D .
    #+end_src
+
+* TODOs
+- [ ] Write installation script
+- [ ] Update README
