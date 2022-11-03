@@ -1,5 +1,5 @@
 GConf
-ModemManager
+ImageMagick
 PopCorn
 Thunar
 alacritty
@@ -21,7 +21,6 @@ ffmpeg
 figlet
 firefox
 flatpak
-gdb
 gimp
 git
 gnome
@@ -42,6 +41,7 @@ libglvnd-32bit
 libjack-pipewire
 libreoffice
 libstdc++-32bit
+linux6.0
 lolcat-c
 lvm2
 lxappearance
@@ -69,6 +69,7 @@ stow
 thunar-archive-plugin
 thunar-media-tags-plugin
 thunar-volman
+tumbler
 units
 void-docs-browse
 void-repo-multilib
