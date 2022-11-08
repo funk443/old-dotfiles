@@ -7,7 +7,6 @@ alsa-pipewire
 alsa-utils
 amdvlk
 arandr
-arduino
 base-devel
 base-system
 bash-completion
@@ -83,6 +82,5 @@ xfce4-clipman-plugin
 xfce4-notifyd
 xfce4-screenshooter
 xfce4-settings
-xlockmore
 xorg
 yt-dlp
