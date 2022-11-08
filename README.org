@@ -1,6 +1,13 @@
 #+TITLE: ID's Dotfiles
 #+AUTHOR: CToID
 #+OPTIONS: toc:nil num:nil
+#    ______ ______        ____ ____ 
+#   / ____//_  __/____   /  _// __ \
+#  / /      / /  / __ \  / / / / / /
+# / /___   / /  / /_/ /_/ / / /_/ / 
+# \____/  /_/   \____//___//_____/  
+                                  
+
 
 * Table of Contents                                                     :TOC:
 - [[#system-info][System Info]]
@@ -10,6 +17,7 @@
 - [[#todos][TODOs]]
 
 * System Info
+[[./images/Desktop2.png]]
 - OS: Void GNU/Linux
 - Shell: bash
 - Terminal: alacritty
@@ -18,9 +26,9 @@
 - Preferred Text Editor: GNU Emacs
 
 * Installing Required Packages
-#+begin_src sh
-xbps-install $(cat void-packages.txt)
-#+end_src
+Execute "install" with root privilege in dotfiles folder.
+
+Or use SBCL (with root previlege) to load "install.fasl".
 
 * How to Install
 1. Install GNU stow.
