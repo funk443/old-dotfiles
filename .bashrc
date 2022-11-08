@@ -5,7 +5,7 @@
 figlet -kf slant "ad astra" | lolcat
 figlet -kf slant "per aspera" | lolcat
 
-export PATH="/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
+export PATH="/usr/local/texlive/2022/bin/x86_64-linux:/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
 export EDITOR="emacsclient -t -a 'emacs -nw'"
 export VISUAL="emacsclient -c -a emacs"
 

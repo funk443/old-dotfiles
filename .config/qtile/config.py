@@ -94,7 +94,7 @@ groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty", height = 0.5
           Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
           Group (name = "3", label = "3: "),
-          Group (name = "4", label = "4: ", spawn = "emacs -f server-start"),
+          Group (name = "4", label = "4: "),
           Group (name = "5"),
           Group (name = "6"),
           Group (name = "7"),
