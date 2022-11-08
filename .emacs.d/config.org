@@ -122,6 +122,7 @@ Using Challenger Deep theme.
         ;; dashboard-items nil)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
+  (add-to-list 'dashboard-footer-messages "There is no system but GNU, and Linux is one of its kernels.")
   ;; This is to ensure dashboard still spawn if using "emacs -f server-start" to start an emacs server
   (if (and (< (length command-line-args) 4)
            (member "server-start" command-line-args))
