@@ -38,6 +38,7 @@
   - [[#font-and-face-settings][Font and Face Settings]]
   - [[#toggle-buffer-visibility-in-ibuffer][Toggle Buffer Visibility in ibuffer]]
   - [[#set-keys][Set Keys]]
+  - [[#temporary-text-buffer][Temporary Text Buffer]]
 
 * Configure Package and Use-package
 Add package archives and make sure use-package is installed.
@@ -76,6 +77,7 @@ Using Challenger Deep theme.
   :ensure t
   :init
   (setq doom-themes-enable-bold t
+        doom-challenger-deep-brighter-modeline t
         doom-themes-enable-italic t)
   :config
   (load-theme 'doom-challenger-deep t))
@@ -97,10 +99,10 @@ Using Challenger Deep theme.
   :after all-the-icons
   :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
 
-(use-package doom-modeline
-  :ensure t
-  :init
-  (doom-modeline-mode 1))
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init
+;;   (doom-modeline-mode 1))
 #+end_src
 
 ** Startup Screen (Dashboard)
@@ -503,6 +505,7 @@ For controling mpv to play video or audio-only.
   (redraw-display)
   (emms-player-mpv-cmd `(quit)))
 #+end_src
+
 ** emms-state
 Display track desciption and playing time in mode line.
 #+begin_src elisp
@@ -597,14 +600,7 @@ Display track desciption and playing time in mode line.
             (require 'ibuf-ext)
             (setq file-name-handler-alist temp-alist
                   frame-title-format "%b - GNU Emacs"
-                  ido-enable-flex-matching t
-                  ido-everywhere t
-                  default-input-method "chinese-array30"
                   elfeed-db nil
-                  ibuffer-saved-filter-groups '(("customized"
-                                                 ("Dired" (mode . dired-mode))
-                                                 ("Magit" (name . "magit[-:].+"))
-                                                 ("Emacs" (name . "\*[a-zA-Z]+\*"))))
                   ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
                   default-text-properties '(line-height 24)
                   gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
@@ -621,6 +617,8 @@ Display track desciption and playing time in mode line.
             (set-default-coding-systems 'utf-8)
             (set-fonts)
             (set-keys)
+            (set-face-attribute 'line-number-current-line nil
+                                :inherit 'default)
             (package-initialize)))
 #+end_src
 
@@ -742,4 +740,14 @@ Show/Hide buffers start with * in ibuffer.
   (global-set-key (kbd "M-p") 'scroll-down-line)
   (global-set-key (kbd "M-n") 'scroll-up-line))
   ;; (define-key ibuffer-mode-map "i" 'toggle-ibuffer-visibility))
+#+end_src
+
+** Temporary Text Buffer
+Open a buffer for temporary text manipulation in emacsclient.
+#+begin_src elisp
+(defun temp-text-buffer ()
+  (with-current-buffer (get-buffer-create "*temp-text*")
+    (text-mode)
+    (add-hook 'kill-buffer-hook 'delete-frame 0 t)
+    (switch-to-buffer "*temp-text*")))
 #+end_src

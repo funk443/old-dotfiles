@@ -5,3 +5,4 @@
  (expand-file-name
   "config.org"
   user-emacs-directory))
+(put 'scroll-left 'disabled nil)

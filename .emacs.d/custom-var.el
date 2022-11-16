@@ -13,12 +13,28 @@
  '(current-language-environment "UTF-8")
  '(custom-safe-themes
    '("512ce140ea9c1521ccaceaa0e73e2487e2d3826cc9d287275550b47c04072bc4" "2078837f21ac3b0cc84167306fa1058e3199bbd12b6d5b56e3777a4125ff6851" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "ec2c86933a6e0b96f68f71d4b39ebdd67b43b0b32091b7689acb9acdc2a3e03b" default))
+ '(default-input-method "chinese-array30")
  '(display-line-numbers-type 'relative)
+ '(display-time-24hr-format t)
+ '(display-time-day-and-date t)
+ '(display-time-default-load-average nil)
  '(emms-volume-change-function 'emms-player-mpv-raise-volume)
  '(erc-nick "CToID")
  '(frame-resize-pixelwise t)
  '(fringe-mode '(0) nil (fringe))
  '(global-display-line-numbers-mode t)
+ '(ibuffer-saved-filter-groups
+   '(("customized"
+      ("Dired"
+       (mode . dired-mode))
+      ("Magit"
+       (name . "magit[-:].+"))
+      ("Emacs"
+       (name . "*[a-zA-Z]+*")))))
+ '(ido-default-buffer-method 'selected-window)
+ '(ido-default-file-method 'selected-window)
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
@@ -37,7 +53,9 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree doom-modeline which-key undo-tree vterm magit ##))
+   '(#("eshell-prompt-extras" 0 20
+       (escaped t))
+     "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree which-key undo-tree vterm magit ##))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(scroll-error-top-bottom t)
