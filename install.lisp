@@ -101,9 +101,9 @@
       (format t "Aborting...")
       (return-from install-pkgs))
     (uiop:run-program (list "xbps-install" "-S") :output t :error-output t)
-    (handler-case (uiop:run-program (append (list "xbps-install" "-y") pkg-names) :output t :error-output t)
-      (error ()
-        (format t "~&YOU NEED TO RUN THIS PROGRAM AS ROOT TO INSTALL PACKAGES!~%")))))
+    (if (check-root)
+        (uiop:run-program (append (list "xbps-install" "-y") pkg-names) :output t :error-output t)
+        (format t "~&YOU NEED TO RUN THIS PROGRAM AS ROOT TO INSTALL PACKAGES!~%"))))
 
 ;; Utility Functions
 (defun subseq* (lst start end)
@@ -121,3 +121,10 @@
   (format t "======~%")
   (format t " <p> Packages~%")
   (format t " <q> Quit~%"))
+
+(defun check-root ()
+  (if (= (parse-integer
+          (uiop:run-program (list "id" "-u") :output '(:string :stripped t)))
+         0)
+      t
+      nil))
