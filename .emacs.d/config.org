@@ -4,7 +4,6 @@
 
 * Table of Contents                                            :TOC:noexport:
 - [[#configure-package-and-use-package][Configure Package and Use-package]]
-- [[#gcmh-setup][Gcmh Setup]]
 - [[#appearance-packages-setup][Appearance Packages Setup]]
   - [[#themes-and-icons][Themes and Icons]]
   - [[#startup-screen-dashboard][Startup Screen (Dashboard)]]
@@ -60,7 +59,7 @@ Add package archives and make sure use-package is installed.
 (setq package--init-file-ensured t)
 #+end_src
 
-* Gcmh Setup
+* COMMENT Gcmh Setup
 the Garbage Collector Magic Hack package will adjust garbage collection interference, thus speeding up Emacs startup process.
 #+begin_src elisp
 (use-package gcmh
@@ -601,10 +600,8 @@ Display track desciption and playing time in mode line.
             (setq file-name-handler-alist temp-alist
                   frame-title-format "%b - GNU Emacs"
                   elfeed-db nil
-                  ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
-                  default-text-properties '(line-height 24)
-                  gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
-                  gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))
+                  gc-cons-threshold (* 16 1024 1024)
+                  gc-cons-percentage 0.25
                   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2)
@@ -617,8 +614,6 @@ Display track desciption and playing time in mode line.
             (set-default-coding-systems 'utf-8)
             (set-fonts)
             (set-keys)
-            (set-face-attribute 'line-number-current-line nil
-                                :inherit 'default)
             (package-initialize)))
 #+end_src
 
@@ -672,9 +667,13 @@ Set fonts again after spawning a frame.
                     nil 'append)
   (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC"))
   (set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
-  ;; (setq face-font-rescale-alist '(("Noto Sans TC" . 0.9)
-                                  ;; ("Noto Sans SC" . 0.9)
-                                  ;; ("Noto Sans JP" . 0.9)))
+  (let ((scale (- (/ 22.0 24) (expt 10 -10))))
+    (setq face-font-rescale-alist `(("Noto Sans TC" . ,scale)
+                                    ("Noto Sans SC" . ,scale)
+                                    ("Noto Sans JP" . ,scale))))
+  ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
+  ;; default-text-properties '(line-height 24))
+  ;; 如果不設定rescale-alist的話就用這兩行其中一行
   (set-face-attribute 'variable-pitch nil
                       :font "IBMPlexSans-12")
   (set-face-attribute 'fixed-pitch nil
@@ -683,6 +682,8 @@ Set fonts again after spawning a frame.
                       :height 120)
   (set-face-attribute 'header-line nil
                       :inherit nil)
+  (set-face-attribute 'line-number-current-line nil
+                      :inherit 'default)
   (when (equal (face-attribute 'default :family)
                "IBM Plex Mono")
     (set-face-attribute 'line-number nil
@@ -728,12 +729,12 @@ Show/Hide buffers start with * in ibuffer.
   (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
   (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
   (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+  (global-set-key (kbd "C-M-=") 'count-words)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x M-n") 'neotree-toggle)
-  (global-set-key (kbd "C-x C-y y") 'clipboard-yank)
-  (global-set-key (kbd "C-x C-y C-y") 'clipboard-yank)
-  (global-set-key (kbd "C-x C-y k") 'clipboard-kill-ring-save)
-  (global-set-key (kbd "C-x C-y C-k") 'clipboard-kill-region)
+  (global-set-key (kbd "C-x RET y") 'clipboard-yank)
+  (global-set-key (kbd "C-x RET C-w") 'clipboard-kill-region)
+  (global-set-key (kbd "C-x RET M-w") 'clipboard-kill-ring-save)
   (global-set-key (kbd "C-M-z") 'isearch-yank-until-char)
   (global-set-key (kbd "M-z") 'zap-up-to-char)
   (global-set-key (kbd "C-z") 'zap-to-char)

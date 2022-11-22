@@ -1,7 +1,6 @@
-(setq initial-scratch-message nil
-      custom-file (locate-user-emacs-file "custom-var.el")
+(setq custom-file (locate-user-emacs-file "custom-var.el")
       gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.75)
+      gc-cons-percentage 0.8)
       ;; initial-frame-alist '((width . 160)))
 
 (load custom-file 'noerror 'nomessage)

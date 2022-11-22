@@ -22,6 +22,7 @@
  '(erc-nick "CToID")
  '(frame-resize-pixelwise t)
  '(fringe-mode '(0) nil (fringe))
+ '(garbage-collection-messages t)
  '(global-display-line-numbers-mode t)
  '(ibuffer-saved-filter-groups
    '(("customized"
@@ -39,6 +40,7 @@
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
  '(js-indent-level 2)
+ '(line-number-display-limit-width most-positive-fixnum)
  '(line-spacing nil)
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Documents/agenda.org"))
@@ -56,8 +58,10 @@
    '(#("eshell-prompt-extras" 0 20
        (escaped t))
      "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree which-key undo-tree vterm magit ##))
+ '(require-final-newline t)
  '(save-place-mode t)
  '(scroll-bar-mode nil)
+ '(scroll-conservatively 1)
  '(scroll-error-top-bottom t)
  '(scroll-preserve-screen-position 1)
  '(select-enable-clipboard nil)
