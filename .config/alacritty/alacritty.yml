@@ -12,6 +12,7 @@ import:
   # - ~/.config/alacritty/dracula.yml
   # - ~/.config/alacritty/tomorrow_night.yml
   - ~/.config/alacritty/challenger-deep.yml
+  # - ~/.config/alacritty/atom-one-light.yml
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
