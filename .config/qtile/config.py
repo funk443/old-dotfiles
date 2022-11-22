@@ -66,6 +66,9 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key ([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    # Emacs related keys
+    Key ([mod, "shift"], "d", lazy.spawn ("emacsclient -c -e '(dired \"~\")'"), desc = "Launch dired in Emacs"),
+    Key ([mod, "shift"], "e", lazy.spawn ("emacsclient -c -e '(temp-text-buffer)'"), desc = "Create a temporary text manipulation buffer in emacs"),
     Key ([mod], "e", lazy.spawn ("emacsclient -c -a emacs"), desc = "Launch Emacs"),
     # Toggle between different layouts as defined below
     Key ([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -238,3 +241,11 @@ def autostart_once ():
 @hook.subscribe.shutdown
 def qtile_shutdown ():
     subprocess.run ("emacsclient", "-e", "'(save-buffers-kill-emacs)'")
+
+@lazy.function
+def float_to_front (qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.cmd_bring_to_front()    
+keys.append (Key ([mod, "shift"], "f", float_to_front (), desc = "bring all floating windows to front"))
