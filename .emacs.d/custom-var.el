@@ -61,7 +61,7 @@
  '(require-final-newline t)
  '(save-place-mode t)
  '(scroll-bar-mode nil)
- '(scroll-conservatively 1)
+ '(scroll-conservatively 101)
  '(scroll-error-top-bottom t)
  '(scroll-preserve-screen-position 1)
  '(select-enable-clipboard nil)

@@ -31,7 +31,6 @@
   - [[#startup-hook][Startup Hook]]
   - [[#server-hook][Server Hook]]
   - [[#hl-line-mode-hook][hl-line-mode-hook]]
-  - [[#unload-elfeed-database-to-prevent-bugs][Unload elfeed database to prevent bugs]]
 - [[#functions][Functions]]
   - [[#toggle-transparency][toggle-transparency]]
   - [[#font-and-face-settings][Font and Face Settings]]
@@ -614,6 +613,7 @@ Display track desciption and playing time in mode line.
             (set-default-coding-systems 'utf-8)
             (set-fonts)
             (set-keys)
+            (load (expand-file-name "~/.roswell/helper.el"))
             (package-initialize)))
 #+end_src
 
@@ -622,7 +622,9 @@ Set fonts again after spawning a frame.
 #+begin_src elisp
 (add-hook 'server-after-make-frame-hook
           (lambda ()
-            (set-fonts)))
+            (set-fonts)
+            (if (equal (buffer-name) "*dashboard*")
+                (revert-buffer))))
 #+end_src
 
 ** hl-line-mode-hook
@@ -636,7 +638,7 @@ Set fonts again after spawning a frame.
                                   :inherit 'default))))
 #+end_src
 
-** Unload elfeed database to prevent bugs
+** COMMENT Unload elfeed database to prevent bugs
 #+begin_src elisp
 (add-hook 'kill-emacs-hook
           (lambda ()
@@ -708,7 +710,7 @@ Set fonts again after spawning a frame.
                   (org-level-8 1.0 normal)))
     (set-face-attribute (car face) nil
                         :font "IBMPlexSans-12"
-                        :height (cadr face)
+                        ;; :height (cadr face)
                         :weight (caddr face))))
 #+end_src
 
@@ -732,9 +734,9 @@ Show/Hide buffers start with * in ibuffer.
   (global-set-key (kbd "C-M-=") 'count-words)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x M-n") 'neotree-toggle)
-  (global-set-key (kbd "C-x RET y") 'clipboard-yank)
-  (global-set-key (kbd "C-x RET C-w") 'clipboard-kill-region)
-  (global-set-key (kbd "C-x RET M-w") 'clipboard-kill-ring-save)
+  (global-set-key (kbd "C-y") 'clipboard-yank)
+  (global-set-key (kbd "C-w") 'clipboard-kill-region)
+  (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
   (global-set-key (kbd "C-M-z") 'isearch-yank-until-char)
   (global-set-key (kbd "M-z") 'zap-up-to-char)
   (global-set-key (kbd "C-z") 'zap-to-char)
