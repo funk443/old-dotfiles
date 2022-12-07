@@ -13,7 +13,7 @@
 
 ;; (add-to-list 'default-frame-alist '(font . "NovaMono-12"))
 ;; (add-to-list 'default-frame-alist '(font . "ShareTechMono-12"))
-(add-to-list 'default-frame-alist '(font . "IBMPlexMono-12"))
+;; (add-to-list 'default-frame-alist '(font . "IBMPlexMono-12"))
 
 (set-frame-parameter (selected-frame) 'alpha '(90 . 75))
 (add-to-list 'default-frame-alist '(alpha . (90 . 75)))
