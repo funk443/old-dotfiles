@@ -60,6 +60,7 @@
      "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree which-key undo-tree vterm magit ##))
  '(require-final-newline t)
  '(save-place-mode t)
+ '(scalable-fonts-allowed t)
  '(scroll-bar-mode nil)
  '(scroll-conservatively 101)
  '(scroll-error-top-bottom t)
