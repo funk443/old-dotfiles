@@ -9,7 +9,6 @@
  '(blink-cursor-mode nil)
  '(browse-url-browser-function 'eww-browse-url)
  '(column-number-mode t)
- '(css-indent-offset 2)
  '(current-language-environment "UTF-8")
  '(custom-safe-themes
    '("512ce140ea9c1521ccaceaa0e73e2487e2d3826cc9d287275550b47c04072bc4" "2078837f21ac3b0cc84167306fa1058e3199bbd12b6d5b56e3777a4125ff6851" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "ec2c86933a6e0b96f68f71d4b39ebdd67b43b0b32091b7689acb9acdc2a3e03b" default))
@@ -31,7 +30,7 @@
       ("Magit"
        (name . "magit[-:].+"))
       ("Emacs"
-       (name . "*[a-zA-Z]+*")))))
+       (name . "*[^*]+*")))))
  '(ido-default-buffer-method 'selected-window)
  '(ido-default-file-method 'selected-window)
  '(ido-enable-flex-matching t)
@@ -39,7 +38,6 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
- '(js-indent-level 2)
  '(line-number-display-limit-width most-positive-fixnum)
  '(line-spacing nil)
  '(menu-bar-mode nil)
@@ -69,7 +67,6 @@
  '(sh-basic-offset 2)
  '(show-paren-mode t)
  '(size-indication-mode t)
- '(standard-indent 2)
  '(tab-width 2)
  '(tool-bar-mode nil)
  '(warning-suppress-types '((comp) (comp)))
