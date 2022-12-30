@@ -765,7 +765,7 @@ This function is for spawning a VTerm frame from Qtile keybindings,
 the frame will be killed if the VTerm buffer is closed.
 #+begin_src elisp
 (defun make-vterm-frame ()
-  (with-current-buffer (vterm 69)
+  (with-current-buffer (vterm t)
     (add-hook 'kill-buffer-hook
               'delete-frame
               0
