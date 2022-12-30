@@ -36,8 +36,8 @@
   - [[#font-and-face-settings][Font and Face Settings]]
   - [[#toggle-buffer-visibility-in-ibuffer][Toggle Buffer Visibility in ibuffer]]
   - [[#set-keys][Set Keys]]
-  - [[#vterm-1][VTerm]]
-  - [[#dired][Dired]]
+  - [[#vterm-frame][VTerm Frame]]
+  - [[#dired-frame][Dired Frame]]
 
 * Configure Package and use-package
 Add package archives and make sure use-package is installed.
@@ -760,7 +760,7 @@ Show/Hide buffers start with * in ibuffer.
   ;; (define-key ibuffer-mode-map "i" 'toggle-ibuffer-visibility))
 #+end_src
 
-** VTerm
+** VTerm Frame
 This function is for spawning a VTerm frame from Qtile keybindings,
 the frame will be killed if the VTerm buffer is closed.
 #+begin_src elisp
@@ -772,7 +772,7 @@ the frame will be killed if the VTerm buffer is closed.
               t)))
 #+end_src
 
-** Dired
+** Dired Frame
 This will prompt user for a directory name, and open it with dired.
 #+begin_src elisp
 (defun make-dired-frame ()
