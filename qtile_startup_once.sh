@@ -9,7 +9,12 @@ picom -CGb
 ibus-daemon -drxR
 xfce4-clipman &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
+<<<<<<< HEAD
 # xinput set-button-map 8 1 2 3 4 5 6 7 8 2 10 11 12
+=======
+/usr/libexec/polkit-gnome-authentication-agent-1 &
+xinput set-button-map 8 1 2 3 4 5 6 7 8 2 10 11 12
+>>>>>>> 18b9312 (Start polkit when qtile starts)
 numlockx
 # discord &
 emacs --daemon &
