@@ -48,7 +48,7 @@ stow -D .
    #+end_src
 
 * TODOs
-- [-] Write installation script
-  - [X] Package installation
+- [ ] Write installation script (now rewriting in Perl)
+  - [ ] Package installation
   - [ ] Linking files
 - [ ] Update README
