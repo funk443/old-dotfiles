@@ -42,6 +42,10 @@
  '(line-spacing nil)
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Documents/agenda.org"))
+ '(org-capture-templates
+   '(("n" "General notes" entry
+      (file+olp+datetree "")
+      "* %?\12%U by %n" :empty-lines-before 1)))
  '(org-edit-src-content-indentation 0)
  '(org-export-preserve-breaks t)
  '(org-export-with-sub-superscripts '{})
@@ -53,9 +57,10 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(#("eshell-prompt-extras" 0 20
-       (escaped t))
-     "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring slime arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode org-contrib dashboard toc-org sudo-edit neotree which-key undo-tree vterm magit ##))
+   '(doom-themes magit-section
+                 #("eshell-prompt-extras" 0 20
+                   (escaped t))
+                 "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key vterm magit ##))
  '(require-final-newline t)
  '(save-place-mode t)
  '(scalable-fonts-allowed t)

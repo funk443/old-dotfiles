@@ -9,7 +9,6 @@
   - [[#startup-screen-dashboard][Startup Screen (Dashboard)]]
 - [[#org-mode][Org Mode]]
   - [[#toc-org][toc-org]]
-  - [[#org-contrib][org-contrib]]
   - [[#org-present][org-present]]
 - [[#other-packages-setup][Other Packages Setup]]
   - [[#magit][magit]]
@@ -23,10 +22,9 @@
   - [[#sudo-edit][sudo-edit]]
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
-- [[#language-specific-packages][Language Specific Packages]]
+- [[#languages][Languages]]
   - [[#arduino][Arduino]]
   - [[#yaml][YAML]]
-  - [[#common-lisp][Common Lisp]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
   - [[#server-hook][Server Hook]]
@@ -37,6 +35,7 @@
   - [[#toggle-buffer-visibility-in-ibuffer][Toggle Buffer Visibility in ibuffer]]
   - [[#set-keys][Set Keys]]
   - [[#vterm-frame][VTerm Frame]]
+  - [[#eshell-frame][Eshell Frame]]
   - [[#dired-frame][Dired Frame]]
 
 * Configure Package and use-package
@@ -119,8 +118,6 @@ Using Challenger Deep theme.
         dashboard-agenda-release-buffers t
         dashboard-items nil
         dashboard-set-init-info nil)
-  ;; (setq dashboard-banner-logo-title "GNU EMACS - Editing MACroS"
-        ;; dashboard-items nil)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (add-to-list 'dashboard-footer-messages "There is no system but GNU, and Linux is one of its kernels.")
@@ -175,15 +172,6 @@ Multi cursors implementation for evil-mode
 #+end_src
 
 * Org Mode
-** COMMENT org-bullets
-Org-bullets gives us attractive bullets rather than asterisks.
-#+begin_src elisp 
-(use-package org-bullets
-  :commands org-bullets-mode
-  :ensure t
-  :hook (org-mode . (lambda () (org-bullets-mode 1))))
-#+end_src
-
 ** toc-org
 For creating table of contents in Org mode.
 #+begin_src elisp 
@@ -191,14 +179,6 @@ For creating table of contents in Org mode.
   :commands toc-org-enable
   :ensure t
   :hook (org-mode . toc-org-enable))
-#+end_src
-
-** org-contrib
-For lesser-known language support.
-#+begin_src elisp
-(use-package org-contrib
-  :after toc-org
-  :ensure t)
 #+end_src
 
 ** org-present
@@ -281,24 +261,6 @@ A better help buffer.
 #+begin_src elisp
 (use-package xclip
   :ensure t)
-#+end_src
-
-** COMMENT elfeed
-Web feed reader.
-#+begin_src elisp
-(use-package elfeed
-  :commands elfeed
-  :ensure t
-  :config
-  (setq elfeed-feeds
-        '("https://feeds.feedburner.com/ettoday/realtime"
-          "https://feeds.feedburner.com/rsscna/intworld"
-          "https://feeds.feedburner.com/ettoday/global"
-          "https://feeds.feedburner.com/ettoday/news"
-          "https://news.ltn.com.tw/rss/world.xml"
-          "https://news.ltn.com.tw/rss/politics.xml"
-          "https://news.ltn.com.tw/rss/society.xml"
-          "https://news.ltn.com.tw/rss/all.xml")))
 #+end_src
 
 ** vterm
@@ -397,7 +359,7 @@ A package to make org-present looks better.
         visual-fill-column-center-text t))
 #+end_src
 
-* Language Specific Packages
+* Languages
 ** Arduino
 *** arduino-mode
 #+begin_src elisp
@@ -430,7 +392,7 @@ A package to make org-present looks better.
   :ensure t)
 #+end_src
 
-** Common Lisp
+** COMMENT Common Lisp
 *** SLIME
 For Common Lisp.
 #+begin_src elisp
@@ -441,81 +403,8 @@ For Common Lisp.
   (setq inferior-lisp-program "sbcl"))
 #+end_src
 
-* COMMENT Emms Packages and Setup
-The emacs multimedia system.
-** emms
-#+begin_src elisp
-(use-package emms
-  :commands emms
-  :ensure t
-  :config
-  (use-package emms-setup)
-  (emms-all)
-  (setq emms-source-file-default-directory "~/Music/"
-        emms-seek-seconds 5
-        emms-player-list '(emms-player-mpv)))
-
-#+end_src
-
-** Emms mpv volume control
-For controling mpv volume inside emms.
-#+begin_src elisp
-(defvar emms-player-mpv-volume 70)
-
-(defun emms-player-mpv-get-volume ()
-  "Sets `emms-player-mpv-volume' to the current volume value
-and sends a message of the current volume status."
-  (emms-player-mpv-cmd '(get_property volume)
-                       #'(lambda (vol err)
-                           (unless err
-                             (let ((vol (truncate vol)))
-                               (setq emms-player-mpv-volume vol)
-                               (message "Music volume: %s%%"
-                                        vol))))))
-
-(defun emms-player-mpv-raise-volume (&optional amount)
-  (interactive)
-  (let* ((amount (or amount 10))
-         (new-volume (+ emms-player-mpv-volume amount)))
-    (if (> new-volume 100)
-        (emms-player-mpv-cmd '(set_property volume 100))
-      (emms-player-mpv-cmd `(add volume ,amount))))
-  (emms-player-mpv-get-volume))
-
-(defun emms-player-mpv-lower-volume (&optional amount)
-  (interactive)
-  (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
-  (emms-player-mpv-get-volume))
-#+end_src
-
-** Emms mpv toggle video
-For controling mpv to play video or audio-only.
-#+begin_src elisp
-;; (setq emms-player-mpv-parameters (cons "--quiet" (cons "--really-quiet" (cons "--no-audio-display" "--no-video"))))
-(setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
-
-(defun emms-mpv-toggle-video ()
-  (interactive)
-  (if (equal emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
-      (progn
-        (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display"))
-        (message "Play video"))
-    (progn
-      (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
-      (message "Don't play video")))
-  (redraw-display)
-  (emms-player-mpv-cmd `(quit)))
-#+end_src
-
-** emms-state
-Display track desciption and playing time in mode line.
-#+begin_src elisp
-(use-package emms-state
-  :after emms
-  :ensure t)
-#+end_src
-
 * COMMENT Key Bindings Setup
+Use these with Evil mode.
 ** Leader key
 #+begin_src elisp
 (nvmap :prefix "SPC"
@@ -602,9 +491,10 @@ Display track desciption and playing time in mode line.
             (setq file-name-handler-alist temp-alist
                   frame-title-format "%b - GNU Emacs"
                   elfeed-db nil
-                  gc-cons-threshold (* 16 1024 1024)
+                  gc-cons-threshold (* 32 1024 1024)
                   gc-cons-percentage 0.25
                   default-input-method "chinese-array30"
+                  org-default-notes-file (locate-user-emacs-file "notes.org")
                   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
             (setq-default python-indent-offset 2
                           rust-indent-offset 2
@@ -612,17 +502,28 @@ Display track desciption and playing time in mode line.
                           js-indent-level 2
                           standard-indent 2
                           perl-indent-level 2)
-            (defalias 'perl-mode 'cperl-mode)
+            (if (string-match " 29\.[[:digit:]]+" (emacs-version))
+                (progn
+                  (add-to-list 'major-mode-remap-alist '(perl-mode . cperl-mode))
+                  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+                  (add-to-list 'treesit-extra-load-path "/home/id/Documents/git/tree-sitter-module/dist"))
+              (defalias 'perl-mode 'cperl-mode))
             ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (add-hook 'org-mode-hook 'org-indent-mode)
             (add-hook 'ibuffer-mode-hook
                       (lambda ()
                         (ibuffer-switch-to-saved-filter-groups "customized")))
+            (add-hook 'image-mode-new-window-functions
+                      (lambda (arg)
+                        (display-line-numbers-mode -1)))
+            (add-hook 'xwidget-webkit-mode-hook
+                      (lambda ()
+                        (display-line-numbers-mode -1)))
+            (add-hook 'recentf-dialog-mode-hook 'recentf-load-list)
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
             (set-fonts)
             (set-keys)
-            (load (expand-file-name "~/.roswell/helper.el"))
             (package-initialize)))
 #+end_src
 
@@ -645,14 +546,6 @@ Set fonts again after spawning a frame.
                                     :inherit 'hl-line)
               (set-face-attribute 'line-number-current-line nil
                                   :inherit 'default))))
-#+end_src
-
-** COMMENT Unload elfeed database to prevent bugs
-#+begin_src elisp
-(add-hook 'kill-emacs-hook
-          (lambda ()
-            (if elfeed-db
-                (elfeed-db-unload))))
 #+end_src
 
 * Functions
@@ -679,13 +572,14 @@ Set fonts again after spawning a frame.
   (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC"))
   (set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
   ;; 設定縮放字型，或是增加行高二選一
-  (let ((scale (- (/ 22.0 24) (expt 10 -10))))
-    (setq face-font-rescale-alist `(("Noto Sans SC" . ,scale)
-                                    ("Noto Sans TC" . ,scale)
-                                    ("Noto Sans JP" . ,scale))))
+  (let ((scale (- (/ 22.0 24) (expt 10 -10)))
+        (another-scale 0.94))
+    (setq face-font-rescale-alist `(("Noto Sans SC" . ,another-scale)
+                                    ("Noto Sans TC" . ,another-scale)
+                                    ("Noto Sans JP" . ,another-scale))))
   ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
   ;; (setq default-text-properties '(line-height 24))
-  (let ((font-height 120))
+  (let ((font-height 135))
     (set-face-attribute 'default nil
                         :family "IBMPlexMono"
                         :height font-height)
@@ -756,7 +650,8 @@ Show/Hide buffers start with * in ibuffer.
   (global-set-key (kbd "M-z") 'zap-up-to-char)
   (global-set-key (kbd "C-z") 'zap-to-char)
   (global-set-key (kbd "M-p") 'scroll-down-line)
-  (global-set-key (kbd "M-n") 'scroll-up-line))
+  (global-set-key (kbd "M-n") 'scroll-up-line)
+  (global-set-key (kbd "C-c c") 'org-capture))
   ;; (define-key ibuffer-mode-map "i" 'toggle-ibuffer-visibility))
 #+end_src
 
@@ -768,8 +663,16 @@ the frame will be killed if the VTerm buffer is closed.
   (with-current-buffer (vterm t)
     (add-hook 'kill-buffer-hook
               'delete-frame
-              0
-              t)))
+              0 t)))
+#+end_src
+
+** Eshell Frame
+#+begin_src elisp
+(defun make-eshell-frame ()
+  (with-current-buffer (eshell t)
+    (add-hook 'kill-buffer-hook
+              'delete-frame
+              0 t)))
 #+end_src
 
 ** Dired Frame

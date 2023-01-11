@@ -6,3 +6,4 @@
   "config.org"
   user-emacs-directory))
 (put 'scroll-left 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
