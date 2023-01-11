@@ -28,8 +28,6 @@
 * Installing Required Packages
 Execute "install" with root privilege in dotfiles folder.
 
-Or use SBCL (with root previlege) to load "install.fasl".
-
 * How to Install
 1. Install GNU stow.
 2. Clone this repo.

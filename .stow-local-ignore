@@ -8,3 +8,6 @@ install.lisp
 install.fasl
 install
 temp-sv-list
+flatpaks.txt
+gnu.cow
+install.pl
