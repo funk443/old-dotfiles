@@ -123,8 +123,6 @@
   (format t " <q> Quit~%"))
 
 (defun check-root ()
-  (if (= (parse-integer
-          (uiop:run-program (list "id" "-u") :output '(:string :stripped t)))
-         0)
-      t
-      nil))
+  (= (parse-integer
+      (uiop:run-program (list "id" "-u") :output '(:string :stripped t)))
+     0))
