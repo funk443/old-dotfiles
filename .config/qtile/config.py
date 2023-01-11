@@ -26,7 +26,7 @@
 
 import subprocess, os, traverse
 from libqtile import bar, layout, widget, extension
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook, ScratchPad, DropDown
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, hook, ScratchPad, DropDown, KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -50,10 +50,13 @@ keys = [
     Key ([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key ([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key ([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key ([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key ([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    KeyChord ([mod, "control"], "r", [Key ([], "h", lazy.layout.grow_left (), desc = "Grow window to the left"),
+                                      Key ([], "j", lazy.layout.grow_down (), desc = "Grow window down"),
+                                      Key ([], "k", lazy.layout.grow_up (), desc = "Grow window up"),
+                                      Key ([], "l", lazy.layout.grow_right (), desc = "Grow window to the right"),
+                                      Key (["shift"], "6", lazy.layout.increase_ratio (), desc = "Grow the main window"),
+                                      Key (["shift"], "v", lazy.layout.decrease_ratio (), desc = "Shrink the main window")],
+              mode = True, name = "Resize Mode"),
     Key ([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -67,9 +70,11 @@ keys = [
     ),
     Key ([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Emacs related keys
-    Key ([mod, "shift"], "d", lazy.spawn ("emacsclient -c -e '(dired \"~\")'"), desc = "Launch dired in Emacs"),
-    Key ([mod, "shift"], "e", lazy.spawn ("emacsclient -c -e '(temp-text-buffer)'"), desc = "Create a temporary text manipulation buffer in emacs"),
-    Key ([mod], "e", lazy.spawn ("emacsclient -c -a emacs"), desc = "Launch Emacs"),
+    KeyChord ([mod], "e", [Key ([], "e", lazy.spawn ("emacsclient -c -a ''"), desc = "Launch Emacs"),
+                           Key ([], "d", lazy.spawn ("emacsclient -c -e '(make-dired-frame)'"), desc = "Launch Dired"),
+                           Key ([], "s", lazy.spawn ("emacsclient -c -e '(make-eshell-frame)'"), desc = "Launch Eshell"),
+                           Key ([], "Return", lazy.spawn ("emacsclient -c -e '(make-vterm-frame)'"), desc = "Launch VTerm"),],
+              name = "Emacs"),
     # Toggle between different layouts as defined below
     Key ([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key ([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
@@ -82,7 +87,9 @@ keys = [
     Key ([mod], "Print", lazy.spawn ("xfce4-screenshooter -cr"), desc = "Take a region screeshot and copy to clipboard"),
     Key ([mod, "shift"], "Print", lazy.spawn ("xfce4-screenshooter"), desc = "Open xfce4-screenshooter"),
     Key ([mod, "control"], "Print", lazy.spawn ("xfce4-screenshooter -fc"), desc = "Take a full screenshot and copy to clipboard"),
-    Key ([mod, "shift"], "x", lazy.spawn ("i3lock -i /home/id/dotfiles/wallpapers/void_linux_1_1080.png"), desc = "Lock the screen"),
+    KeyChord ([mod], "x", [Key ([], "x", lazy.spawn ("i3lock -i /home/id/dotfiles/wallpapers/void_linux_1_1080.png"), desc = "Lock the screen"),
+                           Key ([], "p", lazy.spawn ("pavucontrol"), desc = "Spawn pavucontrol"),],
+              name = "Utilities"),
 ]
 
 keys.extend ([
@@ -92,8 +99,8 @@ keys.extend ([
     Key ([mod], "l", lazy.function (traverse.right)),
     ])
 
-groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty", height = 0.5, width = 0.5,
-                                               x = 0.25, y = 0.25, opacity = 1)]),
+groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty -t scratchpad", height = 0.5, width = 0.5,
+                                               x = 0.25, y = 0.25, opacity = 1),]),
           Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
           Group (name = "3", label = "3: "),
@@ -129,10 +136,11 @@ for i in groups[1:]:
         ]
     )
 
-keys.append (Key ([mod], "grave", lazy.group["scratchpad"].dropdown_toggle ("term")))
+keys.extend ([Key ([mod], "grave", lazy.group["scratchpad"].dropdown_toggle ("term")),])
 
 layouts = [
-    layout.Bsp(border_width=2, margin = 4, fair = False),
+    layout.Spiral (margin = 4),
+    # layout.Bsp(border_width=2, margin = 4, fair = False),
     layout.Max(),
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2, margin = 4, insert_position = 1),
     # Try more layouts by unleashing below layouts.
@@ -171,6 +179,7 @@ screens = [
                 #     name_transform=lambda name: name.upper(),
                 # ),
                 widget.Spacer (length = 5),
+                widget.Chord (background = "#AAC2AB", foreground = "#000000"),
                 widget.CPU (format = "[CPU {load_percent}%]"),
                 widget.Spacer (length = 5),
                 widget.Memory (format = "[RAM {MemUsed:.1f}GiB]", measure_mem = "G"),
