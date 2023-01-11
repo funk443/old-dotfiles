@@ -10,7 +10,7 @@ arandr
 base-devel
 base-system
 bash-completion
-cryptsetup
+cowsay
 dbus
 dex
 dmenu
@@ -34,18 +34,10 @@ ibus-array
 kdenlive
 keepassxc
 libchewing
-libdrm-32bit
-libgcc-32bit
-libglvnd-32bit
 libjack-pipewire
 libreoffice
-libstdc++-32bit
-linux6.0
 lolcat-c
-lvm2
 lxappearance
-mdadm
-mesa-dri-32bit
 mesa-vaapi
 mesa-vdpau
 mesa-vulkan-radeon
@@ -62,8 +54,6 @@ pipewire
 polkit-gnome
 qtile
 rtkit
-sbcl
-steam
 stow
 thunar-archive-plugin
 thunar-media-tags-plugin
@@ -78,6 +68,7 @@ vulkan-loader
 wget
 wireplumber
 xcb-util-cursor
+xdg-utils
 xfce4-clipman-plugin
 xfce4-notifyd
 xfce4-screenshooter
