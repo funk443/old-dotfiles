@@ -45,10 +45,11 @@
  '(org-capture-templates
    '(("n" "General notes" entry
       (file+olp+datetree "")
-      "* %?\12%U by %n" :empty-lines-before 1)))
+      "* %?\12%U by %n" :empty-lines-after 1)))
  '(org-edit-src-content-indentation 0)
  '(org-export-preserve-breaks t)
  '(org-export-with-sub-superscripts '{})
+ '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
  '(org-image-actual-width 500)
  '(org-log-done 'note)
  '(org-modules

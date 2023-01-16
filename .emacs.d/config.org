@@ -519,7 +519,6 @@ Use these with Evil mode.
             (add-hook 'xwidget-webkit-mode-hook
                       (lambda ()
                         (display-line-numbers-mode -1)))
-            (add-hook 'recentf-dialog-mode-hook 'recentf-load-list)
             (ido-mode t)
             (set-default-coding-systems 'utf-8)
             (set-fonts)
@@ -679,6 +678,8 @@ the frame will be killed if the VTerm buffer is closed.
 This will prompt user for a directory name, and open it with dired.
 #+begin_src elisp
 (defun make-dired-frame ()
+  "This will prompt user for a directory, and open that directory
+ in dired in a new created frame."
   (let ((dir-path (replace-regexp-in-string "\n$"
                                             ""
                                             (shell-command-to-string "/bin/ls -d */ .*/|\
