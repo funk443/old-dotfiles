@@ -12,7 +12,7 @@
 * Table of Contents                                                     :TOC:
 - [[#system-info][System Info]]
 - [[#installing-required-packages][Installing Required Packages]]
-- [[#how-to-install][How to Install]]
+- [[#linking-config-files][Linking Config Files]]
 - [[#cleaning-up-symbolic-links][Cleaning up Symbolic Links]]
 - [[#todos][TODOs]]
 
@@ -23,12 +23,12 @@
 - Terminal: alacritty
 - WM: qtile
 - Compositor: picom
-- Preferred Text Editor: GNU Emacs
+- Text Editor: GNU Emacs
 
 * Installing Required Packages
-Execute "install" with root privilege in dotfiles folder.
+~sudo ./install~ or ~sudo perl install.pl~ in your terminal.
 
-* How to Install
+* Linking Config Files
 1. Install GNU stow.
 2. Clone this repo.
 3. Run the following commands in your terminal:
@@ -46,7 +46,9 @@ stow -D .
    #+end_src
 
 * TODOs
-- [ ] Write installation script (now rewriting in Perl)
-  - [ ] Package installation
+- [-] Write installation script (Perl)
+  - [X] Package installation
+  - [ ] Flatpak installation
   - [ ] Linking files
+- [ ] Write installation script (Guile, maybe)
 - [ ] Update README
