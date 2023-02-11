@@ -9,26 +9,22 @@
   (FORMAT T "~C[2J" (CODE-CHAR 27)))
 
 (DEFUN MAKE-PACKAGE-LIST (PACKAGE-FILE)
-  (LET* ((PACKAGE-NAME-LIST (UIOP:READ-FILE-LINES PACKAGE-FILE))
-         (PACKAGE-NAME-LIST (MAKE-ARRAY (LENGTH PACKAGE-NAME-LIST)
-                                        :INITIAL-CONTENTS
-                                        PACKAGE-NAME-LIST)))
-    (MAKE-ARRAY (LENGTH PACKAGE-NAME-LIST)
-                :INITIAL-CONTENTS
-                (MAP 'LIST
-                     (LAMBDA (PACKAGE-NAME)
-                       (LIST T PACKAGE-NAME (UIOP:RUN-PROGRAM
-                                             (LIST "xbps-query"
-                                                   "-p"
-                                                   "short_desc"
-                                                   PACKAGE-NAME
-                                                   "--repository")
-                                             :OUTPUT
-                                             '(:STRING :STRIPPED T))))
-                     PACKAGE-NAME-LIST))))
+  (LET ((PACKAGE-NAME-LIST (UIOP:READ-FILE-LINES PACKAGE-FILE)))
+    (MAP 'LIST
+         (LAMBDA (PACKAGE-NAME)
+           (LIST T PACKAGE-NAME (UIOP:RUN-PROGRAM
+                                 (LIST "xbps-query"
+                                       "-p"
+                                       "short_desc"
+                                       PACKAGE-NAME
+                                       "--repository")
+                                 :OUTPUT
+                                 '(:STRING :STRIPPED T))))
+         PACKAGE-NAME-LIST)))
 
 (DEFUN DISPLAY-PACKAGE-TABLE (PACKAGE-LIST)
-  (FORMAT T "~&|KEY|?|PACKAGE NAME~29T|DESCRIPTION~79T|~%~A~%"
+  (FORMAT T "~&~A~%|KEY|?|PACKAGE NAME~29T|DESCRIPTION~79T|~%~A~%"
+          (MAKE-STRING 80 :INITIAL-ELEMENT #\=)
           (MAKE-STRING 80 :INITIAL-ELEMENT #\=))
   (DOTIMES (I (LENGTH PACKAGE-LIST))
     (LET ((PACKAGE (ELT PACKAGE-LIST I)))
@@ -52,7 +48,7 @@
               (ELT PACKAGE 1)
               (ELT PACKAGE 2)))))
 
-(DEFUN PACKAGES-OPERATIONS (PACKAGE-LIST)
+(DEFUN PACKAGES-OPERATIONS (PACKAGE-LIST FLATPAK)
   (LET* ((CURRENT-PAGE 0)
          (PACKAGES-PER-PAGE 10)
          (TOTAL-PAGES (1- (CEILING (LENGTH PACKAGE-LIST)
@@ -79,13 +75,22 @@
               (SETF CURRENT-PAGE (1- CURRENT-PAGE))))
          (#\I
           (CLEAR-SCREEN)
-          (UIOP:RUN-PROGRAM (APPEND '("sudo" "xbps-install" "-S")
-                                    (MAP 'LIST
+          (UIOP:RUN-PROGRAM (IF FLATPAK
+                                (APPEND '("flatpak" "install")
+                                        (OR (MAP 'LIST
+                                                 (LAMBDA (X)
+                                                   (FOURTH X))
+                                                 (REMOVE-IF #'NOT
+                                                            PACKAGE-LIST
+                                                            :KEY #'CAR))
+                                            '("--help")))
+                                (APPEND '("sudo" "xbps-install" "-S")
+                                        (MAP 'LIST
                                          (LAMBDA (X)
                                            (SECOND X))
                                          (REMOVE-IF #'NOT
                                                     PACKAGE-LIST
-                                                    :KEY #'CAR)))
+                                                    :KEY #'CAR))))
                             :INPUT :INTERACTIVE
                             :OUTPUT :INTERACTIVE
                             :ERROR-OUTPUT :INTERACTIVE)
@@ -117,4 +122,43 @@
                                             PACKAGES-PER-PAGE))
                                       (1- (LENGTH PACKAGE-LIST))))
                             0))))))))))
-      
+
+(DEFUN MAKE-FLATPAK-LIST (FLATPAK-FILE)
+  (UIOP:RUN-PROGRAM '("flatpak" "remote-add"
+                      "--if-not-exists"
+                      "flathub"
+                      "https://flathub.org/repo/flathub.flatpakrepo"))
+  (LET ((FLATPAK-NAME-LIST (UIOP:READ-FILE-LINES FLATPAK-FILE)))
+    (MAP 'LIST
+         (LAMBDA (FLATPAK-NAME)
+           (LIST T
+                 (UIOP:RUN-PROGRAM '("head" "-n1")
+                  :INPUT
+                  (UIOP:PROCESS-INFO-OUTPUT
+                   (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                        :INPUT
+                                        (UIOP:PROCESS-INFO-OUTPUT
+                                         (UIOP:LAUNCH-PROGRAM
+                                          (LIST "flatpak"
+                                                "search"
+                                                "--columns=name"
+                                                FLATPAK-NAME)
+                                          :OUTPUT :STREAM))
+                                        :OUTPUT :STREAM))
+                  :OUTPUT '(:STRING :STRIPPED T))
+                 (UIOP:RUN-PROGRAM '("head" "-n1")
+                  :INPUT
+                  (UIOP:PROCESS-INFO-OUTPUT
+                   (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                        :INPUT
+                                        (UIOP:PROCESS-INFO-OUTPUT
+                                         (UIOP:LAUNCH-PROGRAM
+                                          (LIST "flatpak"
+                                                "search"
+                                                "--columns=description"
+                                                FLATPAK-NAME)
+                                          :OUTPUT :STREAM))
+                                        :OUTPUT :STREAM))
+                  :OUTPUT '(:STRING :STRIPPED T))
+                 FLATPAK-NAME))
+         FLATPAK-NAME-LIST)))
