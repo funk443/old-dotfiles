@@ -4,8 +4,8 @@ flatpaks.txt
 gnu.cow
 images
 install.*
-perl-modules
 qtile_startup_once\.sh
 temp-sv-list
 void-packages\.txt
 wallpapers
+symlink-list
