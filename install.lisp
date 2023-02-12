@@ -1,4 +1,6 @@
 (REQUIRE 'ASDF)
+(FORMAT T "~&~C[2J~%" (CODE-CHAR 27))
+(FORMAT T "TYPE `(MAIN)' TO START INSTALLING, `(QUIT)' TO QUIT")
 
 (DEFUN CHECK-ROOT ()
   (= (PARSE-INTEGER
@@ -6,7 +8,7 @@
      0))
 
 (DEFUN CLEAR-SCREEN ()
-  (FORMAT T "~C[2J" (CODE-CHAR 27)))
+  (FORMAT T "~&~C[2J~%" (CODE-CHAR 27)))
 
 (DEFUN MAKE-PACKAGE-LIST (PACKAGE-FILE)
   (LET ((PACKAGE-NAME-LIST (UIOP:READ-FILE-LINES PACKAGE-FILE)))
@@ -48,7 +50,7 @@
               (ELT PACKAGE 1)
               (ELT PACKAGE 2)))))
 
-(DEFUN PACKAGES-OPERATIONS (PACKAGE-LIST FLATPAK)
+(DEFUN PACKAGE-OPERATIONS (PACKAGE-LIST FLATPAK)
   (LET* ((CURRENT-PAGE 0)
          (PACKAGES-PER-PAGE 10)
          (TOTAL-PAGES (1- (CEILING (LENGTH PACKAGE-LIST)
@@ -63,6 +65,9 @@
                                             10)
                                          (LENGTH PACKAGE-LIST))))
      (FORMAT T "~A~%" (MAKE-STRING 80 :INITIAL-ELEMENT #\=))
+     (FORMAT T "<a> ~~ <j> TO SELECT PACKAGES~%")
+     (FORMAT T "<Q> TO QUIT, <I> TO INSTALL SELECTED PACKAGES~%")
+     (FORMAT T "<M> TO MARK ALL PACKAGES TO INSTALL, <U> TO UNMARK ALL~%")
      (LET ((USER-INPUT (READ-CHAR)))
        (CASE USER-INPUT
          (#\Q
@@ -162,3 +167,58 @@
                   :OUTPUT '(:STRING :STRIPPED T))
                  FLATPAK-NAME))
          FLATPAK-NAME-LIST)))
+
+(DEFUN ENABLE-SERVICES (SERVICE-FILE)
+  (LET ((SERVICE-LIST (MAP 'LIST
+                           (LAMBDA (X)
+                             (CONCATENATE 'STRING
+                                          "/etc/sv/"
+                                          X))
+                           (UIOP:READ-FILE-LINES SERVICE-FILE))))
+    (DOLIST (SERVICE SERVICE-LIST)
+      (UNLESS (Y-OR-N-P "ENABLE THIS SERVICE?~%~A" SERVICE)
+        (GO CONTINUE))
+      (UIOP:RUN-PROGRAM (LIST "sudo" "ln" "-s"
+                              SERVICE "/var/service/")
+                        :INPUT :INTERACTIVE
+                        :OUTPUT :INTERACTIVE
+                        :ERROR-OUTPUT :INTERACTIVE
+                        :IGNORE-ERROR-STATUS T)
+      CONTINUE)))
+
+(DEFUN MAKE-SYMLINK (SYMLINK-FILE)
+  (LET ((SYMLINK-LIST (WITH-OPEN-FILE (S SYMLINK-FILE)
+                        (READ S))))
+  (DOLIST (I SYMLINK-LIST)
+    (ENSURE-DIRECTORIES-EXIST (CADR I))
+    (UNLESS (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
+                      (CAR I) (CADR I))
+      (GO CONTINUE))
+    (UIOP:RUN-PROGRAM (FORMAT NIL (IF (CDDR I)
+                                      "sudo ln -rs ~A ~A"
+                                      "ln -rs ~A ~A")
+                              (CAR I) (CADR I))
+                      :INPUT :INTERACTIVE
+                      :OUTPUT :INTERACTIVE
+                      :ERROR-OUTPUT :INTERACTIVE
+                      :IGNORE-ERROR-STATUS T)
+    CONTINUE)))
+
+(DEFUN MAIN ()
+  (CLEAR-SCREEN)
+  (LET ((SERVICE-FILE "service-list")
+        (SYMLINK-FILE "symlink-list")
+        (PACKAGE-FILE "package-list")
+        (FLATPAK-FILE "flatpak-list"))
+    (WHEN (Y-OR-N-P "CONFIGURE PACKAGES?")
+      (FORMAT T "INITIALIZING PACKAGE LIST, THIS MIGHT TAKE A WHILE~%")
+      (LET ((PACKAGE-LIST (MAKE-PACKAGE-LIST PACKAGE-FILE)))
+        (PACKAGE-OPERATIONS PACKAGE-LIST NIL)))
+    (WHEN (Y-OR-N-P "CONFIGURE FLATPAKS?")
+      (FORMAT T "INITIALIZING FLATPAK LIST, THIS MIGHT TAKE A WHILE~%")
+      (LET ((FLATPAK-LIST (MAKE-FLATPAK-LIST FLATPAK-FILE)))
+        (PACKAGE-OPERATIONS FLATPAK-LIST T)))
+    (WHEN (Y-OR-N-P "CONFIGURE SYSTEM SERVICES?")
+      (ENABLE-SERVICES SERVICE-FILE))
+    (WHEN (Y-OR-N-P "CONFIGURE CONFIG FILE SYMLINKS?")
+      (MAKE-SYMLINK SYMLINK-FILE))))
