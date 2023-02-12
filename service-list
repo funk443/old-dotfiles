@@ -7,7 +7,6 @@ agetty-tty4
 agetty-tty5
 agetty-tty6
 dbus
-dhcpcd
 polkitd
 popcorn
 sshd
