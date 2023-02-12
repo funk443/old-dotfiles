@@ -8,10 +8,8 @@ agetty-tty5
 agetty-tty6
 dbus
 dhcpcd
-libvirtd
 polkitd
 popcorn
 sshd
 udevd
 uuidd
-virtlogd

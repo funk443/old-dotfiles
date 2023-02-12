@@ -1,0 +1,8 @@
+;; -*- mode: lisp-data; -*-
+((".bashrc" "~/")
+ (".vimrc" "~/")
+ (".xinitrc" "~/")
+ ("gnu.cow" "/usr/share/cows/" . T)
+ (".config/*" "~/.config/")
+ (".emacs.d/*" "~/.emacs.d/")
+ (".fonts/*" "~/.fonts/"))
