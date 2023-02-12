@@ -73,7 +73,8 @@ keys = [
     KeyChord ([mod], "e", [Key ([], "e", lazy.spawn ("emacsclient -c -a ''"), desc = "Launch Emacs"),
                            Key ([], "d", lazy.spawn ("emacsclient -c -e '(make-dired-frame)'"), desc = "Launch Dired"),
                            Key ([], "s", lazy.spawn ("emacsclient -c -e '(make-eshell-frame)'"), desc = "Launch Eshell"),
-                           Key ([], "Return", lazy.spawn ("emacsclient -c -e '(make-vterm-frame)'"), desc = "Launch VTerm"),],
+                           Key ([], "Return", lazy.spawn ("emacsclient -c -e '(make-vterm-frame)'"), desc = "Launch VTerm"),
+                           Key (["shift"], "q", lazy.spawn ("emacs -Q"), desc = "Launch Emacs without loading configs")],
               name = "Emacs"),
     # Toggle between different layouts as defined below
     Key ([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -88,7 +89,8 @@ keys = [
     Key ([mod, "shift"], "Print", lazy.spawn ("xfce4-screenshooter"), desc = "Open xfce4-screenshooter"),
     Key ([mod, "control"], "Print", lazy.spawn ("xfce4-screenshooter -fc"), desc = "Take a full screenshot and copy to clipboard"),
     KeyChord ([mod], "x", [Key ([], "x", lazy.spawn ("i3lock -i /home/id/dotfiles/wallpapers/void_linux_1_1080.png"), desc = "Lock the screen"),
-                           Key ([], "p", lazy.spawn ("pavucontrol"), desc = "Spawn pavucontrol"),],
+                           Key ([], "p", lazy.spawn ("pavucontrol"), desc = "Spawn pavucontrol"),
+                           Key ([], "t", lazy.spawn ("thunar"), desc = "Launch thunar"),],
               name = "Utilities"),
 ]
 
@@ -100,7 +102,20 @@ keys.extend ([
     ])
 
 groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty -t scratchpad", height = 0.5, width = 0.5,
-                                               x = 0.25, y = 0.25, opacity = 1),]),
+                                               x = 0.25, y = 0.25, opacity = 1),
+                                     DropDown ("pavu", "pavucontrol", height = 0.5, width = 0.5, x = 0.25,
+                                               y = 0.25, opacity = 1),
+                                     DropDown ("keepass", "/home/id/Documents/scripts/password-dropdown.sh",
+                                               height = 0.5, width = 0.5, x = 0.25, y = 0.25,
+                                               opacity = 1, match = Match (wm_class = "KeePassXC")),
+                                     DropDown ("emacs", "emacsclient -c -a ''", height = 0.5, width = 0.5,
+                                               x = 0.25, y = 0.25, opacity = 1, match = Match (wm_class = "Emacs")),
+                                     DropDown ("calc", "emacsclient -c -e '(calc nil t)'", height = 0.5,
+                                               width = 0.5, x = 0.25, y = 0.25, opacity = 1,
+                                               match = Match (wm_class = "Emacs")),
+                                     DropDown ("vterm", "emacsclient -c -e '(make-vterm-frame)'", height = 0.5,
+                                               width = 0.5, x = 0.25, y = 0.25, opacity = 1,
+                                               match = Match (wm_class = "Emacs")),]),
           Group (name = "1", label = "1: "),
           Group (name = "2", label = "2: ", matches = [Match (wm_class = "discord")]),
           Group (name = "3", label = "3: "),
@@ -136,7 +151,13 @@ for i in groups[1:]:
         ]
     )
 
-keys.extend ([Key ([mod], "grave", lazy.group["scratchpad"].dropdown_toggle ("term")),])
+keys.extend ([KeyChord ([mod], "grave", [Key ([], "Return", lazy.group["scratchpad"].dropdown_toggle ("term")),
+                                         Key ([], "p", lazy.group["scratchpad"].dropdown_toggle ("pavu")),
+                                         Key ([], "k", lazy.group["scratchpad"].dropdown_toggle ("keepass")),
+                                         Key ([], "e", lazy.group["scratchpad"].dropdown_toggle ("emacs")),
+                                         Key ([], "c", lazy.group["scratchpad"].dropdown_toggle ("calc")),
+                                         Key ([], "v", lazy.group["scratchpad"].dropdown_toggle ("vterm")),],
+                        name = "Scratchpad")])
 
 layouts = [
     layout.Spiral (margin = 4),
@@ -219,6 +240,8 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match (title = "About Mozilla Firefox"),
+        Match (title = "em-float"),
     ]
 )
 auto_fullscreen = True
