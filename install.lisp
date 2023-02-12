@@ -1,3 +1,10 @@
+;; Copyright (C) 2023 CToID
+;;
+;; Copying and distribution of this file, with or without modification,
+;; are permitted in any medium without royalty provided the copyright
+;; notice and this notice are preserved.  This file is offered as-is,
+;; without any warranty.
+
 (REQUIRE 'ASDF)
 (FORMAT T "~&~C[2J~%" (CODE-CHAR 27))
 (FORMAT T "TYPE `(MAIN)' TO START INSTALLING, `(QUIT)' OR `(EXIT)' TO QUIT")
