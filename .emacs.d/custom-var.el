@@ -13,11 +13,14 @@
  '(custom-safe-themes
    '("512ce140ea9c1521ccaceaa0e73e2487e2d3826cc9d287275550b47c04072bc4" "2078837f21ac3b0cc84167306fa1058e3199bbd12b6d5b56e3777a4125ff6851" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "ec2c86933a6e0b96f68f71d4b39ebdd67b43b0b32091b7689acb9acdc2a3e03b" default))
  '(default-input-method "chinese-array30")
+ '(dired-dwim-target 'dired-dwim-target-next)
+ '(display-line-numbers 'relative)
+ '(display-line-numbers-current-absolute nil)
  '(display-line-numbers-type 'relative)
+ '(display-line-numbers-width-start nil)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-default-load-average nil)
- '(emms-volume-change-function 'emms-player-mpv-raise-volume)
  '(erc-nick "CToID")
  '(frame-resize-pixelwise t)
  '(fringe-mode '(0) nil (fringe))
@@ -35,6 +38,8 @@
  '(ido-default-file-method 'selected-window)
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(ignored-local-variable-values '((變數名 . 值)))
+ '(image-animate-loop t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
@@ -58,11 +63,15 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(doom-themes magit-section
-                 #("eshell-prompt-extras" 0 20
-                   (escaped t))
-                 "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key vterm magit ##))
+   '(emms 0blayout keycast doom-themes magit-section
+          #("eshell-prompt-extras" 0 20
+            (escaped t))
+          "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
  '(require-final-newline t)
+ '(resize-mini-windows t)
+ '(safe-local-variable-values
+   '((display-line-numbers . visual)
+     (display-line-numbers-type . visual)))
  '(save-place-mode t)
  '(scalable-fonts-allowed t)
  '(scroll-bar-mode nil)
@@ -73,7 +82,6 @@
  '(sh-basic-offset 2)
  '(show-paren-mode t)
  '(size-indication-mode t)
- '(tab-width 2)
  '(tool-bar-mode nil)
  '(warning-suppress-types '((comp) (comp)))
  '(window-divider-mode t)

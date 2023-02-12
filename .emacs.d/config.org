@@ -22,6 +22,7 @@
   - [[#sudo-edit][sudo-edit]]
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
+  - [[#emms][EMMS]]
 - [[#languages][Languages]]
   - [[#arduino][Arduino]]
   - [[#yaml][YAML]]
@@ -37,6 +38,7 @@
   - [[#vterm-frame][VTerm Frame]]
   - [[#eshell-frame][Eshell Frame]]
   - [[#dired-frame][Dired Frame]]
+  - [[#emms-mpv-volume-functions][EMMS MPV volume functions]]
 
 * Configure Package and use-package
 Add package archives and make sure use-package is installed.
@@ -359,6 +361,21 @@ A package to make org-present looks better.
         visual-fill-column-center-text t))
 #+end_src
 
+** EMMS
+Just EMMS.
+#+begin_src elisp
+(use-package emms
+  :ensure t
+  :config
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv)
+        emms-info-functions '(emms-info-native)
+        emms-volume-change-function #'emms-volume-mpv-change)
+  :bind (("C-c m p" . emms-pause)
+         ("C-c m +" . emms-volume-mode-plus)
+         ("C-c m -" . emms-volume-mode-minus)))
+
+#+end_src
 * Languages
 ** Arduino
 *** arduino-mode
@@ -618,7 +635,7 @@ Set fonts again after spawning a frame.
                   (org-level-8 1.0 normal)))
     (set-face-attribute (car face) nil
                         :family "IBMPlexSans"
-                        ;; :height (cadr face)
+                        :height (cadr face)
                         :weight (caddr face))))
 #+end_src
 
@@ -692,4 +709,28 @@ This will prompt user for a directory name, and open it with dired.
       (condition-case nil
           (dired dir-path)
         (error nil)))))
+#+end_src
+
+** EMMS MPV volume functions
+#+begin_src elisp
+(defvar emms-volume--mpv)
+
+(defun emms-volume--mpv-get-volume ()
+  (emms-player-mpv-cmd '(get_property volume)
+                       (lambda (vol err)
+                         (setq emms-volume--mpv (truncate vol)))))
+
+(defun emms-volume-mpv-change (amount)
+  (unless (boundp 'emms-volume--mpv)
+    (emms-volume--mpv-get-volume))
+  (let* ((cur-vol emms-volume--mpv)
+         (new-vol (+ amount cur-vol)))
+    (cond ((> new-vol 100)
+           (setq new-vol 100))
+          ((< new-vol 0)
+           (setq new-vol 0))
+          (t nil))
+    (setq emms-volume--mpv new-vol)
+    (emms-player-mpv-cmd `(set_property volume ,new-vol))
+    (message (format "Volume: %s" new-vol))))
 #+end_src
