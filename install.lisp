@@ -139,7 +139,9 @@
   (UIOP:RUN-PROGRAM '("flatpak" "remote-add"
                       "--if-not-exists"
                       "flathub"
-                      "https://flathub.org/repo/flathub.flatpakrepo"))
+                      "https://flathub.org/repo/flathub.flatpakrepo")
+                    :OUTPUT :INTERACTIVE
+                    :INPUT :INTERACTIVE)
   (LET ((FLATPAK-NAME-LIST (UIOP:READ-FILE-LINES FLATPAK-FILE)))
     (MAP 'LIST
          (LAMBDA (FLATPAK-NAME)
