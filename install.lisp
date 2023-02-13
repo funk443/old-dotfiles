@@ -141,7 +141,8 @@
                       "flathub"
                       "https://flathub.org/repo/flathub.flatpakrepo")
                     :OUTPUT :INTERACTIVE
-                    :INPUT :INTERACTIVE)
+                    :INPUT :INTERACTIVE
+                    :ERROR-OUTPUT :INTERACTIVE)
   (LET ((FLATPAK-NAME-LIST (UIOP:READ-FILE-LINES FLATPAK-FILE)))
     (MAP 'LIST
          (LAMBDA (FLATPAK-NAME)
