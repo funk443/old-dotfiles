@@ -105,7 +105,7 @@ groups = [ScratchPad ("scratchpad", [DropDown ("term", "alacritty -t scratchpad"
                                                x = 0.25, y = 0.25, opacity = 1),
                                      DropDown ("pavu", "pavucontrol", height = 0.5, width = 0.5, x = 0.25,
                                                y = 0.25, opacity = 1),
-                                     DropDown ("keepass", "/home/id/Documents/scripts/password-dropdown.sh",
+                                     DropDown ("keepass", "/home/id/dotfiles/scripts/password-dropdown.sh",
                                                height = 0.5, width = 0.5, x = 0.25, y = 0.25,
                                                opacity = 1, match = Match (wm_class = "KeePassXC")),
                                      DropDown ("emacs", "emacsclient -c -a ''", height = 0.5, width = 0.5,
