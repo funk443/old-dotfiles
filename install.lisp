@@ -199,7 +199,8 @@
   (LET ((SYMLINK-LIST (WITH-OPEN-FILE (S SYMLINK-FILE)
                         (READ S))))
   (DOLIST (I SYMLINK-LIST)
-    (ENSURE-DIRECTORIES-EXIST (CADR I))
+    (UNLESS (CDDR I)
+      (ENSURE-DIRECTORIES-EXIST (CADR I)))
     (UNLESS (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
                       (CAR I) (CADR I))
       (GO CONTINUE))
@@ -212,6 +213,21 @@
                       :ERROR-OUTPUT :INTERACTIVE
                       :IGNORE-ERROR-STATUS T)
     CONTINUE)))
+
+(DEFUN MAKE-MEDIA-DIRECTORIES ()
+  (LET ((DIRECTORIES (MAP 'LIST
+                          (LAMBDA (X)
+                            (CONCATENATE 'STRING
+                                         "~/"
+                                         X))
+                          '("Downloads/"
+                            "Videos/"
+                            "Music/"
+                            "Documents/"))))
+    (WHEN (Y-OR-N-P "MAKE THESE DIRECTORES?~%~A"
+                    DIRECTORIES)
+      (DOLIST (I DIRECTORIES)
+        (ENSURE-DIRECTORIES-EXIST I)))))
 
 (DEFUN MAIN ()
   (CLEAR-SCREEN)
@@ -235,4 +251,6 @@
     (WHEN (Y-OR-N-P "CONFIGURE SYSTEM SERVICES?")
       (ENABLE-SERVICES SERVICE-FILE))
     (WHEN (Y-OR-N-P "CONFIGURE CONFIG FILE SYMLINKS?")
-      (MAKE-SYMLINK SYMLINK-FILE))))
+      (MAKE-SYMLINK SYMLINK-FILE))
+    (WHEN (Y-OR-N-P "CREATE MEDIA DIRECTORIES?")
+      (MAKE-MEDIA-DIRECTORIES))))
