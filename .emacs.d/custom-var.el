@@ -63,10 +63,10 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(emms 0blayout keycast doom-themes magit-section
-          #("eshell-prompt-extras" 0 20
-            (escaped t))
-          "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
+   '(treesit-auto emms 0blayout keycast doom-themes magit-section
+                  #("eshell-prompt-extras" 0 20
+                    (escaped t))
+                  "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
  '(require-final-newline t)
  '(resize-mini-windows t)
  '(safe-local-variable-values

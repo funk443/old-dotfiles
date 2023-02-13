@@ -23,6 +23,7 @@
   - [[#highlight-indent-guides][highlight-indent-guides]]
   - [[#visual-line-mode][visual-line-mode]]
   - [[#emms][EMMS]]
+  - [[#treesit-auto][treesit-auto]]
 - [[#languages][Languages]]
   - [[#arduino][Arduino]]
   - [[#yaml][YAML]]
@@ -374,8 +375,19 @@ Just EMMS.
   :bind (("C-c m p" . emms-pause)
          ("C-c m +" . emms-volume-mode-plus)
          ("C-c m -" . emms-volume-mode-minus)))
-
 #+end_src
+
+** treesit-auto
+A package for easier use of tree sitter library.
+#+begin_src elisp
+(use-package treesit-auto
+  :ensure t
+  :init
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+#+end_src
+
 * Languages
 ** Arduino
 *** arduino-mode
@@ -519,12 +531,7 @@ Use these with Evil mode.
                           js-indent-level 2
                           standard-indent 2
                           perl-indent-level 2)
-            (if (string-match " 29\.[[:digit:]]+" (emacs-version))
-                (progn
-                  (add-to-list 'major-mode-remap-alist '(perl-mode . cperl-mode))
-                  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-                  (add-to-list 'treesit-extra-load-path "/home/id/Documents/git/tree-sitter-module/dist"))
-              (defalias 'perl-mode 'cperl-mode))
+            (defalias 'perl-mode 'cperl-mode)
             ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
             (add-hook 'org-mode-hook 'org-indent-mode)
             (add-hook 'ibuffer-mode-hook
