@@ -24,8 +24,9 @@
 - Text Editor: GNU Emacs
 
 * Installing
-Either loading the Lisp file with SBCL or just execute the binary will
-do.  Please *DO NOT* execute the script with root privilege, the script
+Either loading the Lisp file with SBCL (I am not sure if other
+implementation works or not) or just execute the binary will do.
+Please *DO NOT* execute the script with root privilege, the script
 will ask you for the password when needed.
 #+begin_example
 sbcl --load install.lisp
@@ -43,4 +44,5 @@ sbcl --load install.lisp
   - [X] Config file symlinks
 - [ ] Write script to build Emacs and ibus-chewing
 - [ ] Documentations (maybe...)
+- [ ] Write script to install needed python module for qtile
 - [X] Update README
