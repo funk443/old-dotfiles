@@ -267,7 +267,7 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def autostart_once ():
-    sh = os.path.expanduser ("~/dotfiles/qtile_startup_once.sh")
+    sh = os.path.expanduser ("~/dotfiles/misc/qtile_startup_once.sh")
     subprocess.run (sh)
 
 @hook.subscribe.shutdown
