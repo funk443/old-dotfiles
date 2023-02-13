@@ -42,4 +42,5 @@ sbcl --load install.lisp
   - [X] Enable system services
   - [X] Config file symlinks
 - [ ] Write script to build Emacs and ibus-chewing
+- [ ] Documentations (maybe...)
 - [X] Update README
