@@ -6,8 +6,17 @@
 ;; without any warranty.
 
 (REQUIRE 'ASDF)
+(REQUIRE 'SB-POSIX)
+
 (FORMAT T "~&~C[2J~%" (CODE-CHAR 27))
 (FORMAT T "TYPE `(MAIN)' TO START INSTALLING, `(QUIT)' OR `(EXIT)' TO QUIT")
+
+(DEFMACRO INTERACTIVE-RUN (PROGRAM &REST ARGS)
+  `(UIOP:RUN-PROGRAM ,PROGRAM
+                     :INPUT :INTERACTIVE
+                     :OUTPUT :INTERACTIVE
+                     :ERROR-OUTPUT :INTERACTIVE
+                     ,@ARGS))
 
 (DEFUN CHECK-ROOT ()
   (= (PARSE-INTEGER
@@ -87,25 +96,22 @@
               (SETF CURRENT-PAGE (1- CURRENT-PAGE))))
          (#\I
           (CLEAR-SCREEN)
-          (UIOP:RUN-PROGRAM (IF FLATPAK
-                                (APPEND '("flatpak" "install")
-                                        (OR (MAP 'LIST
-                                                 (LAMBDA (X)
-                                                   (FOURTH X))
-                                                 (REMOVE-IF #'NOT
-                                                            PACKAGE-LIST
-                                                            :KEY #'CAR))
-                                            '("--help")))
-                                (APPEND '("sudo" "xbps-install" "-S")
-                                        (MAP 'LIST
-                                         (LAMBDA (X)
-                                           (SECOND X))
-                                         (REMOVE-IF #'NOT
-                                                    PACKAGE-LIST
-                                                    :KEY #'CAR))))
-                            :INPUT :INTERACTIVE
-                            :OUTPUT :INTERACTIVE
-                            :ERROR-OUTPUT :INTERACTIVE)
+          (INTERACTIVE-RUN (IF FLATPAK
+                               (APPEND '("flatpak" "install")
+                                       (OR (MAP 'LIST
+                                                (LAMBDA (X)
+                                                  (FOURTH X))
+                                                (REMOVE-IF #'NOT
+                                                           PACKAGE-LIST
+                                                           :KEY #'CAR))
+                                           '("--help")))
+                               (APPEND '("sudo" "xbps-install" "-S")
+                                       (MAP 'LIST
+                                            (LAMBDA (X)
+                                              (SECOND X))
+                                            (REMOVE-IF #'NOT
+                                                       PACKAGE-LIST
+                                                       :KEY #'CAR)))))
           (SLEEP 3))
          (#\M
           (MAP 'LIST
@@ -136,45 +142,42 @@
                             0))))))))))
 
 (DEFUN MAKE-FLATPAK-LIST (FLATPAK-FILE)
-  (UIOP:RUN-PROGRAM '("flatpak" "remote-add"
-                      "--if-not-exists"
-                      "flathub"
-                      "https://flathub.org/repo/flathub.flatpakrepo")
-                    :OUTPUT :INTERACTIVE
-                    :INPUT :INTERACTIVE
-                    :ERROR-OUTPUT :INTERACTIVE)
+  (INTERACTIVE-RUN '("flatpak" "remote-add"
+                     "--if-not-exists"
+                     "flathub"
+                     "https://flathub.org/repo/flathub.flatpakrepo"))
   (LET ((FLATPAK-NAME-LIST (UIOP:READ-FILE-LINES FLATPAK-FILE)))
     (MAP 'LIST
          (LAMBDA (FLATPAK-NAME)
            (LIST T
                  (UIOP:RUN-PROGRAM '("head" "-n1")
-                  :INPUT
-                  (UIOP:PROCESS-INFO-OUTPUT
-                   (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
-                                        :INPUT
-                                        (UIOP:PROCESS-INFO-OUTPUT
-                                         (UIOP:LAUNCH-PROGRAM
-                                          (LIST "flatpak"
-                                                "search"
-                                                "--columns=name"
-                                                FLATPAK-NAME)
-                                          :OUTPUT :STREAM))
-                                        :OUTPUT :STREAM))
-                  :OUTPUT '(:STRING :STRIPPED T))
+                                   :INPUT
+                                   (UIOP:PROCESS-INFO-OUTPUT
+                                    (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                                         :INPUT
+                                                         (UIOP:PROCESS-INFO-OUTPUT
+                                                          (UIOP:LAUNCH-PROGRAM
+                                                           (LIST "flatpak"
+                                                                 "search"
+                                                                 "--columns=name"
+                                                                 FLATPAK-NAME)
+                                                           :OUTPUT :STREAM))
+                                                         :OUTPUT :STREAM))
+                                   :OUTPUT '(:STRING :STRIPPED T))
                  (UIOP:RUN-PROGRAM '("head" "-n1")
-                  :INPUT
-                  (UIOP:PROCESS-INFO-OUTPUT
-                   (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
-                                        :INPUT
-                                        (UIOP:PROCESS-INFO-OUTPUT
-                                         (UIOP:LAUNCH-PROGRAM
-                                          (LIST "flatpak"
-                                                "search"
-                                                "--columns=description"
-                                                FLATPAK-NAME)
-                                          :OUTPUT :STREAM))
-                                        :OUTPUT :STREAM))
-                  :OUTPUT '(:STRING :STRIPPED T))
+                                   :INPUT
+                                   (UIOP:PROCESS-INFO-OUTPUT
+                                    (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                                         :INPUT
+                                                         (UIOP:PROCESS-INFO-OUTPUT
+                                                          (UIOP:LAUNCH-PROGRAM
+                                                           (LIST "flatpak"
+                                                                 "search"
+                                                                 "--columns=description"
+                                                                 FLATPAK-NAME)
+                                                           :OUTPUT :STREAM))
+                                                         :OUTPUT :STREAM))
+                                   :OUTPUT '(:STRING :STRIPPED T))
                  FLATPAK-NAME))
          FLATPAK-NAME-LIST)))
 
@@ -188,32 +191,26 @@
     (DOLIST (SERVICE SERVICE-LIST)
       (UNLESS (Y-OR-N-P "ENABLE THIS SERVICE?~%~A" SERVICE)
         (GO CONTINUE))
-      (UIOP:RUN-PROGRAM (LIST "sudo" "ln" "-s"
-                              SERVICE "/var/service/")
-                        :INPUT :INTERACTIVE
-                        :OUTPUT :INTERACTIVE
-                        :ERROR-OUTPUT :INTERACTIVE
-                        :IGNORE-ERROR-STATUS T)
+      (INTERACTIVE-RUN (LIST "sudo" "ln" "-s"
+                             SERVICE "/var/service/")
+                       :IGNORE-ERROR-STATUS T)
       CONTINUE)))
 
 (DEFUN MAKE-SYMLINK (SYMLINK-FILE)
   (LET ((SYMLINK-LIST (WITH-OPEN-FILE (S SYMLINK-FILE)
                         (READ S))))
-  (DOLIST (I SYMLINK-LIST)
-    (UNLESS (CDDR I)
-      (ENSURE-DIRECTORIES-EXIST (CADR I)))
-    (UNLESS (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
-                      (CAR I) (CADR I))
-      (GO CONTINUE))
-    (UIOP:RUN-PROGRAM (FORMAT NIL (IF (CDDR I)
-                                      "sudo ln -rs ~A ~A"
-                                      "ln -rs ~A ~A")
-                              (CAR I) (CADR I))
-                      :INPUT :INTERACTIVE
-                      :OUTPUT :INTERACTIVE
-                      :ERROR-OUTPUT :INTERACTIVE
-                      :IGNORE-ERROR-STATUS T)
-    CONTINUE)))
+    (DOLIST (I SYMLINK-LIST)
+      (UNLESS (CDDR I)
+        (ENSURE-DIRECTORIES-EXIST (CADR I)))
+      (UNLESS (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
+                        (CAR I) (CADR I))
+        (GO CONTINUE))
+      (INTERACTIVE-RUN (FORMAT NIL (IF (CDDR I)
+                                       "sudo ln -rs ~A ~A"
+                                       "ln -rs ~A ~A")
+                               (CAR I) (CADR I))
+                       :IGNORE-ERROR-STATUS T)
+      CONTINUE)))
 
 (DEFUN MAKE-MEDIA-DIRECTORIES ()
   (LET ((DIRECTORIES (MAP 'LIST
@@ -229,6 +226,37 @@
                     DIRECTORIES)
       (DOLIST (I DIRECTORIES)
         (ENSURE-DIRECTORIES-EXIST I)))))
+
+(DEFUN MAKE-INSTALL-EMACS (&OPTIONAL (DIRECTORY "~/Documents/git/emacs"))
+  (LET ((BUILD-DEPENDENCIES '("gtk+3-devel" "libmagick-devel"
+                              "webkit2gtk-devel" "libgccjit-devel"
+                              "libXpm-devel" "gnutls-devel"
+                              "jansson-devel" "tree-sitter-devel"
+                              "giflib-devel" "ncurses-devel"
+                              "libwebp-devel" "librsvg-devel"))
+        (CONFIGURE-ARGS '("--with-x-toolkit=yes" "--with-imagemagick"
+                          "--with-json" "--with-tree-sitter"
+                          "--with-xwidgets" "--with-native-compilation=yes"
+                          "--prefix=/usr"))
+        (BRANCH "emacs-29")
+        (CURRENT-DIRECTORY (UIOP/OS:GETCWD)))
+    (UNLESS (EQUAL #\/ (ELT DIRECTORY (1- (LENGTH DIRECTORY))))
+      (SETF DIRECTORY (CONCATENATE 'STRING DIRECTORY "/")))
+    (ENSURE-DIRECTORIES-EXIST DIRECTORY)
+    (UIOP:CHDIR DIRECTORY)
+    (INTERACTIVE-RUN (LIST "git" "clone" "-b" BRANCH "--single-branch"
+                           "https://github.com/emacs-mirror/emacs.git"
+                           "."))
+    (INTERACTIVE-RUN (APPEND '("sudo" "xbps-install")
+                             BUILD-DEPENDENCIES))
+    (INTERACTIVE-RUN '("sh" "autogen.sh"))
+    (INTERACTIVE-RUN (APPEND '("sh" "configure")
+                             CONFIGURE-ARGS))
+    (INTERACTIVE-RUN "make -j$(nproc)")
+    (INTERACTIVE-RUN (APPEND '("sudo" "xbps-remove" "-Ro")
+                             BUILD-DEPENDENCIES))
+    (INTERACTIVE-RUN '("sudo" "xbps-remove" "-Ro"))
+    (UIOP:CHDIR CURRENT-DIRECTORY)))
 
 (DEFUN MAIN ()
   (CLEAR-SCREEN)
@@ -254,7 +282,14 @@
     (WHEN (Y-OR-N-P "CONFIGURE CONFIG FILE SYMLINKS?")
       (MAKE-SYMLINK SYMLINK-FILE))
     (WHEN (Y-OR-N-P "CREATE MEDIA DIRECTORIES?")
-      (MAKE-MEDIA-DIRECTORIES))))
+      (MAKE-MEDIA-DIRECTORIES))
+    (WHEN (Y-OR-N-P "BUILD EMACS?")
+      (IF (Y-OR-N-P "DO YOU WANT TO CLONE THE REPO TO CUSTOM LOCATION?
+DEFAULT LOCATION IS: `~~/Documents/git/emacs'")
+          (PROGN (FORMAT T "ENTER THE DIRECTORY PATH:~%")
+                 (MAKE-INSTALL-EMACS (READ-LINE)))
+          (MAKE-INSTALL-EMACS))))
+  (EXIT :CODE 0))
 
 (UNLESS (MEMBER "--no-main" (UIOP:COMMAND-LINE-ARGUMENTS)
                 :TEST #'STRING-EQUAL)
