@@ -266,6 +266,34 @@
     (INTERACTIVE-RUN '("sudo" "xbps-remove" "-Ro"))
     (UIOP:CHDIR CURRENT-DIRECTORY)))
 
+(DEFUN MAKE-INSTALL-CHEWING (&OPTIONAL (DIRECTORY
+                                        "~/Documents/git/ibus-chewing"))
+  (DECLARE (TYPE STRING DIRECTORY))
+  (LET ((BUILD-DEPENDENCIES '("libchewing-devel" "ibus-devel" "gob2"
+                              "libX11-devel" "gtk+3-devel" "glib-devel"
+                              "cmake"))
+        (CURRENT-DIRECTORY (UIOP/OS:GETCWD)))
+    (UNLESS (EQUAL #\/ (ELT DIRECTORY (1- (LENGTH DIRECTORY))))
+      (SETF DIRECTORY (CONCATENATE 'STRING DIRECTORY "/")))
+    (ENSURE-DIRECTORIES-EXIST DIRECTORY)
+    (UIOP:CHDIR DIRECTORY)
+    (INTERACTIVE-RUN '("git" "clone"
+                       "https://github.com/definite/ibus-chewing.git"
+                       "."))
+    (INTERACTIVE-RUN '("git" "submodule" "init"))
+    (INTERACTIVE-RUN '("git" "submodule" "update"))
+    (INTERACTIVE-RUN (APPEND '("sudo" "xbps-install")
+                             BUILD-DEPENDENCIES))
+    (INTERACTIVE-RUN '("cmake" "."
+                       "-DCMAKE_INSTALL_PREFIX='/usr'"
+                       "-DLIBEXEC_DIR='/usr/libexec'"))
+    (INTERACTIVE-RUN "make -j$(nproc)")
+    (INTERACTIVE-RUN '("sudo" "make" "install"))
+    (INTERACTIVE-RUN (APPEND '("sudo" "xbps-remove" "-Ro")
+                             BUILD-DEPENDENCIES))
+    (INTERACTIVE-RUN '("sudo" "xbps-remove" "-Ro"))
+    (UIOP:CHDIR CURRENT-DIRECTORY)))
+
 (DEFUN MAIN ()
   (CLEAR-SCREEN)
   (WHEN (CHECK-ROOT)
@@ -296,7 +324,13 @@
 DEFAULT LOCATION IS: `~~/Documents/git/emacs'")
           (PROGN (FORMAT T "ENTER THE DIRECTORY PATH:~%")
                  (MAKE-INSTALL-EMACS (READ-LINE)))
-          (MAKE-INSTALL-EMACS))))
+          (MAKE-INSTALL-EMACS)))
+    (WHEN (Y-OR-N-P "BUILD IBUS CHEWING?")
+      (IF (Y-OR-N-P "DO YOU WANT TO CLONE THE REPO TO CUSTOM LOCATION?
+DEFAULT LOCATION IS: `~~/Documents/git/ibus-chewing'")
+          (PROGN (FORMAT T "ENTER THE DIRECTORY PATH:~%")
+                 (MAKE-INSTALL-CHEWING (READ-LINE)))
+          (MAKE-INSTALL-CHEWING))))
   (EXIT :CODE 0))
 
 (UNLESS (MEMBER "--no-main" (UIOP:COMMAND-LINE-ARGUMENTS)
