@@ -6,4 +6,5 @@
  (".config/*" "~/.config/")
  (".emacs.d/*" "~/.emacs.d/")
  (".fonts/*" "~/.fonts/")
- (".lem/*" "~/.lem/"))
+ (".lem/*" "~/.lem/")
+ (".stumpwm.d/*" "~/.stumpwm.d/"))
