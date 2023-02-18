@@ -5,4 +5,5 @@
  ("misc/gnu.cow" "/usr/share/cows/" . T)
  (".config/*" "~/.config/")
  (".emacs.d/*" "~/.emacs.d/")
- (".fonts/*" "~/.fonts/"))
+ (".fonts/*" "~/.fonts/")
+ (".lem/*" "~/.lem/"))
