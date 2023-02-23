@@ -30,15 +30,15 @@
   (DECLARE (TYPE STRING PACKAGE-FILE))
   (LET ((PACKAGE-NAME-LIST (UIOP:READ-FILE-LINES PACKAGE-FILE)))
     (MAP 'LIST
-         #'(LAMBDA (PACKAGE-NAME)
-             (LIST T PACKAGE-NAME (UIOP:RUN-PROGRAM
-                                   (LIST "xbps-query"
-                                         "-p"
-                                         "short_desc"
-                                         PACKAGE-NAME
-                                         "--repository")
-                                   :OUTPUT
-                                   '(:STRING :STRIPPED T))))
+         (LAMBDA (PACKAGE-NAME)
+           (LIST T PACKAGE-NAME (UIOP:RUN-PROGRAM
+                                 (LIST "xbps-query"
+                                       "-p"
+                                       "short_desc"
+                                       PACKAGE-NAME
+                                       "--repository")
+                                 :OUTPUT
+                                 '(:STRING :STRIPPED T))))
          PACKAGE-NAME-LIST)))
 
 (DEFUN DISPLAY-PACKAGE-TABLE (PACKAGE-LIST)
@@ -47,26 +47,26 @@
           (MAKE-STRING 80 :INITIAL-ELEMENT #\=)
           (MAKE-STRING 80 :INITIAL-ELEMENT #\=))
   (DOTIMES (I (LENGTH PACKAGE-LIST))
-    (LET ((PACKAGE (ELT PACKAGE-LIST I)))
-      (IF (> (LENGTH (ELT PACKAGE 1)) 22)
+    (LET ((PACKAGE (NTH I PACKAGE-LIST)))
+      (IF (> (LENGTH (NTH 1 PACKAGE)) 22)
           (SETF PACKAGE (COPY-SEQ PACKAGE)
-                (ELT PACKAGE 1) (CONCATENATE 'STRING
-                                             (SUBSEQ (ELT PACKAGE 1)
+                (NTH 1 PACKAGE) (CONCATENATE 'STRING
+                                             (SUBSEQ (NTH 1 PACKAGE)
                                                      0 19)
                                              "...")))
-      (IF (> (LENGTH (ELT PACKAGE 2)) 49)
+      (IF (> (LENGTH (NTH 2 PACKAGE)) 49)
           (SETF PACKAGE (COPY-SEQ PACKAGE)
-                (ELT PACKAGE 2) (CONCATENATE 'STRING
-                                             (SUBSEQ (ELT PACKAGE 2)
+                (NTH 2 PACKAGE) (CONCATENATE 'STRING
+                                             (SUBSEQ (NTH 2 PACKAGE)
                                                      0 46)
                                              "...")))
       (FORMAT T "|~A~4,0T|~A~6,0T|~A~29,0T|~A~79,0T|~%"
               (CODE-CHAR (+ 97 I))
-              (IF (ELT PACKAGE 0)
+              (IF (NTH 0 PACKAGE)
                   "V"
                   "")
-              (ELT PACKAGE 1)
-              (ELT PACKAGE 2)))))
+              (NTH 1 PACKAGE)
+              (NTH 2 PACKAGE)))))
 
 (DEFUN PACKAGE-OPERATIONS (PACKAGE-LIST FLATPAK)
   (DECLARE (TYPE LIST PACKAGE-LIST)
@@ -76,74 +76,73 @@
          (TOTAL-PAGES (1- (CEILING (LENGTH PACKAGE-LIST)
                                    PACKAGES-PER-PAGE))))
     (LOOP
-     (CLEAR-SCREEN)
-     (DISPLAY-PACKAGE-TABLE (SUBSEQ PACKAGE-LIST
-                                    (* CURRENT-PAGE
-                                       PACKAGES-PER-PAGE)
-                                    (MIN (+ (* CURRENT-PAGE
-                                               PACKAGES-PER-PAGE)
-                                            10)
-                                         (LENGTH PACKAGE-LIST))))
-     (FORMAT T "~A~%" (MAKE-STRING 80 :INITIAL-ELEMENT #\=))
-     (FORMAT T "<a> ~~ <j> TO SELECT PACKAGES~%")
-     (FORMAT T "<Q> TO QUIT, <I> TO INSTALL SELECTED PACKAGES~%")
-     (FORMAT T "<M> TO MARK ALL PACKAGES TO INSTALL, <U> TO UNMARK ALL~%")
-     (LET ((USER-INPUT (READ-CHAR)))
-       (CASE USER-INPUT
-         (#\Q
-          (RETURN))
-         (#\N
-          (IF (< CURRENT-PAGE TOTAL-PAGES)
-              (SETF CURRENT-PAGE (1+ CURRENT-PAGE))))
-         (#\P
-          (IF (> CURRENT-PAGE 0)
-              (SETF CURRENT-PAGE (1- CURRENT-PAGE))))
-         (#\I
-          (CLEAR-SCREEN)
-          (INTERACTIVE-RUN (IF FLATPAK
-                               (APPEND '("flatpak" "install")
-                                       (OR (MAP 'LIST
-                                                #'(LAMBDA (X)
-                                                    (FOURTH X))
-                                                (REMOVE-IF #'NOT
-                                                           PACKAGE-LIST
-                                                           :KEY #'CAR))
-                                           '("--help")))
-                               (APPEND '("sudo" "xbps-install" "-S")
-                                       (MAP 'LIST
-                                            (LAMBDA (X)
-                                              (SECOND X))
-                                            (REMOVE-IF #'NOT
-                                                       PACKAGE-LIST
-                                                       :KEY #'CAR)))))
-          (SLEEP 3))
-         (#\M
-          (MAP 'LIST
-               #'(LAMBDA (X)
-                   (SETF (FIRST X) T)
-                   X)
-               PACKAGE-LIST))
-         (#\U
-          (MAP 'LIST
-               #'(LAMBDA (X)
-                   (SETF (FIRST X) NIL)
-                   X)
-               PACKAGE-LIST))
-         (OTHERWISE
-          (WHEN (MEMBER USER-INPUT (COERCE "abcdefghij" 'LIST)
-                        :TEST #'EQUAL)
-            (SETF (ELT (ELT PACKAGE-LIST
-                            (MIN (+ (- (CHAR-CODE USER-INPUT) 97)
-                                    (* CURRENT-PAGE
-                                       PACKAGES-PER-PAGE))
-                                 (1- (LENGTH PACKAGE-LIST))))
-                       0)
-                  (NOT (ELT (ELT PACKAGE-LIST
-                                 (MIN (+ (- (CHAR-CODE USER-INPUT) 97)
-                                         (* CURRENT-PAGE
-                                            PACKAGES-PER-PAGE))
-                                      (1- (LENGTH PACKAGE-LIST))))
-                            0))))))))))
+      (CLEAR-SCREEN)
+      (DISPLAY-PACKAGE-TABLE (SUBSEQ PACKAGE-LIST
+                                     (* CURRENT-PAGE
+                                        PACKAGES-PER-PAGE)
+                                     (MIN (+ (* CURRENT-PAGE
+                                                PACKAGES-PER-PAGE)
+                                             10)
+                                          (LENGTH PACKAGE-LIST))))
+      (FORMAT T "~A~%" (MAKE-STRING 80 :INITIAL-ELEMENT #\=))
+      (FORMAT T "<a> ~~ <j> TO SELECT PACKAGES~%")
+      (FORMAT T "<Q> TO QUIT, <I> TO INSTALL SELECTED PACKAGES~%")
+      (FORMAT T "<M> TO MARK ALL PACKAGES TO INSTALL, <U> TO UNMARK ALL~%")
+      (FORMAT T "<N> TO GO TO THE NEXT PAGE, <P> FOR PREVIOUS PAGE~%")
+      (LET ((USER-INPUT (READ-CHAR)))
+        (CASE USER-INPUT
+          (#\Q
+           (RETURN))
+          (#\N
+           (IF (< CURRENT-PAGE TOTAL-PAGES)
+               (SETF CURRENT-PAGE (1+ CURRENT-PAGE))))
+          (#\P
+           (IF (> CURRENT-PAGE 0)
+               (SETF CURRENT-PAGE (1- CURRENT-PAGE))))
+          (#\I
+           (CLEAR-SCREEN)
+           (INTERACTIVE-RUN (IF FLATPAK
+                                (APPEND '("flatpak" "install")
+                                        (OR (MAP 'LIST
+                                                 (LAMBDA (X)
+                                                   (FOURTH X))
+                                                 (REMOVE-IF #'NOT
+                                                            PACKAGE-LIST
+                                                            :KEY #'CAR))
+                                            '("--help")))
+                                (APPEND '("sudo" "xbps-install" "-S")
+                                        (MAP 'LIST
+                                             (LAMBDA (X)
+                                               (SECOND X))
+                                             (REMOVE-IF #'NOT
+                                                        PACKAGE-LIST
+                                                        :KEY #'CAR)))))
+           (SLEEP 3))
+          (#\M
+           (MAP 'LIST
+                (LAMBDA (X)
+                  (SETF (FIRST X) T)
+                  X)
+                PACKAGE-LIST))
+          (#\U
+           (MAP 'LIST
+                (LAMBDA (X)
+                  (SETF (FIRST X) NIL)
+                  X)
+                PACKAGE-LIST))
+          (OTHERWISE
+           (WHEN (MEMBER USER-INPUT (COERCE "abcdefghij" 'LIST)
+                         :TEST #'EQUAL)
+             (SETF (NTH 0 (NTH (MIN (+ (- (CHAR-CODE USER-INPUT) 97)
+                                     (* CURRENT-PAGE
+                                        PACKAGES-PER-PAGE))
+                                    (1- (LENGTH PACKAGE-LIST)))
+                               PACKAGE-LIST))
+                   (NOT (NTH 0 (NTH (MIN (+ (- (CHAR-CODE USER-INPUT) 97)
+                                          (* CURRENT-PAGE
+                                             PACKAGES-PER-PAGE))
+                                         (1- (LENGTH PACKAGE-LIST)))
+                                    PACKAGE-LIST)))))))))))
 
 (DEFUN MAKE-FLATPAK-LIST (FLATPAK-FILE)
   (DECLARE (TYPE STRING FLATPAK-FILE))
@@ -153,46 +152,46 @@
                      "https://flathub.org/repo/flathub.flatpakrepo"))
   (LET ((FLATPAK-NAME-LIST (UIOP:READ-FILE-LINES FLATPAK-FILE)))
     (MAP 'LIST
-         #'(LAMBDA (FLATPAK-NAME)
-             (LIST T
-                   (UIOP:RUN-PROGRAM '("head" "-n1")
-                                     :INPUT
-                                     (UIOP:PROCESS-INFO-OUTPUT
-                                      (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
-                                                           :INPUT
-                                                           (UIOP:PROCESS-INFO-OUTPUT
-                                                            (UIOP:LAUNCH-PROGRAM
-                                                             (LIST "flatpak"
-                                                                   "search"
-                                                                   "--columns=name"
-                                                                   FLATPAK-NAME)
-                                                             :OUTPUT :STREAM))
+         (LAMBDA (FLATPAK-NAME)
+           (LIST T
+                 (UIOP:RUN-PROGRAM '("head" "-n1")
+                                   :INPUT
+                                   (UIOP:PROCESS-INFO-OUTPUT
+                                    (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                                         :INPUT
+                                                         (UIOP:PROCESS-INFO-OUTPUT
+                                                          (UIOP:LAUNCH-PROGRAM
+                                                           (LIST "flatpak"
+                                                                 "search"
+                                                                 "--columns=name"
+                                                                 FLATPAK-NAME)
                                                            :OUTPUT :STREAM))
-                                     :OUTPUT '(:STRING :STRIPPED T))
-                   (UIOP:RUN-PROGRAM '("head" "-n1")
-                                     :INPUT
-                                     (UIOP:PROCESS-INFO-OUTPUT
-                                      (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
-                                                           :INPUT
-                                                           (UIOP:PROCESS-INFO-OUTPUT
-                                                            (UIOP:LAUNCH-PROGRAM
-                                                             (LIST "flatpak"
-                                                                   "search"
-                                                                   "--columns=description"
-                                                                   FLATPAK-NAME)
-                                                             :OUTPUT :STREAM))
+                                                         :OUTPUT :STREAM))
+                                   :OUTPUT '(:STRING :STRIPPED T))
+                 (UIOP:RUN-PROGRAM '("head" "-n1")
+                                   :INPUT
+                                   (UIOP:PROCESS-INFO-OUTPUT
+                                    (UIOP:LAUNCH-PROGRAM '("tail" "-n+1")
+                                                         :INPUT
+                                                         (UIOP:PROCESS-INFO-OUTPUT
+                                                          (UIOP:LAUNCH-PROGRAM
+                                                           (LIST "flatpak"
+                                                                 "search"
+                                                                 "--columns=description"
+                                                                 FLATPAK-NAME)
                                                            :OUTPUT :STREAM))
-                                     :OUTPUT '(:STRING :STRIPPED T))
-                   FLATPAK-NAME))
+                                                         :OUTPUT :STREAM))
+                                   :OUTPUT '(:STRING :STRIPPED T))
+                 FLATPAK-NAME))
          FLATPAK-NAME-LIST)))
 
 (DEFUN ENABLE-SERVICES (SERVICE-FILE)
   (DECLARE (TYPE STRING SERVICE-FILE))
   (LET ((SERVICE-LIST (MAP 'LIST
-                           #'(LAMBDA (X)
-                               (CONCATENATE 'STRING
-                                            "/etc/sv/"
-                                            X))
+                           (LAMBDA (X)
+                             (CONCATENATE 'STRING
+                                          "/etc/sv/"
+                                          X))
                            (UIOP:READ-FILE-LINES SERVICE-FILE))))
     (DOLIST (SERVICE SERVICE-LIST)
       (UNLESS (Y-OR-N-P "ENABLE THIS SERVICE?~%~A" SERVICE)
@@ -221,10 +220,10 @@
 
 (DEFUN MAKE-MEDIA-DIRECTORIES ()
   (LET ((DIRECTORIES (MAP 'LIST
-                          #'(LAMBDA (X)
-                              (CONCATENATE 'STRING
-                                           "~/"
-                                           X))
+                          (LAMBDA (X)
+                            (CONCATENATE 'STRING
+                                         "~/"
+                                         X))
                           '("Downloads/"
                             "Videos/"
                             "Music/"
@@ -248,7 +247,7 @@
                           "--prefix=/usr"))
         (BRANCH "emacs-29")
         (CURRENT-DIRECTORY (UIOP/OS:GETCWD)))
-    (UNLESS (EQUAL #\/ (ELT DIRECTORY (1- (LENGTH DIRECTORY))))
+    (UNLESS (EQUAL #\/ (AREF DIRECTORY (1- (LENGTH DIRECTORY))))
       (SETF DIRECTORY (CONCATENATE 'STRING DIRECTORY "/")))
     (ENSURE-DIRECTORIES-EXIST DIRECTORY)
     (UIOP:CHDIR DIRECTORY)
@@ -273,7 +272,7 @@
                               "libX11-devel" "gtk+3-devel" "glib-devel"
                               "cmake"))
         (CURRENT-DIRECTORY (UIOP/OS:GETCWD)))
-    (UNLESS (EQUAL #\/ (ELT DIRECTORY (1- (LENGTH DIRECTORY))))
+    (UNLESS (EQUAL #\/ (AREF DIRECTORY (1- (LENGTH DIRECTORY))))
       (SETF DIRECTORY (CONCATENATE 'STRING DIRECTORY "/")))
     (ENSURE-DIRECTORIES-EXIST DIRECTORY)
     (UIOP:CHDIR DIRECTORY)
