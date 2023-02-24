@@ -193,30 +193,26 @@
                                           "/etc/sv/"
                                           X))
                            (UIOP:READ-FILE-LINES SERVICE-FILE))))
-    (DOLIST (SERVICE SERVICE-LIST)
-      (UNLESS (Y-OR-N-P "ENABLE THIS SERVICE?~%~A" SERVICE)
-        (GO CONTINUE))
-      (INTERACTIVE-RUN (LIST "sudo" "ln" "-s"
-                             SERVICE "/var/service/")
-                       :IGNORE-ERROR-STATUS T)
-      CONTINUE)))
+    (LOOP FOR SERVICE IN SERVICE-LIST
+          IF (Y-OR-N-P "ENABLE THIS SERVICE?~%~A" SERVICE)
+            DO (INTERACTIVE-RUN (LIST "sudo" "ln" "-s"
+                                      SERVICE "/var/service")
+                                :IGNORE-ERROR-STATUS T))))
 
 (DEFUN MAKE-SYMLINK (SYMLINK-FILE)
   (DECLARE (TYPE STRING SYMLINK-FILE))
   (LET ((SYMLINK-LIST (WITH-OPEN-FILE (S SYMLINK-FILE)
                         (READ S))))
-    (DOLIST (I SYMLINK-LIST)
-      (UNLESS (CDDR I)
-        (ENSURE-DIRECTORIES-EXIST (CADR I)))
-      (UNLESS (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
-                        (CAR I) (CADR I))
-        (GO CONTINUE))
-      (INTERACTIVE-RUN (FORMAT NIL (IF (CDDR I)
-                                       "sudo ln -rs ~A ~A"
-                                       "ln -rs ~A ~A")
-                               (CAR I) (CADR I))
-                       :IGNORE-ERROR-STATUS T)
-      CONTINUE)))
+    (LOOP FOR SYMLINK IN SYMLINK-LIST
+          UNLESS (CDDR SYMLINK)
+            DO (ENSURE-DIRECTORIES-EXIST (CADR SYMLINK))
+          IF (Y-OR-N-P "MAKE THIS SYMLINK?~%~A -> ~A"
+                       (CAR SYMLINK) (CADR SYMLINK))
+            DO (INTERACTIVE-RUN (FORMAT NIL (IF (CDDR SYMLINK)
+                                                "sudo ln -rs ~A ~A"
+                                                "ln -rs ~A ~A")
+                                        (CAR SYMLINK) (CADR SYMLINK))
+                                :IGNORE-ERROR-STATUS T))))
 
 (DEFUN MAKE-MEDIA-DIRECTORIES ()
   (LET ((DIRECTORIES (MAP 'LIST
@@ -230,8 +226,8 @@
                             "Documents/"))))
     (WHEN (Y-OR-N-P "MAKE THESE DIRECTORES?~%~A"
                     DIRECTORIES)
-      (DOLIST (I DIRECTORIES)
-        (ENSURE-DIRECTORIES-EXIST I)))))
+      (LOOP FOR DIRECTORY IN DIRECTORIES
+            DO (ENSURE-DIRECTORIES-EXIST DIRECTORY)))))
 
 (DEFUN MAKE-INSTALL-EMACS (&OPTIONAL (DIRECTORY "~/Documents/git/emacs"))
   (DECLARE (TYPE STRING DIRECTORY))
