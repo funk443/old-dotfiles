@@ -27,6 +27,9 @@
 - [[#languages][Languages]]
   - [[#arduino][Arduino]]
   - [[#yaml][YAML]]
+  - [[#common-lisp][Common Lisp]]
+  - [[#racket][Racket]]
+  - [[#markdown][Markdown]]
 - [[#hooks][Hooks]]
   - [[#startup-hook][Startup Hook]]
   - [[#server-hook][Server Hook]]
@@ -389,6 +392,19 @@ A package for easier use of tree sitter library.
 #+end_src
 
 * Languages
+** COMMENT LSP
+*** Eglot
+#+begin_src elisp
+(use-package eglot
+  :config
+  (add-hook 'haskell-mode-hook 'eglot-ensure)
+  (setq-default eglot-workspace-configuration
+                '((haskell (plugin (stan (globalOn . :json-false))))))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-confire-server-initiated-edits nil))
+#+end_src
+
 ** Arduino
 *** arduino-mode
 #+begin_src elisp
@@ -421,8 +437,17 @@ A package for easier use of tree sitter library.
   :ensure t)
 #+end_src
 
-** COMMENT Common Lisp
-*** SLIME
+** Common Lisp
+*** Sly
+newer SLIME.
+#+begin_src elisp
+(use-package sly
+  :commands (sly)
+  :ensure t
+  :init
+  (setq inferior-lisp-program "sbcl"))
+#+end_src
+*** COMMENT SLIME
 For Common Lisp.
 #+begin_src elisp
 (use-package slime
@@ -432,6 +457,28 @@ For Common Lisp.
   (setq inferior-lisp-program "sbcl"))
 #+end_src
 
+** Racket
+*** racket-mode
+#+begin_src elisp
+(use-package racket-mode
+  :ensure t
+  :mode "\\.rkt\\'")
+#+end_src
+
+** Markdown
+*** markdown-mode
+#+begin_src elisp
+(use-package markdown-mode
+  :mode "\\.md\\'")
+#+end_src
+
+** COMMENT Haskell
+*** haskell-mode
+#+begin_src elisp
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'")
+#+end_src
 * COMMENT Key Bindings Setup
 Use these with Evil mode.
 ** Leader key
@@ -589,20 +636,32 @@ Set fonts again after spawning a frame.
 ** Font and Face Settings
 #+begin_src elisp
 (defun set-fonts ()
-  (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans TC"))
+  (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA"))
+  (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
+                    nil 'append)
+  (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans TC")
+                    nil 'append)
   (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans SC")
                     nil 'append)
-  (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC"))
+  (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA"))
+  (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
+                    nil 'append)
+  (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC")
+                    nil 'append)
   (set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
+  (set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
+  (set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
+                    nil 'append)
   ;; 設定縮放字型，或是增加行高二選一
   (let ((scale (- (/ 22.0 24) (expt 10 -10)))
         (another-scale 0.94))
     (setq face-font-rescale-alist `(("Noto Sans SC" . ,another-scale)
                                     ("Noto Sans TC" . ,another-scale)
-                                    ("Noto Sans JP" . ,another-scale))))
+                                    ("Noto Sans JP" . ,another-scale)
+                                    ("Noto Sans Mono" . 0.92))))
   ;; default-text-properties '(line-spacing 0.1 line-height 1.25)
   ;; (setq default-text-properties '(line-height 24))
-  (let ((font-height 135))
+  (let ((font-height 140))
     (set-face-attribute 'default nil
                         :family "IBMPlexMono"
                         :height font-height)
@@ -616,6 +675,8 @@ Set fonts again after spawning a frame.
                         :inherit nil)
     (set-face-attribute 'line-number-current-line nil
                         :inherit 'default)
+    (set-face-attribute 'org-default nil
+                        :family "Noto Sans TC")
     (when (or (equal (face-attribute 'default :family)
                      "IBM Plex Mono")
               (equal (face-attribute 'default :family)
