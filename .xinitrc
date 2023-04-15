@@ -5,4 +5,5 @@ export GTK_IM_MODULE="ibus"
 export QT_IM_MODULE="ibus"
 export SDL_IM_MODULE="ibus"
 # [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
-exec dbus-run-session qtile start
+# exec dbus-run-session qtile start
+exec dbus-run-session stumpwm
