@@ -37,14 +37,14 @@ sbcl --load install.lisp
 #+end_example
 
 * TODOs
-- [-] Write installation script
-  - [X] Package installation
-  - [X] Flatpak installation
-  - [X] Enable system services
-  - [X] Config file symlinks
+- [ ] Write installation script (new one)
+  - [ ] Package installation
+  - [ ] Flatpak installation
+  - [ ] Enable system services
+  - [ ] Config file symlinks
   - [ ] Generate Chinese locale
-  - [X] Build and install Emacs
-  - [X] Build and install ibus-chewing
-  - [ ] Install needed python module for qtile
+  - [ ] Build and install Emacs
+  - [ ] Build and install ibus-chewing
+  - [ ] Install needed python module for qtile (maybe don't need this one anymore)
 - [ ] Documentations (WM Keybindings)
-- [X] Update README
+- [ ] Update README
