@@ -1,19 +1,34 @@
-(require 'uiop)
-(require 'sb-posix)
+(ql:quickload '("uiop" "cl-ppcre"))
 
 (declaim (ftype (function () null))
          (inline clear-screen))
 (defun clear-screen ()
   (format t "~c[2J" (code-char 27)))
 
-(declaim (ftype (function ((or string pathname)) list) make-package-list))
-(defun make-package-list (package-file-path)
+(declaim (ftype (function (string &optional symbol) t)
+                get-description))
+(defun get-description (name &optional (type 'xbps))
+  (case type
+    (xbps
+     (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
+                       :output '(:string :stripped t)))
+    (flatpak
+     (with-input-from-string (stream (uiop:run-program
+                                      (format nil "flatpak info ~a" name)
+                                      :output '(:string :stripped t)))
+       (read-line stream)
+       (svref (cadr (multiple-value-list
+                     (ppcre:scan-to-strings
+                      "\\s-\\s(.+)$"
+                      (car (multiple-value-list (read-line stream))))))
+              0)))
+    (t (error "Unknown package type"))))
+
+(declaim (ftype (function ((or string pathname) &optional symbol) list)
+                make-package-list))
+(defun make-package-list (package-file-path &optional (type 'xbps))
   (map 'list (lambda (package-name)
-               (list t package-name
-                     (uiop:run-program
-                      (format nil "xbps-query -p short_desc ~a"
-                              package-name)
-                      :output '(:string :stripped t))))
+               (list t package-name (get-description package-name type)))
        (uiop:read-file-lines package-file-path)))
 
 (declaim (ftype (function (list &optional fixnum) list) make-keyed-list))
@@ -22,10 +37,13 @@
         for char-code = from then (1+ char-code)
         collect (cons (code-char char-code) i)))
 
-(declaim (ftype (function (list) *) install-packages))
-(defun install-packages (package-list)
-  (uiop:run-program `("sudo" "xbps-install" "-n"
-                             ,@(map 'list #'cadr package-list))
+(declaim (ftype (function (list &optional symbol) t) install-packages))
+(defun install-packages (package-list &optional (type 'xbps))
+  (uiop:run-program (append (case type
+                              (xbps '("sudo" "xbps-install" "-n"))
+                              (flatpak '("flatpak" "install" "flathub"))
+                              (t (error "Unknown package type")))
+                            (map 'list #'cadr package-list))
                     :input :interactive
                     :output :interactive))
 
