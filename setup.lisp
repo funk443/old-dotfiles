@@ -1,3 +1,10 @@
+;;;; Copyright (C) 2023  CToID
+
+;;;; Copying and distribution of this file, with or without modification,
+;;;; are permitted in any medium without royalty provided the copyright
+;;;; notice and this notice are preserved.  This file is offered as-is,
+;;;; without any warranty.
+
 (ql:quickload '("uiop" "cl-ppcre"))
 
 (declaim (ftype (function () null))
@@ -10,26 +17,28 @@
 (defun get-description (name &optional (type 'xbps))
   (case type
     (xbps
-     (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
-                       :output '(:string :stripped t)))
+       (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
+                         :output '(:string :stripped t)))
     (flatpak
-     (with-input-from-string (stream (uiop:run-program
-                                      (format nil "flatpak info ~a" name)
-                                      :output '(:string :stripped t)))
-       (read-line stream)
-       (svref (cadr (multiple-value-list
-                     (ppcre:scan-to-strings
-                      "\\s-\\s(.+)$"
-                      (car (multiple-value-list (read-line stream))))))
-              0)))
+       (with-input-from-string (stream (uiop:run-program
+                                        (format nil "flatpak info ~a" name)
+                                        :output '(:string :stripped t)))
+         (read-line stream)
+         (svref (cadr (multiple-value-list
+                       (ppcre:scan-to-strings
+                        "\\s-\\s(.+)$"
+                        (car (multiple-value-list (read-line stream))))))
+                0)))
     (t (error "Unknown package type"))))
 
 (declaim (ftype (function ((or string pathname) &optional symbol) list)
-                make-package-list))
-(defun make-package-list (package-file-path &optional (type 'xbps))
-  (map 'list (lambda (package-name)
-               (list t package-name (get-description package-name type)))
-       (uiop:read-file-lines package-file-path)))
+                make-list-from-file))
+(defun make-list-from-file (file-path &optional (type 'xbps))
+  (map 'list (lambda (name)
+               (if (member type '(xbps flatpak))
+                 (list t name (get-description name type))
+                 (list t name)))
+       (uiop:read-file-lines file-path)))
 
 (declaim (ftype (function (list &optional fixnum) list) make-keyed-list))
 (defun make-keyed-list (list &optional (from 97))
@@ -44,12 +53,14 @@
                               (flatpak '("flatpak" "install" "flathub"))
                               (t (error "Unknown package type")))
                             (map 'list #'cadr package-list))
+                    :ignore-error-status t
                     :input :interactive
-                    :output :interactive))
+                    :output :interactive
+                    :error-output :interactive))
 
-(declaim (ftype (function (fixnum list) list) toggle-package-install))
-(defun toggle-package-install (index package-list
-                               &aux (local-list (copy-tree package-list)))
+(declaim (ftype (function (fixnum list) list) toggle-item))
+(defun toggle-item (index list
+                    &aux (local-list (copy-tree list)))
   (setf (car (nth index local-list)) (not (car (nth index local-list))))
   local-list)
 
@@ -67,7 +78,8 @@
 (declaim (ftype (function (list) null) print-table))
 (defun print-table (table)
   (loop with widths = (butlast
-                       (map 'list #'find-longest-string (extract-columns table)))
+                       (map 'list #'find-longest-string
+                            (extract-columns table)))
         for line in table
         do (loop initially (format t "~&")
                  for item in (butlast line)
@@ -79,43 +91,61 @@
         finally (format t "~%")
                 (finish-output)))
 
-(declaim (ftype (function (list
-                           &optional (or pathname string))
+(declaim (ftype (function (list &optional symbol (or string pathname))
                           (or pathname string))
-                make-package-list-file))
-(defun make-package-list-file (package-list
-                               &optional (output-path "./misc/l-package-list"))
+                make-list-file))
+(defun make-list-file (list
+                       &optional
+                       (type 'xbps)
+                       (output-path (case type
+                                      (xbps "misc/l-package-list")
+                                      (flatpak "misc/l-flatpak-list")
+                                      (t (error (format nil "~{~a~}"
+                                                        '("You need to specify "
+                                                          "a path for non-xbps "
+                                                          "or non-flatpak "
+                                                          "list")))))))
   (with-open-file (stream output-path :direction :output :if-exists :supersede)
-    (prin1 package-list stream))
+    (prin1 list stream))
   output-path)
 
-(declaim (ftype (function (&optional (or pathname string)) list)
-                read-package-list-file))
-(defun read-package-list-file (&optional (filepath "misc/l-package-list"))
+(declaim (ftype (function ((or pathname string)) list)
+                read-list-file))
+(defun read-list-file (filepath)
   (with-open-file (stream filepath :direction :input :if-does-not-exist :error)
     (read stream)))
 
-(declaim (ftype (function () list) package-dispatch))
-(defun package-dispatch ()
+(declaim (ftype (function (symbol) list) package-symlink-dispatch))
+(defun package-symlink-dispatch (type)
   (loop named dispatch
-        with package-list-file = "misc/l-package-list"
-        and package-file = "misc/package-list"
-        with package-list = (if (probe-file package-list-file)
-                                (read-package-list-file package-list-file)
-                                (make-package-list package-file))
-        with package-max-index = (1- (list-length package-list))
-        with package-per-page = 10
-        with current-page = 0
-        and package-max-page = (1- (ceiling (list-length package-list)
-                                            package-per-page))
-        and key-list = (loop for i from 97 below (+ package-per-page 97)
+        with list-file = (case type
+                           (xbps "misc/l-package-list")
+                           (flatpak "misc/l-flatpak-list")
+                           (t nil))
+        and list-source-file = (case type
+                                 (xbps "misc/package-list")
+                                 (flatpak "misc/flatpak-list")
+                                 (service "misc/service-list")
+                                 (symlink "misc/symlink-list")
+                                 (t (error "Unknown type")))
+        with list = (if (and list-file (probe-file list-file))
+                      (read-list-file list-file)
+                      (make-list-from-file list-source-file type))
+        with items-per-page = 10
+        and current-page = 0
+        and list-max-index = (1- (list-length list))
+        with key-list = (loop for i from 97 below (+ items-per-page 97)
                              collect (code-char i))
-        for current-sublist = (subseq package-list
-                                      (* package-per-page current-page)
-                                      (min (1+ package-max-index)
-                                           (* package-per-page
+        and max-page = (1- (ceiling (list-length list) items-per-page))
+        for current-sublist = (subseq list
+                                      (* items-per-page current-page)
+                                      (min (1+ list-max-index)
+                                           (* items-per-page
                                               (1+ current-page))))
-        for current-table = (cons '("key" "toggle" "name" "description")
+        for current-table = (cons (append '("key" "toggle" "name")
+                                          (case type
+                                            ((xbps flatpak) '("description"))
+                                            (t nil)))
                                   (make-keyed-list current-sublist))
         for user-input = (progn (clear-screen)
                                 (print-table current-table)
@@ -123,31 +153,36 @@
                                 (read-char))
         do (cond
              ((member user-input key-list)
-              (let ((index (min package-max-index
+              (let ((index (min list-max-index
                                 (+ (char-code user-input) -97
-                                   (* current-page package-per-page)))))
-                (setf package-list
-                      (toggle-package-install index package-list))))
+                                   (* current-page items-per-page)))))
+                (setf list (toggle-item index list))))
              (t
               (case user-input
-                (#\Q (return-from dispatch package-list))
-                (#\N (setf current-page (min package-max-page
-                                             (1+ current-page))))
-                (#\P (setf current-page (max 0 (1- current-page))))
+                (#\Q
+                   (return-from dispatch list))
+                (#\N
+                   (setf current-page (min max-page
+                                          (1+ current-page))))
+                (#\P
+                   (setf current-page (max 0 (1- current-page))))
                 (#\I
-                 (install-packages (remove-if-not #'car package-list))
-                 (format t "Press RETURN/ENTER to continue...")
-                 (finish-output)
-                 (clear-input)
-                 (read-char))
-                (#\M (setf package-list (map 'list
-                                             (lambda (x &aux (x (copy-list x)))
-                                               (setf (car x) t)
-                                               x)
-                                             package-list)))
-                (#\U (setf package-list (map 'list
-                                             (lambda (x &aux (x (copy-list x)))
-                                               (setf (car x) nil)
-                                               x)
-                                             package-list)))
+                   (case type
+                     ((xbps flatpak)
+                        (install-packages (remove-if-not #'car list) type))
+                     (t nil)) ;;TODO: symlinks
+                   (format t "Press RETURN/ENTER to continue...")
+                   (finish-output)
+                   (clear-input)
+                   (read-char))
+                (#\M
+                   (setf list (map 'list (lambda (x &aux (x (copy-list x)))
+                                           (setf (car x) t)
+                                           x)
+                                   list)))
+                (#\U
+                   (setf list (map 'list (lambda (x &aux (x (copy-list x)))
+                                           (setf (car x) nil)
+                                           x)
+                                   list)))
                 (t nil))))))
