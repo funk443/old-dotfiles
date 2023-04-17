@@ -12,9 +12,9 @@
 (defun clear-screen ()
   (format t "~c[2J" (code-char 27)))
 
-(declaim (ftype (function (string &optional symbol) t)
+(declaim (ftype (function (string symbol) t)
                 get-description))
-(defun get-description (name &optional (type 'xbps))
+(defun get-description (name type)
   (case type
     (xbps
        (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
@@ -31,9 +31,9 @@
                 0)))
     (t (error "Unknown package type"))))
 
-(declaim (ftype (function ((or string pathname) &optional symbol) list)
+(declaim (ftype (function ((or string pathname) symbol) list)
                 make-list-from-file))
-(defun make-list-from-file (file-path &optional (type 'xbps))
+(defun make-list-from-file (file-path type)
   (map 'list (lambda (name)
                (if (member type '(xbps flatpak))
                  (list t name (get-description name type))
@@ -46,8 +46,8 @@
         for char-code = from then (1+ char-code)
         collect (cons (code-char char-code) i)))
 
-(declaim (ftype (function (list &optional symbol) t) install-packages))
-(defun install-packages (package-list &optional (type 'xbps))
+(declaim (ftype (function (list symbol) t) install-packages))
+(defun install-packages (package-list type)
   (uiop:run-program (append (case type
                               (xbps '("sudo" "xbps-install" "-n"))
                               (flatpak '("flatpak" "install" "flathub"))
@@ -91,12 +91,11 @@
         finally (format t "~%")
                 (finish-output)))
 
-(declaim (ftype (function (list &optional symbol (or string pathname))
+(declaim (ftype (function (list symbol &optional (or string pathname))
                           (or pathname string))
                 make-list-file))
-(defun make-list-file (list
+(defun make-list-file (list type
                        &optional
-                       (type 'xbps)
                        (output-path (case type
                                       (xbps "misc/l-package-list")
                                       (flatpak "misc/l-flatpak-list")
