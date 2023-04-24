@@ -1,8 +1,0 @@
-NetworkManager
-dbus
-elogind
-polkitd
-popcorn
-sshd
-udevd
-uuidd
