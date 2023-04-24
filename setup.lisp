@@ -7,7 +7,7 @@
 
 (ql:quickload '("uiop" "cl-ppcre"))
 
-(declaim (ftype (function () null))
+(declaim (ftype (function () null) clear-screen)
          (inline clear-screen))
 (defun clear-screen ()
   (format t "~c[2J" (code-char 27)))
@@ -45,6 +45,13 @@
   (loop for i in list
         for char-code = from then (1+ char-code)
         collect (cons (code-char char-code) i)))
+
+(declaim (ftype (function (list) list) beautify-list-toggles))
+(defun beautify-list-toggles (list)
+  (map 'list (lambda (entry &aux (entry (copy-tree entry)))
+               (setf (car entry) (if (car entry) "v" " "))
+               entry)
+       list))
 
 (declaim (ftype (function (list symbol) t) install-packages))
 (defun install-packages (package-list type)
@@ -145,7 +152,8 @@
                                           (case type
                                             ((xbps flatpak) '("description"))
                                             (t nil)))
-                                  (make-keyed-list current-sublist))
+                                  (make-keyed-list
+                                   (beautify-list-toggles current-sublist)))
         for user-input = (progn (clear-screen)
                                 (print-table current-table)
                                 (clear-input)
@@ -175,13 +183,15 @@
                    (clear-input)
                    (read-char))
                 (#\M
-                   (setf list (map 'list (lambda (x &aux (x (copy-list x)))
-                                           (setf (car x) t)
-                                           x)
+                   (setf list (map 'list
+                                   (lambda (x &aux (x (copy-list x)))
+                                     (setf (car x) t)
+                                     x)
                                    list)))
                 (#\U
-                   (setf list (map 'list (lambda (x &aux (x (copy-list x)))
-                                           (setf (car x) nil)
-                                           x)
+                   (setf list (map 'list
+                                   (lambda (x &aux (x (copy-list x)))
+                                     (setf (car x) nil)
+                                     x)
                                    list)))
                 (t nil))))))
