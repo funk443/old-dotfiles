@@ -1,0 +1,7 @@
+;;; -*- mode: lisp-data; -*-
+((T "com.discordapp.Discord" "Messaging, Voice, and Video Client")
+ (T "com.github.Eloston.UngoogledChromium"
+  "A lightweight approach to removing Google web service")
+ (T "com.github.tchx84.Flatseal" "Manage Flatpak permissions")
+ (T "com.usebottles.bottles" "Run Windows Software")
+ (T "org.telegram.desktop" "Fast. Secure. Powerful."))
