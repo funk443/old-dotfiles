@@ -34,11 +34,17 @@
 (declaim (ftype (function ((or string pathname) symbol) list)
                 make-list-from-file))
 (defun make-list-from-file (file-path type)
-  (map 'list (lambda (name)
-               (if (member type '(xbps flatpak))
-                 (list t name (get-description name type))
-                 (list t name)))
-       (uiop:read-file-lines file-path)))
+  (case type
+    ((xbps flatpak)
+       (map 'list (lambda (x)
+                    (list t x (get-description x type)))
+            (uiop:read-file-lines file-path)))
+    ((config-files system-services)
+       (with-open-file (stream file-path)
+         (map 'list (lambda (x)
+                      (cons t x))
+              (cdr (assoc type (read stream))))))
+    (t (error "Unknown type"))))
 
 (declaim (ftype (function (list &optional fixnum) list) make-keyed-list))
 (defun make-keyed-list (list &optional (from 97))
@@ -46,12 +52,13 @@
         for char-code = from then (1+ char-code)
         collect (cons (code-char char-code) i)))
 
-(declaim (ftype (function (list) list) beautify-list-toggles))
-(defun beautify-list-toggles (list)
-  (map 'list (lambda (entry &aux (entry (copy-tree entry)))
-               (setf (car entry) (if (car entry) "v" " "))
-               entry)
-       list))
+(defmacro beautify-list-booleans (list key &optional (yes-no '("v" . " ")))
+  `(map 'list (lambda (entry &aux (entry (copy-tree entry)))
+                (setf (,key entry) (if (,key entry)
+                                     ,(car yes-no)
+                                     ,(cdr yes-no)))
+                entry)
+        ,list))
 
 (declaim (ftype (function (list symbol) t) install-packages))
 (defun install-packages (package-list type)
@@ -64,6 +71,17 @@
                     :input :interactive
                     :output :interactive
                     :error-output :interactive))
+
+(declaim (ftype (function (list) t) make-symlinks))
+(defun make-symlinks (list)
+  (loop for (_ from to need-root) in list
+        do (uiop:run-program (if need-root
+                               (list "sudo" "ln" "-srf" from to)
+                               (list "ln" "-srf" from to))
+                             :ignore-error-status t
+                             :input :interactive
+                             :output :interactive
+                             :error-output :interactive)))
 
 (declaim (ftype (function (fixnum list) list) toggle-item))
 (defun toggle-item (index list
@@ -127,13 +145,20 @@
         with list-file = (case type
                            (xbps "misc/l-package-list")
                            (flatpak "misc/l-flatpak-list")
-                           (t nil))
+                           ((config-files system-services) nil)
+                           (t (error "Unknown type")))
         and list-source-file = (case type
                                  (xbps "misc/package-list")
                                  (flatpak "misc/flatpak-list")
-                                 (service "misc/service-list")
-                                 (symlink "misc/symlink-list")
+                                 ((config-files system-services)
+                                    "misc/symlink-service-list")
                                  (t (error "Unknown type")))
+        and first-row = (case type
+                          ((xbps flatpak)
+                             '("key" "toggle" "name" "description"))
+                          ((config-files system-services)
+                             '("key" "toggle" "from" "to" "need-root"))
+                          (t (error "Unknown type")))
         with list = (if (and list-file (probe-file list-file))
                       (read-list-file list-file)
                       (make-list-from-file list-source-file type))
@@ -141,19 +166,28 @@
         and current-page = 0
         and list-max-index = (1- (list-length list))
         with key-list = (loop for i from 97 below (+ items-per-page 97)
-                             collect (code-char i))
+                              collect (code-char i))
         and max-page = (1- (ceiling (list-length list) items-per-page))
         for current-sublist = (subseq list
                                       (* items-per-page current-page)
                                       (min (1+ list-max-index)
                                            (* items-per-page
                                               (1+ current-page))))
-        for current-table = (cons (append '("key" "toggle" "name")
-                                          (case type
-                                            ((xbps flatpak) '("description"))
-                                            (t nil)))
+        for current-table = (cons first-row
                                   (make-keyed-list
-                                   (beautify-list-toggles current-sublist)))
+                                   (case type
+                                     ((xbps flatpak)
+                                        (beautify-list-booleans
+                                            current-sublist
+                                            car))
+                                     ((config-files system-services)
+                                        (beautify-list-booleans
+                                            (beautify-list-booleans
+                                                current-sublist
+                                                car)
+                                            cadddr
+                                            ("yes" . "no")))
+                                     (t (error "Unknown type")))))
         for user-input = (progn (clear-screen)
                                 (print-table current-table)
                                 (clear-input)
@@ -170,14 +204,16 @@
                    (return-from dispatch list))
                 (#\N
                    (setf current-page (min max-page
-                                          (1+ current-page))))
+                                           (1+ current-page))))
                 (#\P
                    (setf current-page (max 0 (1- current-page))))
                 (#\I
                    (case type
                      ((xbps flatpak)
                         (install-packages (remove-if-not #'car list) type))
-                     (t nil)) ;;TODO: symlinks
+                     ((config-files system-services)
+                        (make-symlinks (remove-if-not #'car list)))
+                     (t (error "Unknown type")))
                    (format t "Press RETURN/ENTER to continue...")
                    (finish-output)
                    (clear-input)
