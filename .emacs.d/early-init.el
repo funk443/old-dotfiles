@@ -15,12 +15,8 @@
 ;; (add-to-list 'default-frame-alist '(font . "ShareTechMono-12"))
 ;; (add-to-list 'default-frame-alist '(font . "IBMPlexMono-12"))
 
-(if (string-match " 29\.[[:digit:]]+" (emacs-version))
-    (progn
-      (set-frame-parameter (selected-frame) 'alpha-background 85)
-      (add-to-list 'default-frame-alist '(alpha-background . 85)))
-  (progn (set-frame-parameter (selected-frame) 'alpha '(90 . 75))
-         (add-to-list 'default-frame-alist '(alpha . (90 . 75)))))
+(set-frame-parameter (selected-frame) 'alpha-background 85)
+(add-to-list 'default-frame-alist '(alpha-background . 85))
 
 (defun display-startup-echo-area-message ()
   (message "ad astra per aspera"))
