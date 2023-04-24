@@ -148,7 +148,7 @@
    '(racket-mode markdown-mode sly magit treesit-auto emms 0blayout keycast doom-themes magit-section
                  #("eshell-prompt-extras" 0 20
                    (escaped t))
-                 "eshell-prompt-extras" all-the-icons-ibuffer all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
+                 "eshell-prompt-extras" all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
  '(require-final-newline t)
  '(resize-mini-windows t)
  '(safe-local-variable-values
@@ -164,6 +164,7 @@
  '(sh-basic-offset 2)
  '(show-paren-mode t)
  '(size-indication-mode t)
+ '(sly-common-lisp-style-default "classic")
  '(tool-bar-mode nil)
  '(warning-suppress-types '((comp) (comp)))
  '(window-divider-mode t)
