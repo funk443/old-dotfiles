@@ -15,11 +15,12 @@
 - [[#todos][TODOs]]
 
 * System Info
-[[./images/Desktop2.png]]
+*Haven't taken a screenshot for StumpWM yet*
+
 - OS: Void GNU/Linux
 - Shell: bash
 - Terminal: alacritty
-- WM: qtile
+- WM: StumpWM
 - Compositor: picom
 - Text Editor: GNU Emacs
 
@@ -37,14 +38,14 @@ sbcl --load install.lisp
 #+end_example
 
 * TODOs
-- [ ] Write installation script (new one)
-  - [ ] Package installation
-  - [ ] Flatpak installation
-  - [ ] Enable system services
-  - [ ] Config file symlinks
+- [-] Write installation script (new one)
+  - [X] Package installation
+  - [X] Flatpak installation
+  - [X] Enable system services
+  - [X] Config file symlinks
   - [ ] Generate Chinese locale
   - [ ] Build and install Emacs
   - [ ] Build and install ibus-chewing
-  - [ ] Install needed python module for qtile (maybe don't need this one anymore)
+  - [ ] Install python modules for qtile (maybe don't need this one anymore)
 - [ ] Documentations (WM Keybindings)
 - [ ] Update README
