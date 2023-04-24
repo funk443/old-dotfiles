@@ -1,72 +1,65 @@
-(QL:QUICKLOAD :CL-PPCRE)
-(IN-PACKAGE :STUMPWM)
+(ql:quickload '("cl-ppcre" "slynk"))
+(in-package stumpwm)
+(load-module "stumptray")
+(load-module "swm-gaps")
 
-(SET-PREFIX-KEY (KBD "s-t"))
-(SETF *SCREEN-MODE-LINE-FORMAT* (LIST "%g | ^>%d")
-      *TIME-MODELINE-STRING* "%F %a %T"
-      *MODE-LINE-TIMEOUT* 2
-      *WINDOW-FORMAT* "<[%n%s]%t>"
-      *MOUSE-FOCUS-POLICY* :CLICK
-      *GROUP-FORMAT* "<[%n%s]%t>"
-      *MESSAGE-WINDOW-PADDING* 3
-      *MESSAGE-WINDOW-Y-PADDING* 3)
-(SET-FONT "-ibm-courier-bold-r-*-*-17-120-100-100-*-*-*-*")
+(defvar *slynk-port* (slynk:create-server :port 0 :dont-close t))
 
-(GRENAME "firefox")
-(GNEWBG "discord")
+(set-prefix-key (kbd "s-t"))
+(setf *screen-mode-line-format* (list "%g | %d")
+      *time-modeline-string* "%a. %d %b %y %T"
+      *mode-line-timeout* 2
+      *window-format* "<[%n%s]%t>"
+      *mouse-focus-policy* :click
+      *group-format* "<[%n%s]%t>"
+      *message-window-padding* 3
+      *message-window-y-padding* 3
+      swm-gaps:*head-gaps-size* 0
+      swm-gaps:*inner-gaps-size* 5
+      swm-gaps:*outer-gaps-size* 5)
 
-(DEFINE-FRAME-PREFERENCE "discord"
-    (0 T T :CLASS "discord"))
+(set-font "-ibm-courier-bold-r-*-*-17-120-100-100-*-*-*-*")
 
-(DEFINE-FRAME-PREFERENCE "steam"
-    (0 T T :CLASS "Steam"))
+(grename "firefox")
+(gnewbg "discord")
 
-(ADD-HOOK *QUIT-HOOK* (LAMBDA ()
-                        (RUN-SHELL-COMMAND
+(define-frame-preference "discord"
+  (0 t t :class "discord"))
+
+(define-frame-preference "steam"
+  (0 t t :class "Steam"))
+
+(add-hook *quit-hook* (lambda ()
+                        (run-shell-command
                          "emacsclient -e '(save-buffers-kill-emacs)'")))
 
-(ADD-HOOK *FOCUS-GROUP-HOOK* (LAMBDA (NEW-GROUP OLD-GROUP)
-                               (MESSAGE "~A" NEW-GROUP)))
+(add-hook *focus-group-hook* (lambda (new-group old-group)
+                               (message "~a" new-group)))
 
-(DEFCOMMAND CURRENT-CPU-USAGE () ()
-  (MESSAGE "~A" (RUN-SHELL-COMMAND
-                 "top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'" T)))
+(defcommand current-cpu-usage () ()
+  (message "~a" (run-shell-command "mpstat" t)))
 
-(DEFCOMMAND MY-ECHO-DATE () ()
-  (MESSAGE "~A" (RUN-SHELL-COMMAND "date '+%a.  %d %B %Y  %T'" T)))
+(defcommand my-echo-date () ()
+  (message "~a" (run-shell-command "date '+%a.  %d %b %y  %T'" t)))
 
-(DEFCOMMAND CALENDER (ARGS)
-  ((:STRING "ARGS: "))
-  (IF (STRING= "" ARGS)
-      (LET* ((TODAY (PARSE-INTEGER (RUN-SHELL-COMMAND "date '+%d'" T)))
-             (CAL-OUTPUT (RUN-SHELL-COMMAND "cal --sun" T)))
-        (MULTIPLE-VALUE-BIND (START END)
-            (PPCRE:SCAN (FORMAT NIL "\\s~A\\s" TODAY) CAL-OUTPUT)
-          (MESSAGE "~A" (FORMAT NIL "~A^R~A^r~A"
-                                (SUBSEQ CAL-OUTPUT 0 (1+ START))
-                                (SUBSEQ CAL-OUTPUT (1+ START) (1- END))
-                                (SUBSEQ CAL-OUTPUT (1- END))))))
-      (MESSAGE "~A" (RUN-SHELL-COMMAND (FORMAT NIL "~A ~A --sun" "cal" ARGS) T))))
+(defcommand ss () ()
+  (run-shell-command "xfce4-screenshooter"))
 
-(LET ((COMMANDS-TO-RUN (LIST "sh ~/dotfiles/misc/qtile_startup_once.sh"
+(defcommand toggle-systray () ()
+  (stumptray::stumptray))
+
+(let ((commands-to-run (list "sh ~/dotfiles/misc/qtile_startup_once.sh"
                              "feh --bg-fill ~/dotfiles/wallpapers/void_linux_chan.png"
                              "xsetroot -cursor_name left_ptr")))
-  (DOLIST (COMMAND COMMANDS-TO-RUN)
-    (RUN-SHELL-COMMAND COMMAND)))
+  (dolist (command commands-to-run)
+    (run-shell-command command)))
 
-(LET ((KEYS-TO-DEFINE (LIST (CONS (KBD "c") "exec alacritty")
-                            (CONS (KBD "e") "exec emacsclient -c -a ''")
-                            (CONS (KBD "s") "hsplit")
-                            (CONS (KBD "S") "vsplit")
-                            (CONS (KBD "m") "mode-line")
-                            (CONS (KBD "C-k") "remove-split")
-                            (CONS (KBD "O") "other-window")
-                            (CONS (KBD "a") "my-echo-date")
-                            (CONS (KBD "d") (LET ((M (MAKE-SPARSE-KEYMAP)))
-                                              (DEFINE-KEY M (KBD "d")
-                                                "calender \"\"")
-                                              (DEFINE-KEY M (KBD "f")
-                                                "calender")
-                                              M)))))
-  (DOLIST (KEY KEYS-TO-DEFINE)
-    (DEFINE-KEY *ROOT-MAP* (CAR KEY) (CDR KEY))))
+(let ((keys-to-define (list (cons (kbd "c") "exec alacritty")
+                            (cons (kbd "e") "exec emacsclient -c -a ''")
+                            (cons (kbd "s") "hsplit")
+                            (cons (kbd "S") "vsplit")
+                            (cons (kbd "m") "mode-line")
+                            (cons (kbd "C-k") "remove-split")
+                            (cons (kbd "a") "my-echo-date"))))
+  (dolist (key keys-to-define)
+    (define-key *root-map* (car key) (cdr key))))
