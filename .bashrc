@@ -62,3 +62,4 @@ PERL_MB_OPT="--install_base \"/home/id/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/id/perl5"; export PERL_MM_OPT;
 export PATH=$PATH:~/.roswell/bin
 export PATH=$PATH:/usr/local/racket/bin
+export SBCL_HOME=/usr/local/lib/sbcl
