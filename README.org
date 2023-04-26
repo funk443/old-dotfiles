@@ -30,11 +30,11 @@ implementation works or not) or just execute the binary will do.
 Please *DO NOT* execute the script with root privilege, the script
 will ask you for the password when needed.
 #+begin_example
-sbcl --load install.lisp
+sbcl --load setup.lisp
 #+end_example
 
 #+begin_example
-./install
+./setup
 #+end_example
 
 * TODOs
