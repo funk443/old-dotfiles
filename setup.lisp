@@ -240,3 +240,28 @@
                                      x)
                                    list)))
                 (t nil))))))
+
+(declaim (ftype (function () t) main))
+(defun main ()
+  (flet ((make-menu ()
+           (clear-screen)
+           (format t "~&~@{~a~%~}"
+                   "ID's Void GNU/Linux Post-installation Setup Script"
+                   "====="
+                   "<p> XBPS Packages"
+                   "<f> Flatpaks"
+                   "<c> Config Files"
+                   "<s> System Services"
+                   "<q> Quit")
+           (finish-output)))
+    (loop named main-dispatch
+          for user-input = (progn (make-menu)
+                                  (clear-input)
+                                  (read-char))
+          do (case user-input
+               (#\p (package-symlink-dispatch 'xbps))
+               (#\f (package-symlink-dispatch 'flatpak))
+               (#\c (package-symlink-dispatch 'config-files))
+               (#\s (package-symlink-dispatch 'system-services))
+               (#\q (return-from main-dispatch 0))
+               (t nil)))))
