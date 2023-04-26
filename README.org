@@ -15,7 +15,7 @@
 - [[#todos][TODOs]]
 
 * System Info
-*Haven't taken a screenshot for StumpWM yet*
+[[./images/desktop-stumpwm.png]]
 
 - OS: Void GNU/Linux
 - Shell: bash
