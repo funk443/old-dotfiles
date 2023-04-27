@@ -127,6 +127,7 @@
  '(js-chain-indent t)
  '(line-number-display-limit-width most-positive-fixnum)
  '(line-spacing nil)
+ '(major-mode-remap-alist '((perl-mode . cperl-mode)))
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Documents/agenda.org"))
  '(org-capture-templates
@@ -145,10 +146,10 @@
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(racket-mode markdown-mode sly magit treesit-auto emms 0blayout keycast doom-themes magit-section
-                 #("eshell-prompt-extras" 0 20
-                   (escaped t))
-                 "eshell-prompt-extras" all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
+   '(screenshot racket-mode markdown-mode magit treesit-auto emms 0blayout keycast doom-themes magit-section
+                #("eshell-prompt-extras" 0 20
+                  (escaped t))
+                "eshell-prompt-extras" all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
  '(require-final-newline t)
  '(resize-mini-windows t)
  '(safe-local-variable-values
@@ -156,6 +157,12 @@
      (display-line-numbers-type . visual)))
  '(save-place-mode t)
  '(scalable-fonts-allowed t)
+ '(screenshot-border-width 0)
+ '(screenshot-line-numbers-p nil)
+ '(screenshot-radius 0)
+ '(screenshot-relative-line-numbers-p nil)
+ '(screenshot-shadow-intensity 0)
+ '(screenshot-shadow-radius 0)
  '(scroll-bar-mode nil)
  '(scroll-conservatively 101)
  '(scroll-error-top-bottom t)
