@@ -297,7 +297,7 @@
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
                         :family "IBMPlexMono"
-                        :inherit 'deafult)
+                        :inherit 'default)
     (set-face-attribute 'dashboard-items-face nil
                         :height font-height)
     (set-face-attribute 'header-line nil
