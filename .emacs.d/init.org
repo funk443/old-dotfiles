@@ -1,0 +1,646 @@
+#+TITLE: ID's GNU Emacs Configuration File
+#+AUTHOR: CToID
+#+OPTIONS: num:nil toc:nil
+
+* Table of Contents :TOC_1:noexport:
+- [[#configure-package-archives][Configure Package Archives]]
+- [[#configure-use-package][Configure use-package]]
+- [[#appearance][Appearance]]
+- [[#evil-mode-and-friends][EVIL Mode and Friends]]
+- [[#org-mode][Org Mode]]
+- [[#major-modes][Major Modes]]
+- [[#misc][Misc]]
+- [[#custom-defined-functions][Custom-defined Functions]]
+- [[#hooks][Hooks]]
+
+* Configure Package Archives
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+Add package archives to the list.
+#+begin_src elisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("gnu" . "https://elpa.gnu.org/packages/"))
+#+end_src
+
+* Configure use-package
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+~use-package~ is an Emacs package that provides macros to help configuring
+packages in Emacs.
+
+This first part here is for compatability reason.  ~use-package~ is shipped with
+Emacs by default after Emacs 29.
+#+begin_src elisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+#+end_src
+
+Then we'll load ~use-package~.
+#+begin_src elisp
+(eval-when-compile
+  (require 'use-package))
+#+end_src
+
+* Appearance
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+I use Doom Challenger Deep theme from ~doom-themes~ package for my Emacs.
+#+begin_src elisp
+(use-package doom-themes
+  :ensure t
+  :init
+  (setq doom-themes-enable-bold t
+        doom-challenger-deep-brighter-modeline t
+        doom-themes-enable-italic t)
+  :config
+  (load-theme 'doom-challenger-deep t))
+#+end_src
+
+I also use ~all-the-icons~ package provide some special icons in Emacs.  Also I
+have ~all-the-icons-dired~ and ~all-the-icons-ibuffer~ to provide a better
+looking in Dired and Ibuffer.
+#+begin_src elisp
+(use-package all-the-icons
+  :ensure t
+  :config
+  (unless all-the-icons-font-names
+    (all-the-icons-install-fonts)))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :after all-the-icons
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :after all-the-icons
+  :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
+#+end_src
+
+I used to use ~doom-modeline~ package to provide a better-looking modeline, but
+I find myself likes the original Emacs modeline more, so I leave it commented.
+#+begin_src elisp
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init
+;;   (doom-modeline-mode 1))
+#+end_src
+
+I have customised my splash screen using package ~dashboard~.  ~dashboard~ came
+with many items on display by default, and I don't like them, so I just set them
+to ~nil~.  The last part is to start ~dashboard~ properly if using an Emacs
+server.
+#+begin_src elisp
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-banner-logo-title "GNU EMACS - Editor MACroS"
+        dashboard-startup-banner "~/.emacs.d/emacs.png"
+        dashboard-center-content t
+        dashboard-week-agenda nil
+        dashboard-agenda-time-string-format "%m %d %y %H:%M"
+        dashboard-agenda-prefix-format "%?-12t% s"
+        dashboard-agenda-release-buffers t
+        dashboard-items nil
+        dashboard-set-init-info nil)
+  :config
+  (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
+  (add-to-list 'dashboard-footer-messages
+               "There is no system but GNU, and Linux is one of its kernels."))
+(if (and (< (length command-line-args) 4)
+         (member "server-start" command-line-args))
+    (let ((command-line-args '("emacs")))
+      (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook))
+#+end_src
+
+* EVIL Mode and Friends
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+I used to use vim keybindings in Emacs, but later I found that I wanted to use
+vanilla Emacs keybindings.  So the code in this section will all be commented
+out.
+
+To have keybindings that have a leader key, I use the package ~general~.
+#+begin_src elisp
+;; (use-package general
+;;   :ensure t
+;;   :config (general-eval-setup t))
+#+end_src
+
+Then I use ~evil-mode~ to emulate VIM keys.  I configured some variables before
+loading it up for better integration with Emacs.
+#+begin_src elisp
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-C-u-scroll t
+;;         evil-want-integration t
+;;         evil-want-keybinding nil
+;;         evil-want-minibuffer t)
+;;   :config (evil-mode 1))
+#+end_src
+
+To have more complete VIM keys in other modes, I have ~evil-collection~ package.
+#+begin_src elisp
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config (evil-collection-init))
+#+end_src
+
+In order for undo/redo to work under ~evil-mode~, ~undo-tree~ is needed.
+#+begin_src elisp
+;; (use-package undo-tree
+;;   :after evil
+;;   :ensure t
+;;   :init
+;;   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo_tree")))
+;;   :config
+;;   (evil-set-undo-system 'undo-tree)
+;;   (global-undo-tree-mode 1))
+#+end_src
+
+* Org Mode
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+For easier creation of table of contents in Org Mode, I have ~toc-org~.
+#+begin_src elisp
+(use-package toc-org
+  :commands (toc-org-enable)
+  :ensure t
+  :hook (org-mode . toc-org-enable))
+#+end_src
+
+I use ~org-present~ to have a nice little presentation in Org Mode.  The
+~face-remapping-alist~ is used to make the fonts in presentation look bigger.
+#+begin_src elisp
+(use-package org-present
+  :commands (org-present)
+  :ensure t
+  :config
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (setq org-image-actual-width 1000
+                    header-line-format " ")
+              (setq-local face-remapping-alist
+                          '((default (:height 2.0) default)
+                            (header-line (:height 5.0) header-line)
+                            (org-document-title (:height 2.25)
+                                                org-document-title)
+                            (org-code (:height 1.0) org-code)
+                            (org-verbatim (:height 1.0) org-verbatim)
+                            (org-block (:height 1.0) org-block)
+                            (org-block-begin-line (:height 0.75)
+                                                  org-block-begin-line)))
+              (org-display-inline-images)
+              (org-present-read-only)
+              (visual-fill-column-mode 1)
+              (org-present-hide-cursor)
+              (visual-line-mode 1)))
+  (add-hook 'org-present-quit-hook
+            (lambda ()
+              (setq org-image-actual-width 300
+                    header-line-format nil)
+              (setq-local face-remapping-alist nil)
+              (org-remove-inline-images)
+              (org-present-read-write)
+              (visual-fill-column-mode 0)
+              (org-present-show-cursor)
+              (visual-line-mode 0))))
+#+end_src
+
+To give ~org-present~ a better look, I also have ~visual-fill-column~ installed.
+This package will center texts in ~org-present~.
+#+begin_src elisp
+(use-package visual-fill-column
+  :after org-present
+  :ensure t
+  :init
+  (setq visual-fill-column-width 255
+        visual-fill-column-center-text t))
+#+end_src
+
+* Major Modes
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+Emacs, by default, doesn't come with many major modes for different programming
+languages, so I have to install them by myself when needed.
+
+Explainations for these modes seem trivial, so I just put them together in one
+code block.
+#+begin_src elisp
+(use-package arduino-mode
+  :ensure t)
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package racket-mode
+  :ensure t)
+
+(use-package markdown-mode
+  :ensure t)
+#+end_src
+
+I mostly do Common Lisp development, so I have installed ~sly~ to enhance my
+development experience.  I did use ~slime~ before, and I will leave it commented
+here.
+#+begin_src elisp
+(use-package sly
+  :ensure t
+  :init (setq inferior-lisp-program "sbcl"))
+
+;; (use-package slime
+;;   :ensure t
+;;   :init (setq inferior-lisp-program "sbcl"))
+#+end_src
+
+* Misc
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+Emacs has a very powerful git client, ~magit~.
+#+begin_src elisp
+(use-package magit
+  :ensure t
+  :commands (magit magit-clone))
+#+end_src
+
+The vanilla kill ring in Emacs doesn't provide a very great experience, so I use
+~browse-kill-ring~.  It's a nice little kill ring browser.
+#+begin_src elisp
+(use-package browse-kill-ring
+  :ensure t
+  :config
+  (browse-kill-ring-default-keybindings)
+  (setq browse-kill-ring-depropertize t
+        browse-kill-ring-display-duplicates t))
+#+end_src
+
+To copy/paste text from GUI clipboard while running Emacs in a text terminal, we
+need ~xclip~.
+#+begin_src elisp
+(use-package xclip
+  :ensure t)
+#+end_src
+
+The built-in shells/terminals that comes with Emacs is good, but not good
+enough.  So I have ~vterm~ to provide a decent terminal emulator in Emacs, and
+it really does a great job.
+#+begin_src elisp
+(use-package vterm
+  :commands (vterm)
+  :ensure t)
+#+end_src
+
+Sometimes I'll need some hints while typing keystrokes, this is the time when
+~which-key~ comes in handy.
+#+begin_src elisp
+(use-package which-key
+  :ensure t
+  :init
+  (setq which-key-side-window-location 'bottom
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 0
+        which-key-max-display-columns nil
+        which-key-side-window-max-height 0.25
+        which-key-idle-delay 0.5
+        which-key-max-description-length 25)
+  :config
+  (which-key-mode))
+#+end_src
+
+I'd like to have quick access to the files I have recently opened, thus I need
+to configure ~recentf~.  It comes with Emacs by default.
+#+begin_src elisp
+(use-package recentf
+  :init
+  (setq recentf-max-menu-items 10
+        recentf-max-saved-items 10)
+  (add-to-list 'recentf-exclude "\\.last\\'")
+  :config
+  (recentf-mode 1))
+#+end_src
+
+To edit a file that needs permission, I use ~sudo-edit~.
+#+begin_src elisp
+(use-package sudo-edit
+  :commands (sudo-edit)
+  :ensure t
+  :config
+  (sudo-edit-indicator-mode 1))
+#+end_src
+
+I use ~emms~ to play music within Emacs, and I have defined a custom function to
+change the music volume.
+| Keys    | Action                      |
+|---------+-----------------------------|
+| C-c m p | Pause current playing track |
+| C-c m + | Increase volume             |
+| C-c m - | Decrease volume             |
+#+begin_src elisp
+(use-package emms
+  :ensure t
+  :config
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv)
+        emms-info-functions '(emms-info-native)
+        emms-volume-change-function #'emms-volume-mpv-change)
+  :bind
+  (("C-c m p" . emms-pause)
+   ("C-c m +" . emms-volume-mode-plus)
+   ("C-c m -" . emms-volume-mode-minus)))
+#+end_src
+
+Emacs has integrated tree-sitter into it since version 29, but setting up those
+libraries are kinda annoying, so I have ~treesit-auto~ to auto set them up when
+needed.
+#+begin_src elisp
+(use-package treesit-auto
+  :ensure t
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+#+end_src
+
+* Custom-defined Functions
+I have defined several functions to help me setup my Emacs.
+
+** Startup Function
+This function will be called after Emacs has started up, so these actions won't
+slow Emacs down during starting.
+#+begin_src elisp :noweb yes :tangle "init.el"
+(defun startup-function ()
+  <<ibuf-ext>>
+  <<customize-variable>>
+  <<set-default-variables>>
+  <<add-hook-org-indent>>
+  <<add-hook-ibuffer-group>>
+  <<add-hook-line-numbers>>
+  <<ido>>
+  <<font-and-key>>
+  <<org-variable-pitch>>
+  <<init-package>>)
+#+end_src
+
+First, load the ~ibuf-ext~ package to have a better Ibuffer experience.
+#+begin_src elisp :noweb-ref ibuf-ext
+(require 'org)
+(require 'ibuf-ext)
+#+end_src
+
+We'll then set several variables up.  Most of my custom variables are set via
+Emacs' built-in "customize" functionality, but some variables cannot be set by
+that for various of reasons, so they are set here.
+#+begin_src elisp :noweb-ref customize-variable
+(setq frame-title-format "%b - GNU Emacs"
+      gc-cons-threshold (* 32 1024 1024)
+      gc-cons-percentage 0.25
+      default-input-method "chinese-array30"
+      initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+#+end_src
+
+Then I set my preferred indentations for some programming languages.  These are
+used when creating a new file of that language.
+#+begin_src elisp :noweb-ref set-default-variables
+(setq-default python-indent-offset 2
+              rust-indent-offset 2
+              css-indent-offset 2
+              js-indent-level 2
+              standard-indent 2
+              perl-indent-level 2)
+#+end_src
+
+This will automatically enable ~org-indent-mode~ after one enters Org Mode.
+~org-indent-mode~ will make Org Mode looks better.
+#+begin_src elisp :noweb-ref add-hook-org-indent
+(add-hook 'org-mode-hook 'org-indent-mode)
+#+end_src
+
+This switches ibuffer to my customised filter group, the group definition can be
+found in ~custom-var.el~.
+#+begin_src elisp :noweb-ref add-hook-ibuffer-group
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "customized")))
+#+end_src
+
+While using Emacs to view image or webpage, you'll still get line numbers
+displayed on the left.  It's kinda annoying, so I have the following hooks to
+automatically disable ~display-line-numbers-mode~ while entering these modes.
+#+begin_src elisp :noweb-ref add-hook-line-numbers
+(add-hook 'image-mode-new-window-functions
+          (lambda (arg)
+            (display-line-numbers-mode -1)))
+
+(add-hook 'xwidget-webkit-mode-hook
+          (lambda ()
+            (display-line-numbers-mode -1)))
+#+end_src
+
+Emacs has this nice little built-in ~ido-mode~, which can autocomplete when
+typing in the minibuffer.
+#+begin_src elisp :noweb-ref ido
+(ido-mode 1)
+#+end_src
+
+Setting default coding system.
+#+begin_src elisp :noweb-ref coding-system
+(set-default-coding-systems 'utf-8)
+#+end_src
+
+The following two functions are used to setup fonts and keybindings.
+#+begin_src elisp :noweb-ref font-and-key
+(set-fonts)
+(set-keys)
+#+end_src
+
+Use variable-pitch font in Org Mode
+#+begin_src elisp :noweb-ref org-variable-pitch
+(add-hook 'org-mode-hook #'variable-pitch-mode)
+#+end_src
+
+Initialize packages, i.e. get their paths into ~load-path~.
+#+begin_src elisp :noweb-ref init-package
+(package-initialize)
+#+end_src
+
+** Toggle Background Transparency
+This is a small helper function to toggle the background transparency.
+#+begin_src elisp :tangle "init.el"
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha-background)))
+    (if (= alpha 100) 85 100)))
+#+end_src
+
+** Setting Fonts and Faces
+Since there are too many faces and fonts needed to be set, so I have them as a
+separate function.
+#+begin_src elisp :tangle "init.el" :noweb yes
+(defun set-fonts ()
+  (let ((font-height 140))
+    <<set-cjk-fonts>>
+    <<font-scale>>
+    <<basic-face-attributes>>
+    <<more-weights>>))
+#+end_src
+
+Set default fonts for Chinese, Japanese characters and rarely used symbols.
+#+begin_src elisp :noweb-ref set-cjk-fonts
+(set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA"))
+(set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans TC")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans SC")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA"))
+(set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans SC")
+                  nil 'append)
+(set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
+(set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
+(set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
+                  nil 'append)
+#+end_src
+
+Because some fonts have bigger height, and they will cause the line to have
+different line height, so I have to scale them down here.
+#+begin_src elisp :noweb-ref font-scale
+(setq face-font-rescale-alist '(("Noto Sans TC" . 0.92)
+                                ("Noto Sans SC" . 0.92)
+                                ("Noto Sans JP" . 0.92)
+                                ("Noto Sans Mono" . 0.92)))
+#+end_src
+
+These set the attributes of basic faces.  I am also setting some org faces here
+to be fixed-pitch, since I want to use Org Mode in variable-pitch.
+#+begin_src elisp :noweb-ref basic-face-attributes
+(set-face-attribute 'default nil
+                    :family "IBMPlexMono"
+                    :height font-height)
+(set-face-attribute 'variable-pitch nil
+                    :family "IBMPlexSans"
+                    :height font-height
+                    :inherit 'default)
+(set-face-attribute 'fixed-pitch nil
+                    :family "IBMPlexMono"
+                    :height font-height
+                    :inherit 'deafult)
+(set-face-attribute 'dashboard-items-face nil
+                    :height font-height)
+(set-face-attribute 'header-line nil
+                    :inherit nil)
+(set-face-attribute 'line-number-current-line nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-default nil
+                    :inherit 'variable-pitch)
+(set-face-attribute 'org-block nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-verbatim nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-drawer nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-special-keyword nil
+                    :inherit 'fixed-pitch)
+#+end_src
+
+Because IBM Plex Mono comes with various weight, so I set some faces to
+different weight to make them more distinct.
+#+begin_src elisp :noweb-ref more-weights
+(set-face-attribute 'line-number nil
+                    :slant 'normal
+                    :weight 'normal
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'line-number-current-line nil
+                    :slant 'normal
+                    :weight 'bold
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'dashboard-banner-logo-title nil
+                    :weight 'bold)
+(set-face-attribute 'dashboard-footer nil
+                    :slant 'italic)
+(set-face-attribute 'font-lock-comment-face nil
+                    :slant 'italic)
+#+end_src
+
+** Set Keybindings
+I have a few custom keybindings, since I now mainly use vanilla Emacs
+keybindings.
+#+begin_src elisp :tangle "init.el"
+(defun set-keys ()
+  (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
+                        ("<C-wheel-down>" . text-scale-decrease)
+                        ("C-x C-r" . recentf-open-files)
+                        ("C-M-=" . count-words)
+                        ("C-x C-b" . ibuffer)
+                        ("C-y" . clipboard-yank)
+                        ("C-w" . clipboard-kill-region)
+                        ("M-w" . clipboard-kill-ring-save)))
+    (global-set-key (kbd (car keybinding)) (cdr keybinding))))
+#+end_src
+
+** EMMS MPV Volume Change Function
+Since EMMS adjust the master volume, and that's not what I want.  So I wrote a
+function to change the volume of the MPV process.
+#+begin_src elisp :tangle "init.el"
+(defvar emms-volume--mpv)
+
+(defun emms-volume--mpv-get-volume ()
+  (emms-player-mpv-cmd '(get_property volume)
+                       (lambda (vol err)
+                         (setq emms-volume--mpv (truncate vol)))))
+
+(defun emms-volume-mpv-change (amount)
+  (unless (boundp 'emms-volume--mpv)
+    (emms-volume--mpv-get-volume))
+  (let* ((cur-vol emms-volume--mpv)
+         (new-vol (+ amount cur-vol)))
+    (cond ((> new-vol 100)
+           (setq new-vol 100))
+          ((< new-vol 0)
+           (setq new-vol 0))
+          (t nil))
+    (setq emms-volume--mpv new-vol)
+    (emms-player-mpv-cmd `(set_property volume ,new-vol))
+    (message (format "Volume: %s" new-vol))))
+#+end_src
+
+* Hooks
+:PROPERTIES:
+:header-args: :tangle "init.el"
+:END:
+Setup some stuffs after Emacs starts up.  The function has already explained
+above.
+#+begin_src elisp
+(add-hook 'emacs-startup-hook #'startup-function)
+#+end_src
+
+Due to some unknown reason, I have to reset fonts after making a new frame.  I
+also revert dashboard buffer after making each frames.
+#+begin_src elisp
+(add-hook 'server-after-make-frame-hook
+          (lambda ()
+            (set-fonts)
+            (if (equal (buffer-name) "*dashboard*")
+                (revert-buffer))))
+#+end_src
