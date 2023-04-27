@@ -4,6 +4,8 @@
 
 *This config file is no longer used*
 
+Check [[file:init.org][the new config]] instead
+
 * Table of Contents                                            :TOC:noexport:
 - [[#configure-package-and-use-package][Configure Package and use-package]]
 - [[#appearance-packages-setup][Appearance Packages Setup]]
