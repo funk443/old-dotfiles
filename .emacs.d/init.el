@@ -1,3 +1,15 @@
+;;;; Copyright (C) 2023  CToID
+
+;;;; This program is free software: you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation, either version 3 of the License, or
+;;;; (at your option) any later version.
+
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -107,22 +119,19 @@
                           '((default (:height 2.0) default)
                             (header-line (:height 5.0) header-line)
                             (org-document-title (:height 2.25)
-                                                org-document-title)
-                            (org-code (:height 1.0) org-code)
-                            (org-verbatim (:height 1.0) org-verbatim)
-                            (org-block (:height 1.0) org-block)
-                            (org-block-begin-line (:height 0.75)
-                                                  org-block-begin-line)))
+                                                org-document-title)))
+              (variable-pitch-mode)
               (org-display-inline-images)
               (org-present-read-only)
               (visual-fill-column-mode 1)
               (org-present-hide-cursor)
               (visual-line-mode 1)))
-  (add-hook 'org-present-quit-hook
+  (add-hook 'org-present-mode-quit-hook
             (lambda ()
               (setq org-image-actual-width 300
                     header-line-format nil)
-              (setq-local face-remapping-alist nil)
+              (setq-local face-remapping-alist
+                          '((default variable-pitch default)))
               (org-remove-inline-images)
               (org-present-read-write)
               (visual-fill-column-mode 0)
@@ -284,11 +293,9 @@
                         :height font-height)
     (set-face-attribute 'variable-pitch nil
                         :family "IBMPlexSans"
-                        :height font-height
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
                         :family "IBMPlexMono"
-                        :height font-height
                         :inherit 'deafult)
     (set-face-attribute 'dashboard-items-face nil
                         :height font-height)
