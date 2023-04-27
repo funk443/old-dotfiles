@@ -586,6 +586,16 @@ different weight to make them more distinct.
 ** Set Keybindings
 I have a few custom keybindings, since I now mainly use vanilla Emacs
 keybindings.
+| Keys         | Actions                                          |
+|--------------+--------------------------------------------------|
+| C-wheel-up   | Enlarge text size                                |
+| C-wheel-down | Reduce text size                                 |
+| C-x C-r      | Open a buffer displaying recently modified files |
+| C-M-=        | Count words                                      |
+| C-x C-b      | Ibuffer                                          |
+| C-y          | Yank from clipboard                              |
+| C-w          | Kill to clipboard                                |
+| M-w          | Copy to clipboard                                |
 #+begin_src elisp :tangle "init.el"
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
