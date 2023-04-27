@@ -2,6 +2,8 @@
 #+AUTHOR: CToID
 #+OPTIONS: num:nil toc:nil
 
+*This configuration needs Emacs 29 or later*
+
 * Table of Contents :TOC_1:noexport:
 - [[#configure-package-archives][Configure Package Archives]]
 - [[#configure-use-package][Configure use-package]]
@@ -561,6 +563,8 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
 (set-face-attribute 'org-drawer nil
                     :inherit 'fixed-pitch)
 (set-face-attribute 'org-special-keyword nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'org-property-value nil
                     :inherit 'fixed-pitch)
 #+end_src
 

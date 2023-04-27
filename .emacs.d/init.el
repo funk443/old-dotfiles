@@ -310,6 +310,8 @@
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-special-keyword nil
                         :inherit 'fixed-pitch)
+    (set-face-attribute 'org-property-value nil
+                        :inherit 'fixed-pitch)
     (set-face-attribute 'line-number nil
                         :slant 'normal
                         :weight 'normal
