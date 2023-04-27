@@ -262,7 +262,8 @@
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha-background)))
-    (if (= alpha 100) 85 100)))
+    (set-frame-parameter nil 'alpha-background
+                         (if (= alpha 100) 85 100))))
 
 (defun set-fonts ()
   (let ((font-height 140))
@@ -319,20 +320,22 @@
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-property-value nil
                         :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number nil
-                        :slant 'normal
-                        :weight 'normal
-                        :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number-current-line nil
-                        :slant 'normal
-                        :weight 'bold
-                        :inherit 'fixed-pitch)
-    (set-face-attribute 'dashboard-banner-logo-title nil
-                        :weight 'bold)
-    (set-face-attribute 'dashboard-footer nil
-                        :slant 'italic)
-    (set-face-attribute 'font-lock-comment-face nil
-                        :slant 'italic)))
+    (when (member (face-attribute 'default :family)
+                  '("IBM Plex Mono" "IBMPlexMono"))
+      (set-face-attribute 'line-number nil
+                          :slant 'normal
+                          :weight 'normal
+                          :inherit 'fixed-pitch)
+      (set-face-attribute 'line-number-current-line nil
+                          :slant 'normal
+                          :weight 'bold
+                          :inherit 'fixed-pitch)
+      (set-face-attribute 'dashboard-banner-logo-title nil
+                          :weight 'bold)
+      (set-face-attribute 'dashboard-footer nil
+                          :slant 'italic)
+      (set-face-attribute 'font-lock-comment-face nil
+                          :slant 'italic))))
 
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)

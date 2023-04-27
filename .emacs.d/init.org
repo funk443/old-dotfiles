@@ -514,7 +514,8 @@ This is a small helper function to toggle the background transparency.
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha-background)))
-    (if (= alpha 100) 85 100)))
+    (set-frame-parameter nil 'alpha-background
+                         (if (= alpha 100) 85 100))))
 #+end_src
 
 ** Setting Fonts and Faces
@@ -599,20 +600,22 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
 Because IBM Plex Mono comes with various weight, so I set some faces to
 different weight to make them more distinct.
 #+begin_src elisp :noweb-ref more-weights
-(set-face-attribute 'line-number nil
-                    :slant 'normal
-                    :weight 'normal
-                    :inherit 'fixed-pitch)
-(set-face-attribute 'line-number-current-line nil
-                    :slant 'normal
-                    :weight 'bold
-                    :inherit 'fixed-pitch)
-(set-face-attribute 'dashboard-banner-logo-title nil
-                    :weight 'bold)
-(set-face-attribute 'dashboard-footer nil
-                    :slant 'italic)
-(set-face-attribute 'font-lock-comment-face nil
-                    :slant 'italic)
+(when (member (face-attribute 'default :family)
+              '("IBM Plex Mono" "IBMPlexMono"))
+  (set-face-attribute 'line-number nil
+                      :slant 'normal
+                      :weight 'normal
+                      :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil
+                      :slant 'normal
+                      :weight 'bold
+                      :inherit 'fixed-pitch)
+  (set-face-attribute 'dashboard-banner-logo-title nil
+                      :weight 'bold)
+  (set-face-attribute 'dashboard-footer nil
+                      :slant 'italic)
+  (set-face-attribute 'font-lock-comment-face nil
+                      :slant 'italic))
 #+end_src
 
 ** Set Keybindings
