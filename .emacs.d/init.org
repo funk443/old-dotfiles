@@ -384,6 +384,7 @@ This function will be called after Emacs has started up, so these actions won't
 slow Emacs down during starting.
 #+begin_src elisp :noweb yes :tangle "init.el"
 (defun startup-function ()
+  (require 'org)
   <<ibuf-ext>>
   <<customize-variable>>
   <<set-default-variables>>
@@ -398,7 +399,6 @@ slow Emacs down during starting.
 
 First, load the ~ibuf-ext~ package to have a better Ibuffer experience.
 #+begin_src elisp :noweb-ref ibuf-ext
-(require 'org)
 (require 'ibuf-ext)
 #+end_src
 
