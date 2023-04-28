@@ -25,10 +25,10 @@
 
 (use-package doom-themes
   :ensure t
-  :init
-  (setq doom-themes-enable-bold t
-        doom-challenger-deep-brighter-modeline t
-        doom-themes-enable-italic t)
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
+  (doom-challenger-deep-brighter-modeline t)
   :config
   (load-theme 'doom-challenger-deep t))
 
@@ -55,16 +55,16 @@
 
 (use-package dashboard
   :ensure t
-  :init
-  (setq dashboard-banner-logo-title "GNU EMACS - Editor MACroS"
-        dashboard-startup-banner "~/.emacs.d/emacs.png"
-        dashboard-center-content t
-        dashboard-week-agenda nil
-        dashboard-agenda-time-string-format "%m %d %y %H:%M"
-        dashboard-agenda-prefix-format "%?-12t% s"
-        dashboard-agenda-release-buffers t
-        dashboard-items nil
-        dashboard-set-init-info nil)
+  :custom
+  (dashboard-banner-logo-titile "GNU EMACS - Editor MACroS")
+  (dashboard-startup-banner "~/.emacs.d/emacs.png")
+  (dashboard-center-content t)
+  (dashboard-week-agenda nil)
+  (dashboard-agenda-time-string-format "%m %d %y %H:%M")
+  (dashboard-agenda-prefix-format "%?-12t% s")
+  (dashboard-agenda-release-buffers t)
+  (dashboard-items nil)
+  (dashboard-set-init-info nil)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (add-to-list 'dashboard-footer-messages
@@ -145,6 +145,24 @@
   (setq visual-fill-column-width 255
         visual-fill-column-center-text t))
 
+(unless (file-directory-p "~/Documents/org-roam/")
+  (make-directory "~/Documents/org-roam/"))
+(unless (file-directory-p "~/Documents/org-roam/journal/")
+  (make-directory "~/Documents/org-roam/journal/"))
+(use-package org-roam
+  :ensure t
+  :bind
+  (("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   :map org-roam-dailies-map
+   ("Y" . org-roam-dailies-capture-yesterday)
+   ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap ("C-c n d" . org-roam-dailies-map)
+  :config
+  (require 'org-roam-dailies)
+  (org-roam-db-autosync-mode 1))
+
 (use-package arduino-mode
   :ensure t)
 
@@ -159,7 +177,9 @@
 
 (use-package sly
   :ensure t
-  :init (setq inferior-lisp-program "sbcl"))
+  :init (setq inferior-lisp-program "sbcl")
+  :custom
+  (sly-common-lisp-style-default "classic"))
 
 ;; (use-package slime
 ;;   :ensure t
@@ -171,10 +191,11 @@
 
 (use-package browse-kill-ring
   :ensure t
+  :custom
+  (browse-kill-ring-depropertize t)
+  (browse-kill-ring-display-duplicates t)
   :config
-  (browse-kill-ring-default-keybindings)
-  (setq browse-kill-ring-depropertize t
-        browse-kill-ring-display-duplicates t))
+  (browse-kill-ring-default-keybindings))
 
 (use-package xclip
   :ensure t)
@@ -185,21 +206,21 @@
 
 (use-package which-key
   :ensure t
-  :init
-  (setq which-key-side-window-location 'bottom
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 0
-        which-key-max-display-columns nil
-        which-key-side-window-max-height 0.25
-        which-key-idle-delay 0.5
-        which-key-max-description-length 25)
+  :custom
+  (which-key-side-window-location 'bottom)
+  (which-key-sort-uppercase-first nil)
+  (which-key-add-column-padding 0)
+  (which-key-max-display-columns nil)
+  (which-key-side-window-max-height 0.25)
+  (which-key-idle-delay 0.5)
+  (which-key-max-description-length 25)
   :config
   (which-key-mode))
 
 (use-package recentf
-  :init
-  (setq recentf-max-menu-items 10
-        recentf-max-saved-items 10)
+  :custom
+  (recentf-max-menu-items 10)
+  (recentf-max-saved-itmes 10)
   (add-to-list 'recentf-exclude "\\.last\\'")
   :config
   (recentf-mode 1))
@@ -228,6 +249,33 @@
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
 
+(use-package vertico
+  :ensure t
+  :custom
+  (vertico-cycle t)
+  :init (vertico-mode))
+
+(use-package vertico-directory
+  :after vertico
+  :bind
+  (:map vertico-map
+        ("RET" . vertico-directory-enter)
+        ("DEL" . vertico-directory-delete-char)
+        ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package marginalia
+  :after vertico
+  :ensure t
+  :init (marginalia-mode))
+
+(use-package orderless
+  :ensure t
+  :init
+  (setq completion-styles '(partial-completion orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
 (defun startup-function ()
   (require 'org)
   (require 'ibuf-ext)
@@ -235,6 +283,7 @@
         gc-cons-threshold (* 32 1024 1024)
         gc-cons-percentage 0.25
         default-input-method "chinese-array30"
+        completion-ignore-case t
         initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (setq-default python-indent-offset 2
                 rust-indent-offset 2
@@ -253,10 +302,12 @@
   (add-hook 'xwidget-webkit-mode-hook
             (lambda ()
               (display-line-numbers-mode -1)))
-  (ido-mode 1)
+  ;; (ido-mode 1)
   (set-fonts)
   (set-keys)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
+  (add-hook 'org-mode-hook #'auto-fill-mode)
+  (add-hook 'org-capture-mode-hook #'auto-fill-mode)
   (package-initialize))
 
 (defun toggle-transparency ()

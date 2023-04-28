@@ -22,7 +22,7 @@
 - [[#configure-use-package][Configure use-package]]
 - [[#appearance][Appearance]]
 - [[#evil-mode-and-friends][EVIL Mode and Friends]]
-- [[#org-mode][Org Mode]]
+- [[#org-mode-and-friends][Org Mode and Friends]]
 - [[#major-modes][Major Modes]]
 - [[#misc][Misc]]
 - [[#custom-defined-functions][Custom-defined Functions]]
@@ -90,10 +90,10 @@ I use Doom Challenger Deep theme from ~doom-themes~ package for my Emacs.
 #+begin_src elisp
 (use-package doom-themes
   :ensure t
-  :init
-  (setq doom-themes-enable-bold t
-        doom-challenger-deep-brighter-modeline t
-        doom-themes-enable-italic t)
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
+  (doom-challenger-deep-brighter-modeline t)
   :config
   (load-theme 'doom-challenger-deep t))
 #+end_src
@@ -135,16 +135,16 @@ server.
 #+begin_src elisp
 (use-package dashboard
   :ensure t
-  :init
-  (setq dashboard-banner-logo-title "GNU EMACS - Editor MACroS"
-        dashboard-startup-banner "~/.emacs.d/emacs.png"
-        dashboard-center-content t
-        dashboard-week-agenda nil
-        dashboard-agenda-time-string-format "%m %d %y %H:%M"
-        dashboard-agenda-prefix-format "%?-12t% s"
-        dashboard-agenda-release-buffers t
-        dashboard-items nil
-        dashboard-set-init-info nil)
+  :custom
+  (dashboard-banner-logo-titile "GNU EMACS - Editor MACroS")
+  (dashboard-startup-banner "~/.emacs.d/emacs.png")
+  (dashboard-center-content t)
+  (dashboard-week-agenda nil)
+  (dashboard-agenda-time-string-format "%m %d %y %H:%M")
+  (dashboard-agenda-prefix-format "%?-12t% s")
+  (dashboard-agenda-release-buffers t)
+  (dashboard-items nil)
+  (dashboard-set-init-info nil)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (add-to-list 'dashboard-footer-messages
@@ -204,7 +204,7 @@ In order for undo/redo to work under ~evil-mode~, ~undo-tree~ is needed.
 ;;   (global-undo-tree-mode 1))
 #+end_src
 
-* Org Mode
+* Org Mode and Friends
 :PROPERTIES:
 :header-args: :tangle "init.el"
 :END:
@@ -262,6 +262,27 @@ This package will center texts in ~org-present~.
         visual-fill-column-center-text t))
 #+end_src
 
+I am now trying out ~org-roam~.
+#+begin_src elisp
+(unless (file-directory-p "~/Documents/org-roam/")
+  (make-directory "~/Documents/org-roam/"))
+(unless (file-directory-p "~/Documents/org-roam/journal/")
+  (make-directory "~/Documents/org-roam/journal/"))
+(use-package org-roam
+  :ensure t
+  :bind
+  (("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   :map org-roam-dailies-map
+   ("Y" . org-roam-dailies-capture-yesterday)
+   ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap ("C-c n d" . org-roam-dailies-map)
+  :config
+  (require 'org-roam-dailies)
+  (org-roam-db-autosync-mode 1))
+#+end_src
+
 * Major Modes
 :PROPERTIES:
 :header-args: :tangle "init.el"
@@ -291,7 +312,9 @@ here.
 #+begin_src elisp
 (use-package sly
   :ensure t
-  :init (setq inferior-lisp-program "sbcl"))
+  :init (setq inferior-lisp-program "sbcl")
+  :custom
+  (sly-common-lisp-style-default "classic"))
 
 ;; (use-package slime
 ;;   :ensure t
@@ -314,10 +337,11 @@ The vanilla kill ring in Emacs doesn't provide a very great experience, so I use
 #+begin_src elisp
 (use-package browse-kill-ring
   :ensure t
+  :custom
+  (browse-kill-ring-depropertize t)
+  (browse-kill-ring-display-duplicates t)
   :config
-  (browse-kill-ring-default-keybindings)
-  (setq browse-kill-ring-depropertize t
-        browse-kill-ring-display-duplicates t))
+  (browse-kill-ring-default-keybindings))
 #+end_src
 
 To copy/paste text from GUI clipboard while running Emacs in a text terminal, we
@@ -341,14 +365,14 @@ Sometimes I'll need some hints while typing keystrokes, this is the time when
 #+begin_src elisp
 (use-package which-key
   :ensure t
-  :init
-  (setq which-key-side-window-location 'bottom
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 0
-        which-key-max-display-columns nil
-        which-key-side-window-max-height 0.25
-        which-key-idle-delay 0.5
-        which-key-max-description-length 25)
+  :custom
+  (which-key-side-window-location 'bottom)
+  (which-key-sort-uppercase-first nil)
+  (which-key-add-column-padding 0)
+  (which-key-max-display-columns nil)
+  (which-key-side-window-max-height 0.25)
+  (which-key-idle-delay 0.5)
+  (which-key-max-description-length 25)
   :config
   (which-key-mode))
 #+end_src
@@ -357,9 +381,9 @@ I'd like to have quick access to the files I have recently opened, thus I need
 to configure ~recentf~.  It comes with Emacs by default.
 #+begin_src elisp
 (use-package recentf
-  :init
-  (setq recentf-max-menu-items 10
-        recentf-max-saved-items 10)
+  :custom
+  (recentf-max-menu-items 10)
+  (recentf-max-saved-itmes 10)
   (add-to-list 'recentf-exclude "\\.last\\'")
   :config
   (recentf-mode 1))
@@ -406,6 +430,47 @@ needed.
   (global-treesit-auto-mode))
 #+end_src
 
+Trying out ~vertico~, a completion framework.
+#+begin_src elisp
+(use-package vertico
+  :ensure t
+  :custom
+  (vertico-cycle t)
+  :init (vertico-mode))
+#+end_src
+
+And ~veritco~'s friend, ~vertico-directory~.  This will enable ~vertico~ to have
+an ~ido~-like commands experience while navigating directories.
+#+begin_src elisp
+(use-package vertico-directory
+  :after vertico
+  :bind
+  (:map vertico-map
+        ("RET" . vertico-directory-enter)
+        ("DEL" . vertico-directory-delete-char)
+        ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+#+end_src
+
+To provide more information while using ~vertico~, I use ~marginalia~.
+#+begin_src elisp
+(use-package marginalia
+  :after vertico
+  :ensure t
+  :init (marginalia-mode))
+#+end_src
+
+~orderless~ package provides a different completion from the build-in basic
+completion system.
+#+begin_src elisp
+(use-package orderless
+  :ensure t
+  :init
+  (setq completion-styles '(partial-completion orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
 * Custom-defined Functions
 I have defined several functions to help me setup my Emacs.
 
@@ -424,6 +489,7 @@ slow Emacs down during starting.
   <<ido>>
   <<font-and-key>>
   <<org-variable-pitch>>
+  <<auto-fill-mode-for-org>>
   <<init-package>>)
 #+end_src
 
@@ -440,6 +506,7 @@ that for various of reasons, so they are set here.
       gc-cons-threshold (* 32 1024 1024)
       gc-cons-percentage 0.25
       default-input-method "chinese-array30"
+      completion-ignore-case t
       initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 #+end_src
 
@@ -484,7 +551,7 @@ automatically disable ~display-line-numbers-mode~ while entering these modes.
 Emacs has this nice little built-in ~ido-mode~, which can autocomplete when
 typing in the minibuffer.
 #+begin_src elisp :noweb-ref ido
-(ido-mode 1)
+;; (ido-mode 1)
 #+end_src
 
 Setting default coding system.
@@ -498,9 +565,16 @@ The following two functions are used to setup fonts and keybindings.
 (set-keys)
 #+end_src
 
-Use variable-pitch font in Org Mode
+Use variable-pitch font in Org Mode.
 #+begin_src elisp :noweb-ref org-variable-pitch
 (add-hook 'org-mode-hook #'variable-pitch-mode)
+#+end_src
+
+Turn on ~auto-fill-mode~ for both Org Mode and Org Capture Mode.  The default
+~fill-column~ is set to 80.
+#+begin_src elisp :noweb-ref auto-fill-mode-for-org
+(add-hook 'org-mode-hook #'auto-fill-mode)
+(add-hook 'org-capture-mode-hook #'auto-fill-mode)
 #+end_src
 
 Initialize packages, i.e. get their paths into ~load-path~.
@@ -620,7 +694,7 @@ different weight to make them more distinct.
 
 ** Set Keybindings
 I have a few custom keybindings, since I now mainly use vanilla Emacs
-keybindings.
+keybindings.  Package-related keybindings can be found in their own section.
 | Keys         | Actions                                          |
 |--------------+--------------------------------------------------|
 | C-wheel-up   | Enlarge text size                                |
@@ -681,7 +755,8 @@ above.
 #+end_src
 
 Due to some unknown reason, I have to reset fonts after making a new frame.  I
-also revert dashboard buffer after making each frames.
+also revert dashboard buffer after making each frames, so changes to the
+dashboard in one frame will not affect that in other frames.
 #+begin_src elisp
 (add-hook 'server-after-make-frame-hook
           (lambda ()
