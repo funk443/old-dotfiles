@@ -233,11 +233,12 @@
 
 (use-package emms
   :ensure t
+  :custom
+  (emms-player-list '(emms-player-mpv))
+  (emms-info-functions '(emms-info-native))
+  (emms-volume-change-function #'emms-volume-mpv-change)
   :config
   (emms-all)
-  (setq emms-player-list '(emms-player-mpv)
-        emms-info-functions '(emms-info-native)
-        emms-volume-change-function #'emms-volume-mpv-change)
   :bind
   (("C-c m p" . emms-pause)
    ("C-c m +" . emms-volume-mode-plus)
@@ -245,8 +246,9 @@
 
 (use-package treesit-auto
   :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
 
 (use-package vertico
@@ -271,10 +273,9 @@
 
 (use-package orderless
   :ensure t
-  :init
-  (setq completion-styles '(partial-completion orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+  :custom
+  (completion-styles '(partial-completion orderless basic))
+  (completion-category-defaults nil))
 
 (defun startup-function ()
   (require 'org)
