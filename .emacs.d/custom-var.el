@@ -6,7 +6,7 @@
  '(auth-source-save-behavior nil)
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
- '(blink-cursor-mode nil)
+ '(blink-cursor-mode t)
  '(browse-url-browser-function 'eww-browse-url)
  '(column-number-mode t)
  '(connection-local-criteria-alist
@@ -98,6 +98,7 @@
  '(display-time-day-and-date t)
  '(display-time-default-load-average nil)
  '(erc-nick "CToID")
+ '(fill-column 80)
  '(font-lock-maximum-decoration
    '((racket-mode . 0)
      (emacs-lisp-mode . 0)
@@ -142,14 +143,18 @@
  '(org-log-done 'note)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
+ '(org-roam-dailies-directory "journal/")
+ '(org-roam-directory "~/Documents/org-roam/")
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(screenshot racket-mode markdown-mode magit treesit-auto emms 0blayout keycast doom-themes magit-section
+   '(marginalia orderless vertico org-roam screenshot racket-mode markdown-mode magit treesit-auto emms 0blayout keycast doom-themes magit-section
                 #("eshell-prompt-extras" 0 20
                   (escaped t))
                 "eshell-prompt-extras" all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
+ '(read-buffer-completion-ignore-case t)
+ '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
  '(resize-mini-windows t)
  '(safe-local-variable-values
@@ -171,7 +176,6 @@
  '(sh-basic-offset 2)
  '(show-paren-mode t)
  '(size-indication-mode t)
- '(sly-common-lisp-style-default "classic")
  '(tool-bar-mode nil)
  '(warning-suppress-types '((comp) (comp)))
  '(window-divider-mode t)
