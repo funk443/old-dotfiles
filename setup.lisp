@@ -78,12 +78,12 @@
 
 (declaim (ftype (function (list symbol) t) install-packages))
 (defun install-packages (package-list type)
-  (uiop:run-program (format nil "~a ~{~a~^ ~}"
-                            (case type
-                              (xbps '("sudo" "xbps-install" "-n"))
-                              (flatpak '("flatpak" "install" "flathub"))
-                              (t (error "Unknown package type")))
-                            (map 'list #'cadr package-list))
+  (uiop:run-program (format nil "~{~a~^ ~} ~{~a~^ ~}"
+                    (case type
+                      (xbps '("sudo" "xbps-install"))
+                      (flatpak '("flatpak" "install" "flathub"))
+                      (t (error "Unknown package type")))
+                    (map 'list #'cadr package-list))
                     :ignore-error-status t
                     :input :interactive
                     :output :interactive
@@ -93,8 +93,8 @@
 (defun make-symlinks (list)
   (loop for (_ from to need-root) in list
         do (uiop:run-program (if need-root
-                               (list "sudo" "ln" "-srf" from to)
-                               (list "ln" "-srf" from to))
+                               (format nil "sudo ln -srf ~a ~a" from to)
+                               (format nil "ln -srf ~a ~a" from to))
                              :ignore-error-status t
                              :input :interactive
                              :output :interactive
