@@ -8,10 +8,10 @@ pipewire-pulse &
 wireplumber &
 picom -CGb
 ibus-daemon -drxR
-xfce4-clipman &
+# xfce4-clipman &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 /usr/libexec/polkit-gnome-authentication-agent-1 &
 xinput set-button-map 8 1 2 3 4 5 6 7 8 2 10 11 12
-numlockx
+numlockx on
 discord &
 emacs --daemon &
