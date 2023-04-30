@@ -56,7 +56,7 @@
 (use-package dashboard
   :ensure t
   :custom
-  (dashboard-banner-logo-titile "GNU EMACS - Editor MACroS")
+  (dashboard-banner-logo-title "GNU EMACS - Editor MACroS")
   (dashboard-startup-banner "~/.emacs.d/emacs.png")
   (dashboard-center-content t)
   (dashboard-week-agenda nil)
@@ -281,11 +281,11 @@
   (require 'org)
   (require 'ibuf-ext)
   (setq frame-title-format "%b - GNU Emacs"
-        gc-cons-threshold (* 32 1024 1024)
+        gc-cons-threshold (* 128 1024 1024)
         gc-cons-percentage 0.25
         default-input-method "chinese-array30"
         completion-ignore-case t
-        initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+        initial-buffer-choice (lambda () (dashboard-open)))
   (setq-default python-indent-offset 2
                 rust-indent-offset 2
                 css-indent-offset 2
@@ -303,7 +303,7 @@
   (add-hook 'xwidget-webkit-mode-hook
             (lambda ()
               (display-line-numbers-mode -1)))
-  ;; (ido-mode 1)
+  (savehist-mode 1)
   (set-fonts)
   (set-keys)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
@@ -424,7 +424,4 @@
 (add-hook 'emacs-startup-hook #'startup-function)
 
 (add-hook 'server-after-make-frame-hook
-          (lambda ()
-            (set-fonts)
-            (if (equal (buffer-name) "*dashboard*")
-                (revert-buffer))))
+          #'set-fonts)

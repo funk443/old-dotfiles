@@ -136,7 +136,7 @@ server.
 (use-package dashboard
   :ensure t
   :custom
-  (dashboard-banner-logo-titile "GNU EMACS - Editor MACroS")
+  (dashboard-banner-logo-title "GNU EMACS - Editor MACroS")
   (dashboard-startup-banner "~/.emacs.d/emacs.png")
   (dashboard-center-content t)
   (dashboard-week-agenda nil)
@@ -487,7 +487,7 @@ slow Emacs down during starting.
   <<add-hook-org-indent>>
   <<add-hook-ibuffer-group>>
   <<add-hook-line-numbers>>
-  <<ido>>
+  <<savehist>>
   <<font-and-key>>
   <<org-variable-pitch>>
   <<auto-fill-mode-for-org>>
@@ -504,11 +504,11 @@ Emacs' built-in "customize" functionality, but some variables cannot be set by
 that for various of reasons, so they are set here.
 #+begin_src elisp :noweb-ref customize-variable
 (setq frame-title-format "%b - GNU Emacs"
-      gc-cons-threshold (* 32 1024 1024)
+      gc-cons-threshold (* 128 1024 1024)
       gc-cons-percentage 0.25
       default-input-method "chinese-array30"
       completion-ignore-case t
-      initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+      initial-buffer-choice (lambda () (dashboard-open)))
 #+end_src
 
 Then I set my preferred indentations for some programming languages.  These are
@@ -549,10 +549,9 @@ automatically disable ~display-line-numbers-mode~ while entering these modes.
             (display-line-numbers-mode -1)))
 #+end_src
 
-Emacs has this nice little built-in ~ido-mode~, which can autocomplete when
-typing in the minibuffer.
-#+begin_src elisp :noweb-ref ido
-;; (ido-mode 1)
+I want Emacs to remember what I typed in minibuffer, so I enable ~savehist-mode~.
+#+begin_src elisp :noweb-ref savehist
+(savehist-mode 1)
 #+end_src
 
 Setting default coding system.
@@ -760,8 +759,5 @@ also revert dashboard buffer after making each frames, so changes to the
 dashboard in one frame will not affect that in other frames.
 #+begin_src elisp
 (add-hook 'server-after-make-frame-hook
-          (lambda ()
-            (set-fonts)
-            (if (equal (buffer-name) "*dashboard*")
-                (revert-buffer))))
+          #'set-fonts)
 #+end_src
