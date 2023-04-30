@@ -16,7 +16,6 @@
       *message-window-padding* 3
       *message-window-y-padding* 3
       *maxsize-border-width* 2
-      *window-border-style* 
       *transient-border-width* 2
       *normal-border-width* 2
       swm-gaps:*head-gaps-size* 0
@@ -30,7 +29,7 @@
   (set-unfocus-color unfocus-color)
   (set-float-unfocus-color unfocus-color))
 
-(toggle-gaps-on)
+(swm-gaps:toggle-gaps-on)
 (set-font "-ibm-courier-bold-r-*-*-17-120-100-100-*-*-*-*")
 
 (xlib:set-wm-class (screen-message-window (current-screen))
