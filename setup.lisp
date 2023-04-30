@@ -19,7 +19,14 @@
 (declaim (ftype (function () null) clear-screen)
          (inline clear-screen))
 (defun clear-screen ()
-  (format t "~c[2J" (code-char 27)))
+  (format t "[2J"))
+
+(declaim (ftype (function () t) wait-user-input))
+(defun wait-user-input ()
+  (format t "Press ENTER/RETURN to continue... ")
+  (finish-output)
+  (clear-input)
+  (read-char))
 
 (declaim (ftype (function (string symbol) t)
                 get-description))
@@ -71,7 +78,8 @@
 
 (declaim (ftype (function (list symbol) t) install-packages))
 (defun install-packages (package-list type)
-  (uiop:run-program (append (case type
+  (uiop:run-program (format nil "~a ~{~a~^ ~}"
+                            (case type
                               (xbps '("sudo" "xbps-install" "-n"))
                               (flatpak '("flatpak" "install" "flathub"))
                               (t (error "Unknown package type")))
@@ -199,6 +207,12 @@
                                      (t (error "Unknown type")))))
         for user-input = (progn (clear-screen)
                                 (print-table current-table)
+                                (format t "~&===== ~a/~a =====
+<a> - <j> to select package to install 
+<I> to install selected packages, <Q> to back to main menu 
+<N> to go to the next page, <P> to go to the previous page
+<M> to mark all packages to install, <U> to unmark~%"
+                                        current-page max-page)
                                 (clear-input)
                                 (read-char))
         do (cond
@@ -223,10 +237,7 @@
                      ((config-files system-services)
                         (make-symlinks (remove-if-not #'car list)))
                      (t (error "Unknown type")))
-                   (format t "Press RETURN/ENTER to continue...")
-                   (finish-output)
-                   (clear-input)
-                   (read-char))
+                 (wait-user-input))
                 (#\M
                    (setf list (map 'list
                                    (lambda (x &aux (x (copy-list x)))
@@ -240,21 +251,41 @@
                                      x)
                                    list)))
                 (t nil))))))
-
-(declaim (ftype (function () t) main))
-(defun main ()
+    
+(declaim (ftype (function () t) menu))
+(defun menu ()
+  (handler-case
   (flet ((make-menu ()
            (clear-screen)
-           (format t "~&~@{~a~%~}"
-                   "ID's Void GNU/Linux Post-installation Setup Script"
-                   "====="
-                   "<p> XBPS Packages"
-                   "<f> Flatpaks"
-                   "<c> Config Files"
-                   "<s> System Services"
-                   "<q> Quit")
+           (format t "~
+[1mID's GNU/Linux Post-installation Setup Script[0m
+
+==========
+
+Copyright (C) 2023  CToID
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+==========
+
+<p> XBPS Packages Installation
+<f> Flatpak Installation
+<c> Configuration File Symlinks
+<s> Runit Services
+<q> Quit~%")
            (finish-output)))
-    (loop named main-dispatch
+    (loop named menu-dispatch
           for user-input = (progn (make-menu)
                                   (clear-input)
                                   (read-char))
@@ -263,5 +294,13 @@
                (#\f (package-symlink-dispatch 'flatpak))
                (#\c (package-symlink-dispatch 'config-files))
                (#\s (package-symlink-dispatch 'system-services))
-               (#\q (return-from main-dispatch 0))
-               (t nil)))))
+               (#\q (return-from menu-dispatch 0))
+               (t nil))))))
+
+(declaim (ftype (function () t) main))
+(defun main ()
+  (handler-case (menu)
+    (sb-sys:interactive-interrupt ()
+      (format t "~%Aborting...~%")
+      (finish-output)
+      (exit :code 1))))
