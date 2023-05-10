@@ -175,6 +175,9 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package ledger-mode
+  :ensure t)
+
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
@@ -255,7 +258,13 @@
   :ensure t
   :custom
   (vertico-cycle t)
+  (vertico-resize 'grow-only)
   :init (vertico-mode))
+
+(use-package marginalia
+  :after vertico
+  :ensure t
+  :init (marginalia-mode))
 
 (use-package vertico-directory
   :after vertico
@@ -265,11 +274,6 @@
         ("DEL" . vertico-directory-delete-char)
         ("M-DEL" . vertico-directory-delete-word))
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-(use-package marginalia
-  :after vertico
-  :ensure t
-  :init (marginalia-mode))
 
 (use-package orderless
   :ensure t
@@ -281,8 +285,6 @@
   (require 'org)
   (require 'ibuf-ext)
   (setq frame-title-format "%b - GNU Emacs"
-        gc-cons-threshold (* 128 1024 1024)
-        gc-cons-percentage 0.25
         default-input-method "chinese-array30"
         completion-ignore-case t
         initial-buffer-choice (lambda () (dashboard-open)))
@@ -292,7 +294,7 @@
                 js-indent-level 2
                 standard-indent 2
                 perl-indent-level 2)
-  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-switch-to-saved-filter-groups "customized")))
@@ -322,24 +324,25 @@
     (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA"))
     (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
                       nil 'append)
-    (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans TC")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'han (font-spec :family "Noto Sans SC")
-                      nil 'append)
+    (set-fontset-font "fontset-default" 'han
+                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
+    (set-fontset-font "fontset-default" 'han
+                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
     (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA"))
     (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
                       nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans TC")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "Noto Sans SC")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'kana (font-spec :family "Noto Sans JP"))
+    (set-fontset-font "fontset-default" 'big5
+                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
+    (set-fontset-font "fontset-default" 'big5
+                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
+    (set-fontset-font "fontset-default" 'kana
+                      (font-spec :family "Noto Sans Mono CJK JP"))
     (set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
     (set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
                       nil 'append)
-    (setq face-font-rescale-alist '(("Noto Sans TC" . 0.92)
-                                    ("Noto Sans SC" . 0.92)
-                                    ("Noto Sans JP" . 0.92)
+    (setq face-font-rescale-alist '(("Noto Sans Mono CJK TC" . 0.92)
+                                    ("Noto Sans Mono CJK SC" . 0.92)
+                                    ("Noto Sans Mono CJK JP" . 0.92)
                                     ("Noto Sans Mono" . 0.92)))
     (set-face-attribute 'default nil
                         :family "IBMPlexMono"
@@ -420,6 +423,16 @@
     (setq emms-volume--mpv new-vol)
     (emms-player-mpv-cmd `(set_property volume ,new-vol))
     (message (format "Volume: %s" new-vol))))
+
+(defun xwidget-webkit-with-external-browser ()
+  (interactive nil xwidget-webkit-mode)
+  (funcall browse-url-secondary-browser-function
+           (xwidget-webkit-uri (xwidget-webkit-current-session))))
+
+(add-hook 'xwidget-webkit-mode-hook
+          (lambda ()
+            (keymap-set xwidget-webkit-mode-map "&"
+                        'xwidget-webkit-with-external-browser)))
 
 (add-hook 'emacs-startup-hook #'startup-function)
 
