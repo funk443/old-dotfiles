@@ -7,13 +7,18 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
  '(blink-cursor-mode t)
- '(browse-url-browser-function 'eww-browse-url)
+ '(browse-url-browser-function 'xwidget-webkit-browse-url)
+ '(browse-url-secondary-browser-function 'browse-url-xdg-open)
  '(column-number-mode t)
  '(connection-local-criteria-alist
-   '(((:application tramp)
+   '(((:application eshell)
+      eshell-connection-default-profile)
+     ((:application tramp)
       tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
-   '((tramp-connection-local-darwin-ps-profile
+   '((eshell-connection-default-profile
+      (eshell-path-env-list))
+     (tramp-connection-local-darwin-ps-profile
       (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
       (tramp-process-attributes-ps-format
        (pid . number)
@@ -109,6 +114,7 @@
  '(fringe-mode '(0) nil (fringe))
  '(garbage-collection-messages t)
  '(global-display-line-numbers-mode t)
+ '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
       ("Dired"
@@ -148,15 +154,15 @@
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
+ '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(marginalia orderless vertico org-roam screenshot racket-mode markdown-mode magit treesit-auto emms 0blayout keycast doom-themes magit-section
-                #("eshell-prompt-extras" 0 20
-                  (escaped t))
-                "eshell-prompt-extras" all-the-icons-dired all-the-icons use-package helpful browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode dashboard toc-org sudo-edit neotree which-key ##))
+   '(vterm treesit-auto vterm-toggle elfeed ladger-mode marginalia orderless vertico org-roam screenshot markdown-mode magit emms 0blayout keycast doom-themes
+           #("eshell-prompt-extras" 0 20
+             (escaped t))
+           "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
- '(resize-mini-windows t)
  '(safe-local-variable-values
    '((display-line-numbers . visual)
      (display-line-numbers-type . visual)))
@@ -178,7 +184,6 @@
  '(size-indication-mode t)
  '(tool-bar-mode nil)
  '(warning-suppress-types '((comp) (comp)))
- '(window-divider-mode t)
  '(x-select-enable-clipboard-manager nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
