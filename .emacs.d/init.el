@@ -147,8 +147,10 @@
 
 (unless (file-directory-p "~/Documents/org-roam/")
   (make-directory "~/Documents/org-roam/"))
-(unless (file-directory-p "~/Documents/org-roam/journal/")
-  (make-directory "~/Documents/org-roam/journal/"))
+(unless (file-directory-p "~/Documents/org-roam/fleeting/")
+  (make-directory "~/Documents/org-roam/fleeting/"))
+(unless (file-directory-p "~/Documents/org-roam/literature/")
+  (make-directory "~/Documents/org-roam/literature/"))
 (use-package org-roam
   :ensure t
   :bind
@@ -162,6 +164,9 @@
   :config
   (require 'org-roam-dailies)
   (org-roam-db-autosync-mode 1))
+
+(use-package htmlize
+  :ensure t)
 
 (use-package arduino-mode
   :ensure t)

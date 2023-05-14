@@ -149,17 +149,27 @@
  '(org-log-done 'note)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
- '(org-roam-dailies-directory "journal/")
+ '(org-roam-capture-templates
+   '(("d" "default" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :unnarrowed t)
+     ("c" "concept note" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: (C)${title}")
+      :unnarrowed t)
+     ("l" "literature note" plain "From: %?" :target
+      (file+head "literature/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: (L)${title}")
+      :unnarrowed t)))
+ '(org-roam-dailies-directory "fleeting/")
  '(org-roam-directory "~/Documents/org-roam/")
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(vterm treesit-auto vterm-toggle elfeed ladger-mode marginalia orderless vertico org-roam screenshot markdown-mode magit emms 0blayout keycast doom-themes
-           #("eshell-prompt-extras" 0 20
-             (escaped t))
-           "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
+   '(htmlize vterm treesit-auto vterm-toggle elfeed ladger-mode marginalia orderless vertico org-roam screenshot markdown-mode magit emms 0blayout keycast doom-themes
+             #("eshell-prompt-extras" 0 20
+               (escaped t))
+             "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)

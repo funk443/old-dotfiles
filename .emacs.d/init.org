@@ -266,8 +266,10 @@ I am now trying out ~org-roam~.
 #+begin_src elisp
 (unless (file-directory-p "~/Documents/org-roam/")
   (make-directory "~/Documents/org-roam/"))
-(unless (file-directory-p "~/Documents/org-roam/journal/")
-  (make-directory "~/Documents/org-roam/journal/"))
+(unless (file-directory-p "~/Documents/org-roam/fleeting/")
+  (make-directory "~/Documents/org-roam/fleeting/"))
+(unless (file-directory-p "~/Documents/org-roam/literature/")
+  (make-directory "~/Documents/org-roam/literature/"))
 (use-package org-roam
   :ensure t
   :bind
@@ -281,6 +283,13 @@ I am now trying out ~org-roam~.
   :config
   (require 'org-roam-dailies)
   (org-roam-db-autosync-mode 1))
+#+end_src
+
+To export the code blocks in Org to HTML with fontification stuffs, I use
+~htmlize~.  This can also be used in normal code files.
+#+begin_src elisp
+(use-package htmlize
+  :ensure t)
 #+end_src
 
 * Major Modes
