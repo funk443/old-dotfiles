@@ -65,6 +65,7 @@
   (dashboard-agenda-release-buffers t)
   (dashboard-items nil)
   (dashboard-set-init-info nil)
+  (dashboard-icon-type 'all-the-icons)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (add-to-list 'dashboard-footer-messages
@@ -178,9 +179,6 @@
   :ensure t)
 
 (use-package markdown-mode
-  :ensure t)
-
-(use-package ledger-mode
   :ensure t)
 
 (use-package sly
