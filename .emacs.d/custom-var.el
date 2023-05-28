@@ -111,7 +111,6 @@
      (lisp-mode . 0)
      (t . t)))
  '(frame-resize-pixelwise t)
- '(fringe-mode '(0) nil (fringe))
  '(garbage-collection-messages t)
  '(global-display-line-numbers-mode t)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
