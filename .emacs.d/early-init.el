@@ -1,6 +1,6 @@
 (setq custom-file (locate-user-emacs-file "custom-var.el")
-      gc-cons-threshold (* 8 1024 1024)
-      gc-cons-percentage 0.25)
+      gc-cons-threshold (* 64 1024 1024)
+      gc-cons-percentage 0.75)
 
 (load custom-file 'noerror 'nomessage)
 (unless (file-directory-p "~/.emacs.d/autosave")
