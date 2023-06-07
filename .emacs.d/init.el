@@ -181,6 +181,12 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package clojure-mode
+  :ensure t)
+
+(use-package clojure-ts-mode
+  :ensure t)
+
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
@@ -190,6 +196,9 @@
 ;; (use-package slime
 ;;   :ensure t
 ;;   :init (setq inferior-lisp-program "sbcl"))
+
+(use-package cider
+  :ensure t)
 
 (use-package magit
   :ensure t
@@ -283,6 +292,16 @@
   :custom
   (completion-styles '(partial-completion orderless basic))
   (completion-category-defaults nil))
+
+(use-package paredit
+  :ensure t
+  :hook
+  (lisp-mode . enable-paredit-mode)
+  (emacs-lisp-mode . enable-paredit-mode)
+  (racket-mode . enable-paredit-mode)
+  (scheme-mode . enable-paredit-mode)
+  (clojure-mode . enable-paredit-mode)
+  (clojure-ts-mode . enable-paredit-mode))
 
 (defun startup-function ()
   (require 'org)

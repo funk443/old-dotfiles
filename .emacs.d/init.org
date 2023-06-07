@@ -314,6 +314,12 @@ code block.
 
 (use-package markdown-mode
   :ensure t)
+
+(use-package clojure-mode
+  :ensure t)
+
+(use-package clojure-ts-mode
+  :ensure t)
 #+end_src
 
 I mostly do Common Lisp development, so I have installed ~sly~ to enhance my
@@ -329,6 +335,12 @@ here.
 ;; (use-package slime
 ;;   :ensure t
 ;;   :init (setq inferior-lisp-program "sbcl"))
+#+end_src
+
+I am trying out Clojure now, which comes with a ~sly~ clone, ~cider~.
+#+begin_src elisp
+(use-package cider
+  :ensure t)
 #+end_src
 
 * Misc
@@ -481,6 +493,19 @@ completion system.
   :custom
   (completion-styles '(partial-completion orderless basic))
   (completion-category-defaults nil))
+#+end_src
+
+To edit Lisp better, I use ~paredit~.  Check [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][here]] for some tutorials.
+#+begin_src elisp
+(use-package paredit
+  :ensure t
+  :hook
+  (lisp-mode . enable-paredit-mode)
+  (emacs-lisp-mode . enable-paredit-mode)
+  (racket-mode . enable-paredit-mode)
+  (scheme-mode . enable-paredit-mode)
+  (clojure-mode . enable-paredit-mode)
+  (clojure-ts-mode . enable-paredit-mode))
 #+end_src
 
 * Custom-defined Functions
