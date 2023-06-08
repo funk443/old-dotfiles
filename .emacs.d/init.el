@@ -293,15 +293,11 @@
   (completion-styles '(partial-completion orderless basic))
   (completion-category-defaults nil))
 
-(use-package paredit
+(use-package smartparens
   :ensure t
-  :hook
-  (lisp-mode . enable-paredit-mode)
-  (emacs-lisp-mode . enable-paredit-mode)
-  (racket-mode . enable-paredit-mode)
-  (scheme-mode . enable-paredit-mode)
-  (clojure-mode . enable-paredit-mode)
-  (clojure-ts-mode . enable-paredit-mode))
+  :config
+  (sp-pair "'" "'" :action :rem)
+  (smartparens-global-strict-mode))
 
 (defun startup-function ()
   (require 'org)

@@ -165,10 +165,10 @@
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(magit-section htmlize vterm treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
-                   #("eshell-prompt-extras" 0 20
-                     (escaped t))
-                   "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
+   '(smartparens magit-section htmlize vterm treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
+                 #("eshell-prompt-extras" 0 20
+                   (escaped t))
+                 "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
