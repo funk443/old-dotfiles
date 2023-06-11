@@ -58,7 +58,7 @@
   (message "~a" (run-shell-command "mpstat" t)))
 
 (defcommand my-echo-date () ()
-  (message "~a" (run-shell-command "date '+%a.  %d %b %y  %T'" t)))
+  (message "~a" (run-shell-command "date '+%F %A %H:%M:%S'" t)))
 
 (defcommand ss () ()
   (run-shell-command "xfce4-screenshooter"))
