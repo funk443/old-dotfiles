@@ -8,6 +8,8 @@
 all: setup
 
 setup: setup.lisp
-	sbcl --disable-debugger --load setup.lisp --eval \
+	sbcl --disable-debugger --no-userinit \
+	--load ~/quicklisp/setup.lisp \
+	--load setup.lisp --eval \
 	"(sb-ext:save-lisp-and-die \"setup\" \
 	:toplevel #'main :executable t :compression t)"
