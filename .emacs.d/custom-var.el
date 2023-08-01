@@ -7,8 +7,8 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
  '(blink-cursor-mode t)
- '(browse-url-browser-function 'xwidget-webkit-browse-url)
- '(browse-url-secondary-browser-function 'browse-url-xdg-open)
+ '(browse-url-browser-function 'browse-url-default-browser)
+ '(browse-url-secondary-browser-function 'eww-browse-url)
  '(column-number-mode t)
  '(connection-local-criteria-alist
    '(((:application eshell)
@@ -105,7 +105,9 @@
  '(erc-nick "CToID")
  '(fill-column 80)
  '(font-lock-maximum-decoration
-   '((racket-mode . 0)
+   '((clojure-mode . 0)
+     (scheme-mode . 0)
+     (racket-mode . 0)
      (emacs-lisp-mode . 0)
      (list-data-mode . 0)
      (lisp-mode . 0)
@@ -135,6 +137,7 @@
  '(line-spacing nil)
  '(major-mode-remap-alist '((perl-mode . cperl-mode)))
  '(menu-bar-mode nil)
+ '(mode-line-position-column-line-format '(" (%l %c)"))
  '(org-agenda-files '("~/Documents/agenda.org"))
  '(org-capture-templates
    '(("n" "General notes" entry
@@ -165,10 +168,10 @@
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(smartparens magit-section htmlize vterm treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
-                 #("eshell-prompt-extras" 0 20
-                   (escaped t))
-                 "eshell-prompt-extras" all-the-icons-dired use-package browse-kill-ring arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
+   '(sly smartparens magit-section htmlize vterm treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
+         #("eshell-prompt-extras" 0 20
+           (escaped t))
+         "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
