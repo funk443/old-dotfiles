@@ -2,7 +2,7 @@
 # ~/.bashrc
 #
 
-export PATH="/usr/local/texlive/2022/bin/x86_64-linux:/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
+export PATH="/usr/local/texlive/2023/bin/x86_64-linux:/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib"
 export EDITOR="emacsclient -t -a 'emacs -nw'"
 export VISUAL="emacsclient -c -a emacs"
@@ -64,4 +64,3 @@ export PATH=$PATH:~/.roswell/bin
 export PATH=$PATH:/usr/local/racket/bin
 export PATH=$PATH:~/Documents/appimages
 export SBCL_HOME=/usr/local/lib/sbcl
-eval $(opam env --switch=4.07.0)
