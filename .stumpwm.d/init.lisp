@@ -1,13 +1,16 @@
-(ql:quickload '("cl-ppcre" "slynk"))
+(ql:quickload '(cl-ppcre slynk))
 (in-package stumpwm)
 (load-module "stumptray")
 (load-module "swm-gaps")
 
 (defvar *slynk-port* (slynk:create-server :port 0 :dont-close t))
+(defvar *date-command*
+  "date +\"%-Y-%m-%d %A %H:%M:%S\"")
 
 (set-prefix-key (kbd "s-t"))
 (setf *screen-mode-line-format* (list "%g | %d")
-      *time-modeline-string* "%a. %d %b %y %T"
+      *time-format-string-default* "%Y-%m-%d %A %H:%M:%S"
+      *time-modeline-string* *time-format-string-default*
       *mode-line-timeout* 2
       *window-format* "<[%n%s%m]%t>"
       *window-info-format* "%wx%h %n %m (%t)"
@@ -30,7 +33,10 @@
   (set-float-unfocus-color unfocus-color))
 
 (swm-gaps:toggle-gaps-on)
-(set-font "-ibm-courier-bold-r-*-*-17-120-100-100-*-*-*-*")
+
+;; This font is not installed on the system by default
+(ignore-errors
+ (set-font "-gnu-unifont-medium-r-*-*-16-*-*-*-*-*-*-*"))
 
 (xlib:set-wm-class (screen-message-window (current-screen))
                    "stumpwm-message" "stumpwm-message")
@@ -42,7 +48,7 @@
   (0 t t :class "discord"))
 
 (define-frame-preference "steam"
-  (0 t t :class "Steam"))
+  (0 t t :class "steam"))
 
 (add-hook *quit-hook* (lambda ()
                         (run-shell-command
@@ -57,14 +63,37 @@
 (defcommand current-cpu-usage () ()
   (message "~a" (run-shell-command "mpstat" t)))
 
+;; Gregorian calendar
+;; (defcommand my-echo-date () ()
+;;   (message "~a" (run-shell-command *date-command* t)))
+
+;; Republic of China calendar
 (defcommand my-echo-date () ()
-  (message "~a" (run-shell-command "date '+%F %A %H:%M:%S'" t)))
+  (let* ((date-string (run-shell-command *date-command* t))
+         (year (svref (nth-value 1 (ppcre:scan-to-strings
+                                    "^(\\d{4}).+$"
+                                    date-string))
+                      0))
+         (minguo (write-to-string (- (parse-integer year) 1911))))
+    (message "~a" (ppcre:regex-replace "^\\d{4}" date-string minguo))))
 
 (defcommand ss () ()
   (run-shell-command "xfce4-screenshooter"))
 
 (defcommand toggle-systray () ()
   (stumptray::stumptray))
+
+(defcommand toggle-notification () ()
+  (run-shell-command "dunstctl set-paused toggle")
+  (let ((status (string-trim '(#\space #\tab #\newline)
+                             (run-shell-command "dunstctl is-paused" t))))
+    (if (string= status "true")
+        (message "Notification disabled")
+        (message "Notification enabled"))))
+
+(defcommand float-and-top () ()
+  (float-this)
+  (toggle-always-on-top))
 
 (let ((commands-to-run (list "sh ~/dotfiles/misc/qtile_startup_once.sh"
                              "feh --bg-fill ~/dotfiles/wallpapers/void_linux_chan.png"
