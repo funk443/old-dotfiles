@@ -94,6 +94,8 @@ I use Doom Challenger Deep theme from ~doom-themes~ package for my Emacs.
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
   (doom-challenger-deep-brighter-modeline t)
+  :custom-face
+  (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
   (load-theme 'doom-challenger-deep t))
 #+end_src
@@ -315,10 +317,7 @@ code block.
 (use-package markdown-mode
   :ensure t)
 
-(use-package clojure-mode
-  :ensure t)
-
-(use-package clojure-ts-mode
+(use-package racket-mode
   :ensure t)
 #+end_src
 
@@ -337,12 +336,6 @@ here.
 ;;   :init (setq inferior-lisp-program "sbcl"))
 #+end_src
 
-I am trying out Clojure now, which comes with a ~sly~ clone, ~cider~.
-#+begin_src elisp
-(use-package cider
-  :ensure t)
-#+end_src
-
 * Misc
 :PROPERTIES:
 :header-args: :tangle "init.el"
@@ -352,18 +345,6 @@ Emacs has a very powerful git client, ~magit~.
 (use-package magit
   :ensure t
   :commands (magit magit-clone))
-#+end_src
-
-The vanilla kill ring in Emacs doesn't provide a very great experience, so I use
-~browse-kill-ring~.  It's a nice little kill ring browser.
-#+begin_src elisp
-(use-package browse-kill-ring
-  :ensure t
-  :custom
-  (browse-kill-ring-depropertize t)
-  (browse-kill-ring-display-duplicates t)
-  :config
-  (browse-kill-ring-default-keybindings))
 #+end_src
 
 To copy/paste text from GUI clipboard while running Emacs in a text terminal, we
@@ -495,13 +476,10 @@ completion system.
   (completion-category-defaults nil))
 #+end_src
 
-To edit Lisp better, I use ~smartparens~.
+~unfill~ is a package to undo ~fill-region~ or ~fill-paragraph~.
 #+begin_src elisp
-(use-package smartparens
-  :ensure t
-  :config
-  (sp-pair "'" "'" :action :rem)
-  (smartparens-global-strict-mode))
+(use-package unfill
+  :ensure t)
 #+end_src
 
 * Custom-defined Functions
@@ -700,6 +678,8 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
                     :inherit 'fixed-pitch)
 (set-face-attribute 'org-property-value nil
                     :inherit 'fixed-pitch)
+(set-face-attribute 'org-block-begin-line nil
+                    :foreground "#8f8eb1")
 #+end_src
 
 Because IBM Plex Mono comes with various weight, so I set some faces to

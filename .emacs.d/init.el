@@ -29,6 +29,8 @@
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
   (doom-challenger-deep-brighter-modeline t)
+  :custom-face
+  (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
   (load-theme 'doom-challenger-deep t))
 
@@ -181,10 +183,7 @@
 (use-package markdown-mode
   :ensure t)
 
-(use-package clojure-mode
-  :ensure t)
-
-(use-package clojure-ts-mode
+(use-package racket-mode
   :ensure t)
 
 (use-package sly
@@ -197,20 +196,9 @@
 ;;   :ensure t
 ;;   :init (setq inferior-lisp-program "sbcl"))
 
-(use-package cider
-  :ensure t)
-
 (use-package magit
   :ensure t
   :commands (magit magit-clone))
-
-(use-package browse-kill-ring
-  :ensure t
-  :custom
-  (browse-kill-ring-depropertize t)
-  (browse-kill-ring-display-duplicates t)
-  :config
-  (browse-kill-ring-default-keybindings))
 
 (use-package xclip
   :ensure t)
@@ -293,11 +281,8 @@
   (completion-styles '(partial-completion orderless basic))
   (completion-category-defaults nil))
 
-(use-package smartparens
-  :ensure t
-  :config
-  (sp-pair "'" "'" :action :rem)
-  (smartparens-global-strict-mode))
+(use-package unfill
+  :ensure t)
 
 (defun startup-function ()
   (require 'org)
@@ -393,6 +378,8 @@
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-property-value nil
                         :inherit 'fixed-pitch)
+    (set-face-attribute 'org-block-begin-line nil
+                        :foreground "#8f8eb1")
     (when (member (face-attribute 'default :family)
                   '("IBM Plex Mono" "IBMPlexMono"))
       (set-face-attribute 'line-number nil
@@ -456,3 +443,6 @@
 
 (add-hook 'server-after-make-frame-hook
           #'set-fonts)
+
+(setq common-lisp-hyperspec-root
+      "file:///home/id/Downloads/lisp/CLHS/HyperSpec/")
