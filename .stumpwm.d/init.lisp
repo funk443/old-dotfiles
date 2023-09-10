@@ -45,10 +45,10 @@
 (gnewbg "discord")
 
 (define-frame-preference "discord"
-  (0 t t :class "discord"))
+  (0 nil t :class "discord"))
 
 (define-frame-preference "steam"
-  (0 t t :class "steam"))
+  (0 nil t :class "steam"))
 
 (add-hook *quit-hook* (lambda ()
                         (run-shell-command
@@ -59,9 +59,6 @@
                                  (xlib:set-wm-class (mode-line-window mode-line)
                                                     "stumpwm-modeline"
                                                     "stumpwm-modeline")))
-
-(defcommand current-cpu-usage () ()
-  (message "~a" (run-shell-command "mpstat" t)))
 
 ;; Gregorian calendar
 ;; (defcommand my-echo-date () ()

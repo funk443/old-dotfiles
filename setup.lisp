@@ -14,7 +14,7 @@
 ;;;; You should have received a copy of the GNU General Public License
 ;;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-(ql:quickload '("uiop" "cl-ppcre"))
+(ql:quickload '(uiop cl-ppcre))
 
 (declaim (ftype (function () null) clear-screen)
          (inline clear-screen))
@@ -33,18 +33,18 @@
 (defun get-description (name type)
   (case type
     (xbps
-       (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
-                         :output '(:string :stripped t)))
+     (uiop:run-program (format nil "xbps-query -p short_desc ~a" name)
+                       :output '(:string :stripped t)))
     (flatpak
-       (with-input-from-string (stream (uiop:run-program
-                                        (format nil "flatpak info ~a" name)
-                                        :output '(:string :stripped t)))
-         (read-line stream)
-         (svref (cadr (multiple-value-list
-                       (ppcre:scan-to-strings
-                        "\\s-\\s(.+)$"
-                        (car (multiple-value-list (read-line stream))))))
-                0)))
+     (with-input-from-string (stream (uiop:run-program
+                                      (format nil "flatpak info ~a" name)
+                                      :output '(:string :stripped t)))
+       (read-line stream)
+       (svref (cadr (multiple-value-list
+                     (ppcre:scan-to-strings
+                      "\\s-\\s(.+)$"
+                      (car (multiple-value-list (read-line stream))))))
+              0)))
     (t (error "Unknown package type"))))
 
 (declaim (ftype (function ((or string pathname) symbol) list)
@@ -52,14 +52,14 @@
 (defun make-list-from-file (file-path type)
   (case type
     ((xbps flatpak)
-       (map 'list (lambda (x)
-                    (list t x (get-description x type)))
-            (uiop:read-file-lines file-path)))
+     (map 'list (lambda (x)
+                  (list t x (get-description x type)))
+          (uiop:read-file-lines file-path)))
     ((config-files system-services)
-       (with-open-file (stream file-path)
-         (map 'list (lambda (x)
-                      (cons t x))
-              (cdr (assoc type (read stream))))))
+     (with-open-file (stream file-path)
+       (map 'list (lambda (x)
+                    (cons t x))
+            (cdr (assoc type (read stream))))))
     (t (error "Unknown type"))))
 
 (declaim (ftype (function (list &optional fixnum) list) make-keyed-list))
@@ -71,19 +71,19 @@
 (defmacro beautify-list-booleans (list key &optional (yes-no '("v" . " ")))
   `(map 'list (lambda (entry &aux (entry (copy-tree entry)))
                 (setf (,key entry) (if (,key entry)
-                                     ,(car yes-no)
-                                     ,(cdr yes-no)))
+                                       ,(car yes-no)
+                                       ,(cdr yes-no)))
                 entry)
         ,list))
 
 (declaim (ftype (function (list symbol) t) install-packages))
 (defun install-packages (package-list type)
   (uiop:run-program (format nil "~{~a~^ ~} ~{~a~^ ~}"
-                    (case type
-                      (xbps '("sudo" "xbps-install"))
-                      (flatpak '("flatpak" "install" "flathub"))
-                      (t (error "Unknown package type")))
-                    (map 'list #'cadr package-list))
+                            (case type
+                              (xbps '("sudo" "xbps-install"))
+                              (flatpak '("flatpak" "install" "flathub"))
+                              (t (error "Unknown package type")))
+                            (map 'list #'cadr package-list))
                     :ignore-error-status t
                     :input :interactive
                     :output :interactive
@@ -93,8 +93,8 @@
 (defun make-symlinks (list)
   (loop for (_ from to need-root) in list
         do (uiop:run-program (if need-root
-                               (format nil "sudo ln -srf ~a ~a" from to)
-                               (format nil "ln -srf ~a ~a" from to))
+                                 (format nil "sudo ln -srf ~a ~a" from to)
+                                 (format nil "ln -srf ~a ~a" from to))
                              :ignore-error-status t
                              :input :interactive
                              :output :interactive
@@ -168,17 +168,17 @@
                                  (xbps "misc/package-list")
                                  (flatpak "misc/flatpak-list")
                                  ((config-files system-services)
-                                    "misc/symlink-service-list")
+                                  "misc/symlink-service-list")
                                  (t (error "Unknown type")))
         and first-row = (case type
                           ((xbps flatpak)
-                             '("key" "toggle" "name" "description"))
+                           '("key" "toggle" "name" "description"))
                           ((config-files system-services)
-                             '("key" "toggle" "from" "to" "need-root"))
+                           '("key" "toggle" "from" "to" "need-root"))
                           (t (error "Unknown type")))
         with list = (if (and list-file (probe-file list-file))
-                      (read-list-file list-file)
-                      (make-list-from-file list-source-file type))
+                        (read-list-file list-file)
+                        (make-list-from-file list-source-file type))
         with items-per-page = 10
         and current-page = 0
         and list-max-index = (1- (list-length list))
@@ -194,16 +194,16 @@
                                   (make-keyed-list
                                    (case type
                                      ((xbps flatpak)
-                                        (beautify-list-booleans
-                                            current-sublist
-                                            car))
+                                      (beautify-list-booleans
+                                       current-sublist
+                                       car))
                                      ((config-files system-services)
-                                        (beautify-list-booleans
-                                            (beautify-list-booleans
-                                                current-sublist
-                                                car)
-                                            cadddr
-                                            ("yes" . "no")))
+                                      (beautify-list-booleans
+                                       (beautify-list-booleans
+                                        current-sublist
+                                        car)
+                                       cadddr
+                                       ("yes" . "no")))
                                      (t (error "Unknown type")))))
         for user-input = (progn (clear-screen)
                                 (print-table current-table)
@@ -224,40 +224,40 @@
              (t
               (case user-input
                 (#\Q
-                   (return-from dispatch list))
+                 (return-from dispatch list))
                 (#\N
-                   (setf current-page (min max-page
-                                           (1+ current-page))))
+                 (setf current-page (min max-page
+                                         (1+ current-page))))
                 (#\P
-                   (setf current-page (max 0 (1- current-page))))
+                 (setf current-page (max 0 (1- current-page))))
                 (#\I
-                   (case type
-                     ((xbps flatpak)
-                        (install-packages (remove-if-not #'car list) type))
-                     ((config-files system-services)
-                        (make-symlinks (remove-if-not #'car list)))
-                     (t (error "Unknown type")))
+                 (case type
+                   ((xbps flatpak)
+                    (install-packages (remove-if-not #'car list) type))
+                   ((config-files system-services)
+                    (make-symlinks (remove-if-not #'car list)))
+                   (t (error "Unknown type")))
                  (wait-user-input))
                 (#\M
-                   (setf list (map 'list
-                                   (lambda (x &aux (x (copy-list x)))
-                                     (setf (car x) t)
-                                     x)
-                                   list)))
+                 (setf list (map 'list
+                                 (lambda (x &aux (x (copy-list x)))
+                                   (setf (car x) t)
+                                   x)
+                                 list)))
                 (#\U
-                   (setf list (map 'list
-                                   (lambda (x &aux (x (copy-list x)))
-                                     (setf (car x) nil)
-                                     x)
-                                   list)))
+                 (setf list (map 'list
+                                 (lambda (x &aux (x (copy-list x)))
+                                   (setf (car x) nil)
+                                   x)
+                                 list)))
                 (t nil))))))
-    
+
 (declaim (ftype (function () t) menu))
 (defun menu ()
   (handler-case
-  (flet ((make-menu ()
-           (clear-screen)
-           (format t "~
+      (flet ((make-menu ()
+               (clear-screen)
+               (format t "~
 [1mID's GNU/Linux Post-installation Setup Script[0m
 
 ==========
@@ -284,18 +284,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 <c> Configuration File Symlinks
 <s> Runit Services
 <q> Quit~%")
-           (finish-output)))
-    (loop named menu-dispatch
-          for user-input = (progn (make-menu)
-                                  (clear-input)
-                                  (read-char))
-          do (case user-input
-               (#\p (package-symlink-dispatch 'xbps))
-               (#\f (package-symlink-dispatch 'flatpak))
-               (#\c (package-symlink-dispatch 'config-files))
-               (#\s (package-symlink-dispatch 'system-services))
-               (#\q (return-from menu-dispatch 0))
-               (t nil))))))
+               (finish-output)))
+        (loop named menu-dispatch
+              for user-input = (progn (make-menu)
+                                      (clear-input)
+                                      (read-char))
+              do (case user-input
+                   (#\p (package-symlink-dispatch 'xbps))
+                   (#\f (package-symlink-dispatch 'flatpak))
+                   (#\c (package-symlink-dispatch 'config-files))
+                   (#\s (package-symlink-dispatch 'system-services))
+                   (#\q (return-from menu-dispatch 0))
+                   (t nil))))))
 
 (declaim (ftype (function () t) main))
 (defun main ()
