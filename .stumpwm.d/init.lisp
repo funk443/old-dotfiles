@@ -75,6 +75,10 @@
     (message "~a" (ppcre:regex-replace "^\\d{4}" date-string minguo))))
 
 (defcommand ss () ()
+  (run-shell-command
+   "xfce4-screenshooter -ro 'xclip -selection clipboard -t image/png -i'"))
+
+(defcommand ss* () ()
   (run-shell-command "xfce4-screenshooter"))
 
 (defcommand toggle-systray () ()
