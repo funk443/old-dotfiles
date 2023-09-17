@@ -92,8 +92,9 @@
       (null-device . "/dev/null"))))
  '(current-language-environment "UTF-8")
  '(custom-safe-themes
-   '("2050674326d536ddd3dcea87e077d27071cfbbe974a4540b1a57b6b672f64c51" "512ce140ea9c1521ccaceaa0e73e2487e2d3826cc9d287275550b47c04072bc4" "2078837f21ac3b0cc84167306fa1058e3199bbd12b6d5b56e3777a4125ff6851" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "ec2c86933a6e0b96f68f71d4b39ebdd67b43b0b32091b7689acb9acdc2a3e03b" default))
+   '("ac18cc10455c6c26a98354ba8f9d338842d7ecc9ae3d28c205ed154ef20d74ce" "2050674326d536ddd3dcea87e077d27071cfbbe974a4540b1a57b6b672f64c51" "512ce140ea9c1521ccaceaa0e73e2487e2d3826cc9d287275550b47c04072bc4" "2078837f21ac3b0cc84167306fa1058e3199bbd12b6d5b56e3777a4125ff6851" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "ec2c86933a6e0b96f68f71d4b39ebdd67b43b0b32091b7689acb9acdc2a3e03b" default))
  '(default-input-method "chinese-array30")
+ '(delete-selection-mode t)
  '(dired-dwim-target 'dired-dwim-target-next)
  '(display-line-numbers 'relative)
  '(display-line-numbers-current-absolute nil)
