@@ -32,7 +32,7 @@
   :custom-face
   (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
-  (load-theme 'doom-challenger-deep t))
+  (load-theme 'doom-one-light t))
 
 (use-package all-the-icons
   :ensure t
@@ -190,7 +190,7 @@
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
   :custom
-  (sly-common-lisp-style-default "classic"))
+  (sly-common-lisp-style-default "modern"))
 
 ;; (use-package slime
 ;;   :ensure t
