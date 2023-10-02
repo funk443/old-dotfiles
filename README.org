@@ -39,8 +39,8 @@ sbcl --load setup.lisp --eval "(main)"
 
 * Custom Keybindings in StumpWM
 I mostly use the default keybindings that come with StumpWM, but I have changed
-the *prefix key* to ~Super-t~.  I have also exchanged the ~hsplit~ and ~vsplit~
-keybinding.
+the *prefix key* to ~Super-t~ (or ~Windows-t~).  I have also exchanged the
+~hsplit~ and ~vsplit~ keybinding.
 
 * TODOs
 - [X] Write installation script (new one)
