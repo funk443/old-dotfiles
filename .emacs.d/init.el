@@ -28,7 +28,6 @@
   :custom
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
-  (doom-challenger-deep-brighter-modeline t)
   :custom-face
   (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
@@ -324,14 +323,18 @@
 
 (defun set-fonts ()
   (let ((font-height 140))
-    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA"))
+    (set-fontset-font "fontset-default" 'han (font-spec :family "GenYoMin TW"))
+    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA")
+                      nil 'append)
     (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
                       nil 'append)
     (set-fontset-font "fontset-default" 'han
                       (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
     (set-fontset-font "fontset-default" 'han
                       (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA"))
+    (set-fontset-font "fontset-default" 'big5 (font-spec :family "GenYoMin TW"))
+    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA")
+                      nil 'append)
     (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
                       nil 'append)
     (set-fontset-font "fontset-default" 'big5
@@ -443,6 +446,3 @@
 
 (add-hook 'server-after-make-frame-hook
           #'set-fonts)
-
-(setq common-lisp-hyperspec-root
-      "file:///home/id/Downloads/lisp/CLHS/HyperSpec/")
