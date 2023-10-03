@@ -654,7 +654,7 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
                     :family "IBMPlexMono"
                     :height font-height)
 (set-face-attribute 'variable-pitch nil
-                    :family "IBMPlexSans"
+                    :family "IBMPlexSerif"
                     :inherit 'default)
 (set-face-attribute 'fixed-pitch nil
                     :family "IBMPlexMono"
@@ -716,19 +716,13 @@ keybindings.  Package-related keybindings can be found in their own section.
 | C-x C-r      | Open a buffer displaying recently modified files |
 | C-M-=        | Count words                                      |
 | C-x C-b      | Ibuffer                                          |
-| C-y          | Yank from clipboard                              |
-| C-w          | Kill to clipboard                                |
-| M-w          | Copy to clipboard                                |
 #+begin_src elisp :tangle "init.el"
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
                         ("<C-wheel-down>" . text-scale-decrease)
                         ("C-x C-r" . recentf-open-files)
                         ("C-M-=" . count-words)
-                        ("C-x C-b" . ibuffer)
-                        ("C-y" . clipboard-yank)
-                        ("C-w" . clipboard-kill-region)
-                        ("M-w" . clipboard-kill-ring-save)))
+                        ("C-x C-b" . ibuffer)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
 #+end_src
 

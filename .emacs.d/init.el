@@ -354,7 +354,7 @@
                         :family "IBMPlexMono"
                         :height font-height)
     (set-face-attribute 'variable-pitch nil
-                        :family "IBMPlexSans"
+                        :family "IBMPlexSerif"
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
                         :family "IBMPlexMono"
@@ -405,10 +405,7 @@
                         ("<C-wheel-down>" . text-scale-decrease)
                         ("C-x C-r" . recentf-open-files)
                         ("C-M-=" . count-words)
-                        ("C-x C-b" . ibuffer)
-                        ("C-y" . clipboard-yank)
-                        ("C-w" . clipboard-kill-region)
-                        ("M-w" . clipboard-kill-ring-save)))
+                        ("C-x C-b" . ibuffer)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
 
 (defvar emms-volume--mpv)
