@@ -202,9 +202,11 @@
 (use-package xclip
   :ensure t)
 
-(use-package vterm
-  :commands (vterm)
-  :ensure t)
+(use-package eat
+  :ensure t
+  :config
+  (eat-eshell-mode)
+  (eat-eshell-visual-command-mode))
 
 (use-package which-key
   :ensure t
@@ -323,29 +325,6 @@
 
 (defun set-fonts ()
   (let ((font-height 140))
-    (set-fontset-font "fontset-default" 'han (font-spec :family "GenYoMin TW"))
-    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'han
-                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
-    (set-fontset-font "fontset-default" 'han
-                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "GenYoMin TW"))
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'big5
-                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
-    (set-fontset-font "fontset-default" 'big5
-                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
-    (set-fontset-font "fontset-default" 'kana
-                      (font-spec :family "Noto Sans Mono CJK JP"))
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
-                      nil 'append)
     (setq face-font-rescale-alist '(("Noto Sans Mono CJK TC" . 0.92)
                                     ("Noto Sans Mono CJK SC" . 0.92)
                                     ("Noto Sans Mono CJK JP" . 0.92)
@@ -400,6 +379,32 @@
       (set-face-attribute 'font-lock-comment-face nil
                           :slant 'italic))))
 
+(defun set-fonts-frame ()
+  (let ((font-height 140))
+    (set-fontset-font "fontset-default" 'han (font-spec :family "GenYoMin TW"))
+    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA")
+                      nil 'append)
+    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
+                      nil 'append)
+    (set-fontset-font "fontset-default" 'han
+                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
+    (set-fontset-font "fontset-default" 'han
+                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
+    (set-fontset-font "fontset-default" 'big5 (font-spec :family "GenYoMin TW"))
+    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA")
+                      nil 'append)
+    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
+                      nil 'append)
+    (set-fontset-font "fontset-default" 'big5
+                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
+    (set-fontset-font "fontset-default" 'big5
+                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
+    (set-fontset-font "fontset-default" 'kana
+                      (font-spec :family "Noto Sans Mono CJK JP"))
+    (set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
+    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
+                      nil 'append)))
+
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
                         ("<C-wheel-down>" . text-scale-decrease)
@@ -439,7 +444,11 @@
             (keymap-set xwidget-webkit-mode-map "&"
                         'xwidget-webkit-with-external-browser)))
 
+(defvar gc-idle-timer
+  (run-with-idle-timer 8 t #'garbage-collect)
+  "The idle timer to run garbage collection")
+
 (add-hook 'emacs-startup-hook #'startup-function)
 
 (add-hook 'server-after-make-frame-hook
-          #'set-fonts)
+          #'set-fonts-frame)
