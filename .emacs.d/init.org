@@ -510,9 +510,11 @@ First, load the ~ibuf-ext~ package to have a better Ibuffer experience.
 (require 'ibuf-ext)
 #+end_src
 
-We'll then set several variables up.  Most of my custom variables are set via
-Emacs' built-in "customize" functionality, but some variables cannot be set by
-that for various of reasons, so they are set here.
+We'll then set several variables up.  Most of my custom built-in variables are
+set via Emacs' built-in "customize" functionality, and can be found in
+[[file:custom-var.el][custom-var.el]], but some variables cannot be set by that for various of reasons,
+so they are set here.  Package related variables are set using ~use-package~'s
+~:custom~ functionality, as you can see from previous sections.
 #+begin_src elisp :noweb-ref customize-variable
 (setq frame-title-format "%b - GNU Emacs"
       default-input-method "chinese-array30"
@@ -612,7 +614,6 @@ minibuffer of the frame in workspace 1 will grow for some reason, and cannot be
 shrink back to its normal size.  I found out this is because of setting face
 attributes repeatedly, so I decided to put those codes into another function
 that only executes once, which will be the ~set-font~ function.
-
 #+begin_src elisp :tangle "init.el" :noweb yes
 (defun set-fonts ()
   (let ((font-height 140))
