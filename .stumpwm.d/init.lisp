@@ -16,8 +16,8 @@
       *window-info-format* "%wx%h %n %m (%t)"
       *mouse-focus-policy* :click
       *group-format* "<[%n%s]%t>"
-      *message-window-padding* 3
-      *message-window-y-padding* 3
+      *message-window-padding* 2
+      *message-window-y-padding* 2
       *maxsize-border-width* 2
       *transient-border-width* 2
       *normal-border-width* 2
@@ -96,13 +96,17 @@
   (float-this)
   (toggle-always-on-top))
 
+(defcommand unfloat-and-untop () ()
+  (toggle-always-on-top)
+  (unfloat-this))
+
 (let ((commands-to-run (list "sh ~/dotfiles/misc/qtile_startup_once.sh"
                              "feh --bg-fill ~/dotfiles/wallpapers/void_linux_chan.png"
                              "xsetroot -cursor_name left_ptr")))
   (dolist (command commands-to-run)
     (run-shell-command command)))
 
-(let ((keys-to-define (list (cons (kbd "c") "exec alacritty")
+(let ((keys-to-define (list (cons (kbd "c") "exec emacsclient -c -a '' -e '(eshell t)'")
                             (cons (kbd "e") "exec emacsclient -c -a ''")
                             (cons (kbd "s") "hsplit")
                             (cons (kbd "S") "vsplit")
