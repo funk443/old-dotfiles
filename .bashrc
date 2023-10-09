@@ -5,7 +5,7 @@
 export PATH="/usr/local/texlive/2023/bin/x86_64-linux:/var/lib/flatpak/exports/bin:$HOME/.emacs.d/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib"
 export EDITOR="emacsclient -t -a 'emacs -nw'"
-export VISUAL="emacsclient -c -a emacs"
+export VISUAL="emacsclient -c -a emacs ''"
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -20,32 +20,32 @@ alias em='emacsclient -c -a emacs'
 alias perepl='perl -de1'
 PS1='[\u@\h \W]\$ '
 
-vterm_printf ()
-{
-  if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
-    # Tell tmux to pass the escape sequences through
-    printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-  elif [ "${TERM%%-*}" = "screen" ]; then
-    # GNU screen (screen, screen-256color, screen-256color-bce)
-    printf "\eP\e]%s\007\e\\" "$1"
-  else
-    printf "\e]%s\e\\" "$1"
-  fi
-}
+# vterm_printf ()
+# {
+#   if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+#     # Tell tmux to pass the escape sequences through
+#     printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+#   elif [ "${TERM%%-*}" = "screen" ]; then
+#     # GNU screen (screen, screen-256color, screen-256color-bce)
+#     printf "\eP\e]%s\007\e\\" "$1"
+#   else
+#     printf "\e]%s\e\\" "$1"
+#   fi
+# }
 
-vterm_prompt_end ()
-{
-  vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-}
+# vterm_prompt_end ()
+# {
+#   vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+# }
 
-PS1=$PS1'\[$(vterm_prompt_end)\]'
+# PS1=$PS1'\[$(vterm_prompt_end)\]'
 
 random_startup_message ()
 {
   if [ $(($RANDOM % 2)) = 1 ]
   then
-    figlet -kf slant "ad astra" | lolcat
-    figlet -kf slant "per aspera" | lolcat
+    figlet -kf slant "ad astra" | lolcat --24bit
+    figlet -kf slant "per aspera" | lolcat --24bit
   else
     cowsay -f $(shuf -e -n 1 gnu tux) $(shuf -e -n 1 \
                                              "Void is not based on Arch or Debian.  It's just based." \
@@ -64,3 +64,6 @@ export PATH=$PATH:~/.roswell/bin
 export PATH=$PATH:/usr/local/racket/bin
 export PATH=$PATH:~/Documents/appimages
 export SBCL_HOME=/usr/local/lib/sbcl
+
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+       source "$EAT_SHELL_INTEGRATION_DIR/bash"
