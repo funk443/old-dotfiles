@@ -184,6 +184,7 @@
  '(safe-local-variable-values
    '((display-line-numbers . visual)
      (display-line-numbers-type . visual)))
+ '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
  '(scalable-fonts-allowed t)
  '(screenshot-border-width 0)
