@@ -477,12 +477,22 @@ completion system.
   (completion-category-defaults nil))
 #+end_src
 
+~consult~ to have ~vertico~ style completion in Eshell.
+#+begin_src elisp
+(use-package consult
+  :ensure t
+  :config
+  (setq completion-in-region-function
+        (if vertico-mode
+            #'consult-completion-in-region
+          #'completion--in-region)))
+#+end_src
+
 ~unfill~ is a package to undo ~fill-region~ or ~fill-paragraph~.
 #+begin_src elisp
 (use-package unfill
   :ensure t)
 #+end_src
-
 * Custom-defined Functions
 I have defined several functions to help me setup my Emacs.
 
