@@ -7,7 +7,7 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
  '(blink-cursor-mode t)
- '(browse-url-browser-function 'browse-url-default-browser)
+ '(browse-url-browser-function 'browse-url-xdg-open)
  '(browse-url-secondary-browser-function 'eww-browse-url)
  '(column-number-mode t)
  '(connection-local-criteria-alist
@@ -96,6 +96,7 @@
  '(default-input-method "chinese-array30")
  '(delete-selection-mode t)
  '(dired-dwim-target 'dired-dwim-target-next)
+ '(dired-listing-switches "-alh")
  '(display-line-numbers 'relative)
  '(display-line-numbers-current-absolute nil)
  '(display-line-numbers-type 'relative)
@@ -104,6 +105,8 @@
  '(display-time-day-and-date t)
  '(display-time-default-load-average nil)
  '(erc-nick "CToID")
+ '(eshell-banner-message
+   " ______     _          _ _ \12|  ____|   | |        | | |\12| |__   ___| |__   ___| | |\12|  __| / __| '_ \\ / _ \\ | |\12| |____\\__ \\ | | |  __/ | |\12|______|___/_| |_|\\___|_|_|\12\12Welcome to Eshell, a shell written entirely in Emacs Lisp!\12-----\12")
  '(fill-column 80)
  '(font-lock-maximum-decoration
    '((clojure-mode . 0)
@@ -171,10 +174,10 @@
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(eat marginalia emms magit markdown-mode racket-mode dashboard all-the-icons-ibuffer unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
-         #("eshell-prompt-extras" 0 20
-           (escaped t))
-         "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
+   '(consult eat marginalia emms magit markdown-mode racket-mode dashboard all-the-icons-ibuffer unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
+             #("eshell-prompt-extras" 0 20
+               (escaped t))
+             "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
