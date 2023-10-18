@@ -3,8 +3,8 @@
 (load-module "stumptray")
 (load-module "swm-gaps")
 
-(defvar *slynk-port* (slynk:create-server :port 0 :dont-close t))
-(defvar *date-command*
+(defparameter *slynk-port* (slynk:create-server :port 0 :dont-close t))
+(defparameter *date-command*
   "date +\"%-Y-%m-%d %A %H:%M:%S\"")
 
 (set-prefix-key (kbd "s-t"))
