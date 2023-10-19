@@ -188,6 +188,10 @@
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
+  :config
+  (setq common-lisp-hyperspec-root
+        (concat "file:///"
+                (expand-file-name (concat user-emacs-directory "HyperSpec/"))))
   :custom
   (sly-common-lisp-style-default "modern"))
 
@@ -206,7 +210,9 @@
   :ensure t
   :config
   (eat-eshell-mode)
-  (eat-eshell-visual-command-mode))
+  (eat-eshell-visual-command-mode)
+  :custom
+  (eshell-visual-commands nil))
 
 (use-package which-key
   :ensure t
@@ -281,6 +287,14 @@
   :custom
   (completion-styles '(partial-completion orderless basic))
   (completion-category-defaults nil))
+
+(use-package consult
+  :ensure t
+  :config
+  (setq completion-in-region-function
+        (if vertico-mode
+            #'consult-completion-in-region
+          #'completion--in-region)))
 
 (use-package unfill
   :ensure t)

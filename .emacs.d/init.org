@@ -327,6 +327,10 @@ here.
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
+  :config
+  (setq common-lisp-hyperspec-root
+        (concat "file:///"
+                (expand-file-name (concat user-emacs-directory "HyperSpec/"))))
   :custom
   (sly-common-lisp-style-default "modern"))
 
@@ -355,13 +359,18 @@ need ~xclip~.
 
 The built-in shells/terminals that comes with Emacs is good, but not good
 enough.  So I have ~eat~ to provide a decent terminal emulator in Emacs, and
-it really does a great job.  It can also be integrated with Eshell.
+it really does a great job.  It can also be integrated with Eshell.  The reason
+why ~eshell-visual-commands~ is set to ~nil~ is that Eat is already been
+integrated into Eshell, so no need to open a new terminal window for those
+visual commands.
 #+begin_src elisp
 (use-package eat
   :ensure t
   :config
   (eat-eshell-mode)
-  (eat-eshell-visual-command-mode))
+  (eat-eshell-visual-command-mode)
+  :custom
+  (eshell-visual-commands nil))
 #+end_src
 
 Sometimes I'll need some hints while typing keystrokes, this is the time when
