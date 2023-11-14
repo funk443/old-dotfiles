@@ -388,7 +388,7 @@
                           :inherit 'fixed-pitch)
       (set-face-attribute 'dashboard-banner-logo-title nil
                           :weight 'bold)
-      (set-face-attribute 'dashboard-footer nil
+      (set-face-attribute 'dashboard-footer-face nil
                           :slant 'italic)
       (set-face-attribute 'font-lock-comment-face nil
                           :slant 'italic))))
