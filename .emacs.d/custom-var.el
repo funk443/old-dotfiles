@@ -167,18 +167,16 @@
      ("l" "literature note" plain "From: %?" :target
       (file+head "literature/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: (L)${title}")
       :unnarrowed t)))
- '(org-roam-dailies-directory "fleeting/")
- '(org-roam-directory "~/Documents/org-roam/")
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(all-the-icons consult eat marginalia emms magit markdown-mode racket-mode dashboard all-the-icons-ibuffer unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
-                   #("eshell-prompt-extras" 0 20
-                     (escaped t))
-                   "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
+   '(cider all-the-icons consult eat marginalia emms magit markdown-mode racket-mode dashboard all-the-icons-ibuffer unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode orderless vertico org-roam screenshot doom-themes
+           #("eshell-prompt-extras" 0 20
+             (escaped t))
+           "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column visual-fill-column-mode visual-line-mode highlight-indent-guides org-present org-present-mode toc-org sudo-edit neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)

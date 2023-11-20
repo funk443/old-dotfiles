@@ -284,7 +284,10 @@ I am now trying out ~org-roam~.
   :bind-keymap ("C-c n d" . org-roam-dailies-map)
   :config
   (require 'org-roam-dailies)
-  (org-roam-db-autosync-mode 1))
+  (org-roam-db-autosync-mode 1)
+  :custom
+  (org-roam-directory "~/Documents/org-roam/")
+  (org-roam-dailies-directory "fleeting/"))
 #+end_src
 
 To export the code blocks in Org to HTML with fontification stuffs, I use
@@ -337,6 +340,15 @@ here.
 ;; (use-package slime
 ;;   :ensure t
 ;;   :init (setq inferior-lisp-program "sbcl"))
+#+end_src
+
+I am now trying out Clojure, so I have ~cider~.  Basically ~sly~ but for
+clojure.
+#+begin_src elisp
+(use-package cider
+  :ensure t
+  :custom
+  (cider-allow-jack-in-without-project t))
 #+end_src
 
 * Misc
@@ -593,6 +605,7 @@ The following two functions are used to setup fonts and keybindings.
 #+begin_src elisp :noweb-ref font-and-key
 (set-fonts)
 (set-keys)
+(set-fonts-frame)
 #+end_src
 
 Use variable-pitch font in Org Mode.

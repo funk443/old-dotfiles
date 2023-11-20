@@ -165,7 +165,10 @@
   :bind-keymap ("C-c n d" . org-roam-dailies-map)
   :config
   (require 'org-roam-dailies)
-  (org-roam-db-autosync-mode 1))
+  (org-roam-db-autosync-mode 1)
+  :custom
+  (org-roam-directory "~/Documents/org-roam/")
+  (org-roam-dailies-directory "fleeting/"))
 
 (use-package htmlize
   :ensure t)
@@ -198,6 +201,11 @@
 ;; (use-package slime
 ;;   :ensure t
 ;;   :init (setq inferior-lisp-program "sbcl"))
+
+(use-package cider
+  :ensure t
+  :custom
+  (cider-allow-jack-in-without-project t))
 
 (use-package magit
   :ensure t
@@ -326,6 +334,7 @@
   (savehist-mode 1)
   (set-fonts)
   (set-keys)
+  (set-fonts-frame)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-capture-mode-hook #'auto-fill-mode)
