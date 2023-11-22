@@ -144,10 +144,6 @@
  '(mode-line-compact t)
  '(mode-line-position-column-line-format '(" (%l %c)"))
  '(org-agenda-files '("~/Documents/agenda.org"))
- '(org-capture-templates
-   '(("n" "General notes" entry
-      (file+olp+datetree "")
-      "* %?\12%U by %n" :empty-lines-after 1)))
  '(org-edit-src-content-indentation 0)
  '(org-export-backends '(ascii html latex md odt))
  '(org-export-preserve-breaks t)
@@ -157,16 +153,6 @@
  '(org-log-done 'note)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
- '(org-roam-capture-templates
-   '(("d" "default" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :unnarrowed t)
-     ("c" "concept note" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: (C)${title}")
-      :unnarrowed t)
-     ("l" "literature note" plain "From: %?" :target
-      (file+head "literature/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: (L)${title}")
-      :unnarrowed t)))
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-startup-truncated nil)
