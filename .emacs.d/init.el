@@ -205,6 +205,7 @@
 (use-package cider
   :ensure t
   :custom
+  (cider-font-lock-dynamically nil)
   (cider-allow-jack-in-without-project t))
 
 (use-package magit
