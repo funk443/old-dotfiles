@@ -533,6 +533,7 @@ slow Emacs down during starting.
   <<font-and-key>>
   <<org-variable-pitch>>
   <<auto-fill-mode-for-org>>
+  <<electric-quote-mode-for-org>>
   <<init-package>>)
 #+end_src
 
@@ -620,6 +621,13 @@ Turn on ~auto-fill-mode~ for both Org Mode and Org Capture Mode.  The default
 (add-hook 'org-capture-mode-hook #'auto-fill-mode)
 #+end_src
 
+Turn on ~electric-quote-local-mode~ for Org mode buffers so one can easily
+insert “ and ”.  If one needs to insert ` and ', type ~C-q `~ or ~C-q '~.
+#+begin_src elisp :noweb-ref electric-quote-mode-for-org
+(add-hook 'org-mode-hook #'electric-quote-local-mode)
+(add-hook 'org-capture-mode-hook #'electric-quote-local-mode)
+#+end_src
+
 Initialize packages, i.e. get their paths into ~load-path~.
 #+begin_src elisp :noweb-ref init-package
 (package-initialize)
@@ -677,8 +685,16 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
                     :inherit 'default)
 (set-face-attribute 'dashboard-items-face nil
                     :height font-height)
+(set-face-attribute 'mode-line nil
+                    :inherit 'fixed-pitch)
+(set-face-attribute 'line-number nil
+                    :inherit 'mode-line)
+(set-face-attribute 'line-number-current-line nil
+                    :inherit 'line-number)
+(set-face-attribute 'fringe nil
+                    :inherit 'line-number)
 (set-face-attribute 'header-line nil
-                    :inherit nil)
+                    :inherit 'mode-line)
 (set-face-attribute 'line-number-current-line nil
                     :inherit 'fixed-pitch)
 (set-face-attribute 'org-default nil
@@ -709,11 +725,11 @@ different weight to make them more distinct.
   (set-face-attribute 'line-number nil
                       :slant 'normal
                       :weight 'normal
-                      :inherit 'fixed-pitch)
+                      :inherit 'mode-line)
   (set-face-attribute 'line-number-current-line nil
                       :slant 'normal
                       :weight 'bold
-                      :inherit 'fixed-pitch)
+                      :inherit 'line-number)
   (set-face-attribute 'dashboard-banner-logo-title nil
                       :weight 'bold)
   (set-face-attribute 'dashboard-footer-face nil

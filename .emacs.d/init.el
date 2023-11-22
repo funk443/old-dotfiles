@@ -338,6 +338,8 @@
   (add-hook 'org-mode-hook #'variable-pitch-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-capture-mode-hook #'auto-fill-mode)
+  (add-hook 'org-mode-hook #'electric-quote-local-mode)
+  (add-hook 'org-capture-mode-hook #'electric-quote-local-mode)
   (package-initialize))
 
 (defun toggle-transparency ()
@@ -363,8 +365,16 @@
                         :inherit 'default)
     (set-face-attribute 'dashboard-items-face nil
                         :height font-height)
+    (set-face-attribute 'mode-line nil
+                        :inherit 'fixed-pitch)
+    (set-face-attribute 'line-number nil
+                        :inherit 'mode-line)
+    (set-face-attribute 'line-number-current-line nil
+                        :inherit 'line-number)
+    (set-face-attribute 'fringe nil
+                        :inherit 'line-number)
     (set-face-attribute 'header-line nil
-                        :inherit nil)
+                        :inherit 'mode-line)
     (set-face-attribute 'line-number-current-line nil
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-default nil
@@ -390,11 +400,11 @@
       (set-face-attribute 'line-number nil
                           :slant 'normal
                           :weight 'normal
-                          :inherit 'fixed-pitch)
+                          :inherit 'mode-line)
       (set-face-attribute 'line-number-current-line nil
                           :slant 'normal
                           :weight 'bold
-                          :inherit 'fixed-pitch)
+                          :inherit 'line-number)
       (set-face-attribute 'dashboard-banner-logo-title nil
                           :weight 'bold)
       (set-face-attribute 'dashboard-footer-face nil
