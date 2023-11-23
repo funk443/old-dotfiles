@@ -109,7 +109,8 @@
    " ______     _          _ _ \12|  ____|   | |        | | |\12| |__   ___| |__   ___| | |\12|  __| / __| '_ \\ / _ \\ | |\12| |____\\__ \\ | | |  __/ | |\12|______|___/_| |_|\\___|_|_|\12\12Welcome to Eshell, a shell written entirely in Emacs Lisp!\12-----\12")
  '(fill-column 80)
  '(font-lock-maximum-decoration
-   '((clojure-mode . 0)
+   '((clojure-ts-mode . 0)
+     (clojure-mode . 0)
      (scheme-mode . 0)
      (racket-mode . 0)
      (emacs-lisp-mode . 0)
