@@ -366,18 +366,15 @@
                         :inherit 'default)
     (set-face-attribute 'dashboard-items-face nil
                         :height font-height)
-    (set-face-attribute 'mode-line nil
-                        :inherit 'fixed-pitch)
     (set-face-attribute 'line-number nil
-                        :inherit 'mode-line)
+                        :background (face-attribute 'mode-line :background)
+                        :inherit 'fixed-pitch)
     (set-face-attribute 'line-number-current-line nil
                         :inherit 'line-number)
     (set-face-attribute 'fringe nil
                         :inherit 'line-number)
     (set-face-attribute 'header-line nil
                         :inherit 'mode-line)
-    (set-face-attribute 'line-number-current-line nil
-                        :inherit 'fixed-pitch)
     (set-face-attribute 'org-default nil
                         :inherit 'variable-pitch)
     (set-face-attribute 'org-block nil
@@ -401,7 +398,8 @@
       (set-face-attribute 'line-number nil
                           :slant 'normal
                           :weight 'normal
-                          :inherit 'mode-line)
+                          :background (face-attribute 'mode-line :background)
+                          :inherit 'fixed-pitch)
       (set-face-attribute 'line-number-current-line nil
                           :slant 'normal
                           :weight 'bold
