@@ -96,8 +96,7 @@
  '(default-input-method "chinese-array30")
  '(delete-selection-mode t)
  '(dired-dwim-target 'dired-dwim-target-next)
- '(dired-listing-switches "-alh")
- '(display-line-numbers 'relative)
+ '(dired-listing-switches "-alh --group-directories-first")
  '(display-line-numbers-current-absolute nil)
  '(display-line-numbers-type 'relative)
  '(display-line-numbers-width-start nil)
@@ -119,7 +118,6 @@
      (t . t)))
  '(frame-resize-pixelwise t)
  '(garbage-collection-messages t)
- '(global-display-line-numbers-mode t)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
