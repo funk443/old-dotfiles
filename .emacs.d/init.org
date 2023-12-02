@@ -86,15 +86,18 @@ Then we'll load ~use-package~.
 :PROPERTIES:
 :header-args: :tangle "init.el"
 :END:
-I use Doom Challenger Deep theme from ~doom-themes~ package for my Emacs.
+I use a minimal light theme.
 #+begin_src elisp
-(use-package doom-themes
+(use-package mindre-theme
   :ensure t
   :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t)
+  (mindre-use-more-bold t)
+  (mindre-use-more-fading t)
+  (mindre-use-faded-lisp-parens t)
+  (mindre-faded-lisp-parens-modes
+   '(emacs-lisp-mode lisp-mode scheme-mode racket-mode clojure-mode))
   :config
-  (load-theme 'doom-one-light t))
+  (load-theme 'mindre t))
 #+end_src
 
 I also use ~all-the-icons~ package provide some special icons in Emacs.  Also I

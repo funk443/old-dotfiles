@@ -23,13 +23,16 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package doom-themes
+(use-package mindre-theme
   :ensure t
   :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t)
+  (mindre-use-more-bold t)
+  (mindre-use-more-fading t)
+  (mindre-use-faded-lisp-parens t)
+  (mindre-faded-lisp-parens-modes
+   '(emacs-lisp-mode lisp-mode scheme-mode racket-mode clojure-mode))
   :config
-  (load-theme 'doom-one-light t))
+  (load-theme 'mindre t))
 
 (use-package all-the-icons
   :ensure t
