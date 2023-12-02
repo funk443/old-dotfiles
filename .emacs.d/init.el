@@ -23,32 +23,10 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package mindre-theme
-  :ensure t
-  :custom
-  (mindre-use-more-bold t)
-  (mindre-use-more-fading t)
-  (mindre-use-faded-lisp-parens t)
-  (mindre-faded-lisp-parens-modes
-   '(emacs-lisp-mode lisp-mode scheme-mode racket-mode clojure-mode))
-  :config
-  (load-theme 'mindre t))
-
-(use-package all-the-icons
+(use-package almost-mono-themes
   :ensure t
   :config
-  (unless all-the-icons-font-names
-    (all-the-icons-install-fonts)))
-
-(use-package all-the-icons-dired
-  :ensure t
-  :after all-the-icons
-  :hook (dired-mode . all-the-icons-dired-mode))
-
-(use-package all-the-icons-ibuffer
-  :ensure t
-  :after all-the-icons
-  :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
+  (load-theme 'almost-mono-white t))
 
 (use-package dashboard
   :ensure t
@@ -62,7 +40,6 @@
   (dashboard-agenda-release-buffers t)
   (dashboard-items nil)
   (dashboard-set-init-info nil)
-  (dashboard-icon-type 'all-the-icons)
   :config
   (add-to-list 'dashboard-footer-messages "Free as in Freedom!")
   (add-to-list 'dashboard-footer-messages
@@ -286,15 +263,6 @@
                         :inherit 'default)
     (set-face-attribute 'dashboard-items-face nil
                         :height font-height)
-    (set-face-attribute 'line-number nil
-                        :background (face-attribute 'mode-line :background)
-                        :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number-current-line nil
-                        :inherit 'line-number)
-    (set-face-attribute 'fringe nil
-                        :inherit 'line-number)
-    (set-face-attribute 'header-line nil
-                        :inherit 'mode-line)
     (set-face-attribute 'org-default nil
                         :inherit 'variable-pitch)
     (set-face-attribute 'org-block nil
@@ -311,19 +279,8 @@
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-property-value nil
                         :inherit 'fixed-pitch)
-    (set-face-attribute 'org-block-begin-line nil
-                        :foreground "#8f8eb1")
     (when (member (face-attribute 'default :family)
                   '("IBM Plex Mono" "IBMPlexMono"))
-      (set-face-attribute 'line-number nil
-                          :slant 'normal
-                          :weight 'normal
-                          :background (face-attribute 'mode-line :background)
-                          :inherit 'fixed-pitch)
-      (set-face-attribute 'line-number-current-line nil
-                          :slant 'normal
-                          :weight 'bold
-                          :inherit 'line-number)
       (set-face-attribute 'dashboard-banner-logo-title nil
                           :weight 'bold)
       (set-face-attribute 'dashboard-footer-face nil
