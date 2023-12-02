@@ -28,8 +28,8 @@
   :custom
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
-  :custom-face
-  (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
+  ;; :custom-face
+  ;; (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
   (load-theme 'doom-one-light t))
 
