@@ -134,6 +134,7 @@
  '(ignored-local-variable-values '((變數名 . 值)))
  '(image-animate-loop t)
  '(indent-tabs-mode nil)
+ '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(js-chain-indent t)
  '(line-number-display-limit-width most-positive-fixnum)
@@ -185,6 +186,7 @@
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(tool-bar-mode nil)
+ '(uniquify-buffer-name-style 'forward nil (uniquify))
  '(warning-suppress-types '((comp) (comp)))
  '(x-select-enable-clipboard-manager nil))
 (custom-set-faces
