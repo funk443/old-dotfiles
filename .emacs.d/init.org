@@ -93,8 +93,6 @@ I use Doom Challenger Deep theme from ~doom-themes~ package for my Emacs.
   :custom
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
-  ;; :custom-face
-  ;; (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
   (load-theme 'doom-one-light t))
 #+end_src
@@ -118,15 +116,6 @@ looking in Dired and Ibuffer.
   :ensure t
   :after all-the-icons
   :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
-#+end_src
-
-I used to use ~doom-modeline~ package to provide a better-looking modeline, but
-I find myself likes the original Emacs modeline more, so I leave it commented.
-#+begin_src elisp
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init
-;;   (doom-modeline-mode 1))
 #+end_src
 
 I have customised my splash screen using package ~dashboard~.  ~dashboard~ came
@@ -216,52 +205,6 @@ For easier creation of table of contents in Org Mode, I have ~toc-org~.
   :commands (toc-org-enable)
   :ensure t
   :hook (org-mode . toc-org-enable))
-#+end_src
-
-I use ~org-present~ to have a nice little presentation in Org Mode.  The
-~face-remapping-alist~ is used to make the fonts in presentation look bigger.
-#+begin_src elisp
-(use-package org-present
-  :commands (org-present)
-  :ensure t
-  :config
-  (add-hook 'org-present-mode-hook
-            (lambda ()
-              (setq org-image-actual-width 1000
-                    header-line-format " ")
-              (setq-local face-remapping-alist
-                          '((default (:height 2.0) default)
-                            (header-line (:height 5.0) header-line)
-                            (org-document-title (:height 2.25)
-                                                org-document-title)))
-              (variable-pitch-mode)
-              (org-display-inline-images)
-              (org-present-read-only)
-              (visual-fill-column-mode 1)
-              (org-present-hide-cursor)
-              (visual-line-mode 1)))
-  (add-hook 'org-present-mode-quit-hook
-            (lambda ()
-              (setq org-image-actual-width 300
-                    header-line-format nil)
-              (setq-local face-remapping-alist
-                          '((default variable-pitch default)))
-              (org-remove-inline-images)
-              (org-present-read-write)
-              (visual-fill-column-mode 0)
-              (org-present-show-cursor)
-              (visual-line-mode 0))))
-#+end_src
-
-To give ~org-present~ a better look, I also have ~visual-fill-column~ installed.
-This package will center texts in ~org-present~.
-#+begin_src elisp
-(use-package visual-fill-column
-  :after org-present
-  :ensure t
-  :init
-  (setq visual-fill-column-width 255
-        visual-fill-column-center-text t))
 #+end_src
 
 I am now trying out ~org-roam~.
@@ -415,15 +358,6 @@ to configure ~recentf~.  It comes with Emacs by default.
   (recentf-mode 1))
 #+end_src
 
-To edit a file that needs permission, I use ~sudo-edit~.
-#+begin_src elisp
-(use-package sudo-edit
-  :commands (sudo-edit)
-  :ensure t
-  :config
-  (sudo-edit-indicator-mode 1))
-#+end_src
-
 I use ~emms~ to play music within Emacs, and I have defined a custom function to
 change the music volume.
 | Keys    | Action                      |
@@ -458,63 +392,18 @@ needed.
   (global-treesit-auto-mode))
 #+end_src
 
-Trying out ~vertico~, a completion framework.
-#+begin_src elisp
-(use-package vertico
-  :ensure t
-  :custom
-  (vertico-cycle t)
-  (vertico-resize 'grow-only)
-  :init (vertico-mode))
-#+end_src
-
-To provide more information while using ~vertico~, I use ~marginalia~.
-#+begin_src elisp
-(use-package marginalia
-  :after vertico
-  :ensure t
-  :init (marginalia-mode))
-#+end_src
-
-And ~veritco~'s friend, ~vertico-directory~.  This will enable ~vertico~ to have
-an ~ido~-like commands experience while navigating directories.
-#+begin_src elisp
-(use-package vertico-directory
-  :after vertico
-  :bind
-  (:map vertico-map
-        ("RET" . vertico-directory-enter)
-        ("DEL" . vertico-directory-delete-char)
-        ("M-DEL" . vertico-directory-delete-word))
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-#+end_src
-
-~orderless~ package provides a different completion from the build-in basic
-completion system.
-#+begin_src elisp
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(partial-completion orderless basic))
-  (completion-category-defaults nil))
-#+end_src
-
-~consult~ to have ~vertico~ style completion in Eshell.
-#+begin_src elisp
-(use-package consult
-  :ensure t
-  :config
-  (setq completion-in-region-function
-        (if vertico-mode
-            #'consult-completion-in-region
-          #'completion--in-region)))
-#+end_src
-
 ~unfill~ is a package to undo ~fill-region~ or ~fill-paragraph~.
 #+begin_src elisp
 (use-package unfill
   :ensure t)
 #+end_src
+
+Sometimes I’ll need to have multiple cursors.
+#+begin_src elisp
+(use-package multiple-cursors
+  :ensure t)
+#+end_src
+
 * Custom-defined Functions
 I have defined several functions to help me setup my Emacs.
 

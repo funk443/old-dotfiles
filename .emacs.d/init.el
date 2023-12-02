@@ -28,8 +28,6 @@
   :custom
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
-  ;; :custom-face
-  ;; (font-lock-comment-face ((nil (:foreground "#8f8eb1"))))
   :config
   (load-theme 'doom-one-light t))
 
@@ -48,11 +46,6 @@
   :ensure t
   :after all-the-icons
   :hook (ibuffer-mode  . all-the-icons-ibuffer-mode))
-
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init
-;;   (doom-modeline-mode 1))
 
 (use-package dashboard
   :ensure t
@@ -108,44 +101,6 @@
   :commands (toc-org-enable)
   :ensure t
   :hook (org-mode . toc-org-enable))
-
-(use-package org-present
-  :commands (org-present)
-  :ensure t
-  :config
-  (add-hook 'org-present-mode-hook
-            (lambda ()
-              (setq org-image-actual-width 1000
-                    header-line-format " ")
-              (setq-local face-remapping-alist
-                          '((default (:height 2.0) default)
-                            (header-line (:height 5.0) header-line)
-                            (org-document-title (:height 2.25)
-                                                org-document-title)))
-              (variable-pitch-mode)
-              (org-display-inline-images)
-              (org-present-read-only)
-              (visual-fill-column-mode 1)
-              (org-present-hide-cursor)
-              (visual-line-mode 1)))
-  (add-hook 'org-present-mode-quit-hook
-            (lambda ()
-              (setq org-image-actual-width 300
-                    header-line-format nil)
-              (setq-local face-remapping-alist
-                          '((default variable-pitch default)))
-              (org-remove-inline-images)
-              (org-present-read-write)
-              (visual-fill-column-mode 0)
-              (org-present-show-cursor)
-              (visual-line-mode 0))))
-
-(use-package visual-fill-column
-  :after org-present
-  :ensure t
-  :init
-  (setq visual-fill-column-width 255
-        visual-fill-column-center-text t))
 
 (unless (file-directory-p "~/Documents/org-roam/")
   (make-directory "~/Documents/org-roam/"))
@@ -244,12 +199,6 @@
   :config
   (recentf-mode 1))
 
-(use-package sudo-edit
-  :commands (sudo-edit)
-  :ensure t
-  :config
-  (sudo-edit-indicator-mode 1))
-
 (use-package emms
   :ensure t
   :custom
@@ -270,42 +219,10 @@
   :config
   (global-treesit-auto-mode))
 
-(use-package vertico
-  :ensure t
-  :custom
-  (vertico-cycle t)
-  (vertico-resize 'grow-only)
-  :init (vertico-mode))
-
-(use-package marginalia
-  :after vertico
-  :ensure t
-  :init (marginalia-mode))
-
-(use-package vertico-directory
-  :after vertico
-  :bind
-  (:map vertico-map
-        ("RET" . vertico-directory-enter)
-        ("DEL" . vertico-directory-delete-char)
-        ("M-DEL" . vertico-directory-delete-word))
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(partial-completion orderless basic))
-  (completion-category-defaults nil))
-
-(use-package consult
-  :ensure t
-  :config
-  (setq completion-in-region-function
-        (if vertico-mode
-            #'consult-completion-in-region
-          #'completion--in-region)))
-
 (use-package unfill
+  :ensure t)
+
+(use-package multiple-cursors
   :ensure t)
 
 (defun startup-function ()
