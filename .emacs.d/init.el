@@ -23,10 +23,10 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package almost-mono-themes
+(use-package plain-theme
   :ensure t
   :config
-  (load-theme 'almost-mono-white t))
+  (load-theme 'plain t))
 
 (use-package dashboard
   :ensure t

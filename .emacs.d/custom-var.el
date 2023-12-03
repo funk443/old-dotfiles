@@ -107,15 +107,6 @@
  '(eshell-banner-message
    " ______     _          _ _ \12|  ____|   | |        | | |\12| |__   ___| |__   ___| | |\12|  __| / __| '_ \\ / _ \\ | |\12| |____\\__ \\ | | |  __/ | |\12|______|___/_| |_|\\___|_|_|\12\12Welcome to Eshell, a shell written entirely in Emacs Lisp!\12-----\12")
  '(fill-column 80)
- '(font-lock-maximum-decoration
-   '((clojure-ts-mode . 0)
-     (clojure-mode . 0)
-     (scheme-mode . 0)
-     (racket-mode . 0)
-     (emacs-lisp-mode . 0)
-     (list-data-mode . 0)
-     (lisp-mode . 0)
-     (t . t)))
  '(frame-resize-pixelwise t)
  '(garbage-collection-messages t)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
@@ -159,10 +150,10 @@
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(multiple-cursors cider eat emms magit markdown-mode racket-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode org-roam screenshot doom-themes
-                      #("eshell-prompt-extras" 0 20
-                        (escaped t))
-                      "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(plain-theme multiple-cursors cider eat emms magit markdown-mode racket-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode org-roam screenshot doom-themes
+                 #("eshell-prompt-extras" 0 20
+                   (escaped t))
+                 "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)

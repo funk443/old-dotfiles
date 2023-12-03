@@ -86,12 +86,12 @@ Then we'll load ~use-package~.
 :PROPERTIES:
 :header-args: :tangle "init.el"
 :END:
-Good light theme.
+A very minimal theme.
 #+begin_src elisp
-(use-package almost-mono-themes
+(use-package plain-theme
   :ensure t
   :config
-  (load-theme 'almost-mono-white t))
+  (load-theme 'plain t))
 #+end_src
 
 I have customised my splash screen using package ~dashboard~.  ~dashboard~ came
