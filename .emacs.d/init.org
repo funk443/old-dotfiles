@@ -523,8 +523,7 @@ that only executes once, which will be the ~set-font~ function.
 (defun set-fonts ()
   (let ((font-height 140))
     <<font-scale>>
-    <<basic-face-attributes>>
-    <<more-weights>>))
+    <<basic-face-attributes>>))
 #+end_src
 
 Because some fonts have bigger height, and they will cause the line to have
@@ -566,19 +565,6 @@ to be fixed-pitch, since I want to use Org Mode in variable-pitch.
                     :inherit 'fixed-pitch)
 (set-face-attribute 'org-property-value nil
                     :inherit 'fixed-pitch)
-#+end_src
-
-Because IBM Plex Mono comes with various weight, so I set some faces to
-different weight to make them more distinct.
-#+begin_src elisp :noweb-ref more-weights
-(when (member (face-attribute 'default :family)
-              '("IBM Plex Mono" "IBMPlexMono"))
-  (set-face-attribute 'dashboard-banner-logo-title nil
-                      :weight 'bold)
-  (set-face-attribute 'dashboard-footer-face nil
-                      :slant 'italic)
-  (set-face-attribute 'font-lock-comment-face nil
-                      :slant 'italic))
 #+end_src
 
 This function will be executed after every time a frame is created.

@@ -278,15 +278,7 @@
     (set-face-attribute 'org-special-keyword nil
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-property-value nil
-                        :inherit 'fixed-pitch)
-    (when (member (face-attribute 'default :family)
-                  '("IBM Plex Mono" "IBMPlexMono"))
-      (set-face-attribute 'dashboard-banner-logo-title nil
-                          :weight 'bold)
-      (set-face-attribute 'dashboard-footer-face nil
-                          :slant 'italic)
-      (set-face-attribute 'font-lock-comment-face nil
-                          :slant 'italic))))
+                        :inherit 'fixed-pitch)))
 
 (defun set-fonts-frame ()
   (let ((font-height 140))

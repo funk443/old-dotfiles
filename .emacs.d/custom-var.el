@@ -159,10 +159,10 @@
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
  '(package-selected-packages
-   '(multiple-cursors cider all-the-icons eat emms magit markdown-mode racket-mode dashboard all-the-icons-ibuffer unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode org-roam screenshot doom-themes
+   '(multiple-cursors cider eat emms magit markdown-mode racket-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode org-roam screenshot doom-themes
                       #("eshell-prompt-extras" 0 20
                         (escaped t))
-                      "eshell-prompt-extras" all-the-icons-dired use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org sudo-edit neotree which-key ##))
+                      "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
