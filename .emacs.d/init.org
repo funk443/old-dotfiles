@@ -86,7 +86,7 @@ Then we'll load ~use-package~.
 :PROPERTIES:
 :header-args: :tangle "init.el"
 :END:
-A very minimal theme.
+A very minimal theme.  See [[http://www.linusakesson.net/programming/syntaxhighlighting/index.php][A case against syntax highlighting]].
 #+begin_src elisp
 (use-package plain-theme
   :ensure t
@@ -180,32 +180,6 @@ For easier creation of table of contents in Org Mode, I have ~toc-org~.
   :commands (toc-org-enable)
   :ensure t
   :hook (org-mode . toc-org-enable))
-#+end_src
-
-I am now trying out ~org-roam~.
-#+begin_src elisp
-(unless (file-directory-p "~/Documents/org-roam/")
-  (make-directory "~/Documents/org-roam/"))
-(unless (file-directory-p "~/Documents/org-roam/fleeting/")
-  (make-directory "~/Documents/org-roam/fleeting/"))
-(unless (file-directory-p "~/Documents/org-roam/literature/")
-  (make-directory "~/Documents/org-roam/literature/"))
-(use-package org-roam
-  :ensure t
-  :bind
-  (("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert)
-   ("C-c n c" . org-roam-capture)
-   :map org-roam-dailies-map
-   ("Y" . org-roam-dailies-capture-yesterday)
-   ("T" . org-roam-dailies-capture-tomorrow))
-  :bind-keymap ("C-c n d" . org-roam-dailies-map)
-  :config
-  (require 'org-roam-dailies)
-  (org-roam-db-autosync-mode 1)
-  :custom
-  (org-roam-directory "~/Documents/org-roam/")
-  (org-roam-dailies-directory "fleeting/"))
 #+end_src
 
 To export the code blocks in Org to HTML with fontification stuffs, I use
@@ -383,10 +357,8 @@ Sometimes I’ll need to have multiple cursors.
 #+begin_src elisp
 (use-package paren-face
   :ensure t
-  :custom
-  (paren-face-regexp "[][(){}]")
   :custom-face
-  (parenthesis ((nil (:foreground "white smoke"))))
+  (parenthesis ((nil (:foreground "ghost white"))))
   :config
   (global-paren-face-mode 1))
 #+end_src

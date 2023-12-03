@@ -82,29 +82,6 @@
   :ensure t
   :hook (org-mode . toc-org-enable))
 
-(unless (file-directory-p "~/Documents/org-roam/")
-  (make-directory "~/Documents/org-roam/"))
-(unless (file-directory-p "~/Documents/org-roam/fleeting/")
-  (make-directory "~/Documents/org-roam/fleeting/"))
-(unless (file-directory-p "~/Documents/org-roam/literature/")
-  (make-directory "~/Documents/org-roam/literature/"))
-(use-package org-roam
-  :ensure t
-  :bind
-  (("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert)
-   ("C-c n c" . org-roam-capture)
-   :map org-roam-dailies-map
-   ("Y" . org-roam-dailies-capture-yesterday)
-   ("T" . org-roam-dailies-capture-tomorrow))
-  :bind-keymap ("C-c n d" . org-roam-dailies-map)
-  :config
-  (require 'org-roam-dailies)
-  (org-roam-db-autosync-mode 1)
-  :custom
-  (org-roam-directory "~/Documents/org-roam/")
-  (org-roam-dailies-directory "fleeting/"))
-
 (use-package htmlize
   :ensure t)
 
@@ -207,10 +184,8 @@
 
 (use-package paren-face
   :ensure t
-  :custom
-  (paren-face-regexp "[][(){}]")
   :custom-face
-  (parenthesis ((nil (:foreground "white smoke"))))
+  (parenthesis ((nil (:foreground "ghost white"))))
   :config
   (global-paren-face-mode 1))
 
