@@ -379,6 +379,18 @@ Sometimes I’ll need to have multiple cursors.
   :ensure t)
 #+end_src
 
+[[file:../images/parentheses.png]]
+#+begin_src elisp
+(use-package paren-face
+  :ensure t
+  :custom
+  (paren-face-regexp "[][(){}]")
+  :custom-face
+  (parenthesis ((nil (:foreground "white smoke"))))
+  :config
+  (global-paren-face-mode 1))
+#+end_src
+
 * Custom-defined Functions
 I have defined several functions to help me setup my Emacs.
 

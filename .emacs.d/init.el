@@ -205,6 +205,15 @@
 (use-package multiple-cursors
   :ensure t)
 
+(use-package paren-face
+  :ensure t
+  :custom
+  (paren-face-regexp "[][(){}]")
+  :custom-face
+  (parenthesis ((nil (:foreground "white smoke"))))
+  :config
+  (global-paren-face-mode 1))
+
 (defun startup-function ()
   (require 'org)
   (require 'ibuf-ext)
