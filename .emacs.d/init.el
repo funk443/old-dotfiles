@@ -184,6 +184,21 @@
 
 (use-package paren-face
   :ensure t
+  :custom
+  (paren-face-modes '(lisp-mode
+                      emacs-lisp-mode
+                      lisp-interaction-mode
+                      ielm-mode
+                      scheme-mode
+                      inferior-scheme-mode
+                      clojure-mode
+                      cider-repl-mode
+                      nrepl-mode
+                      sly-mrepl-mode
+                      arc-mode
+                      inferior-arc-mode
+                      racket-mode
+                      racket-repl-mode))
   :custom-face
   (parenthesis ((nil (:foreground "ghost white"))))
   :config
@@ -216,7 +231,6 @@
   (savehist-mode 1)
   (set-fonts)
   (set-keys)
-  (set-fonts-frame)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-capture-mode-hook #'auto-fill-mode)
@@ -232,21 +246,15 @@
 
 (defun set-fonts ()
   (let ((font-height 140))
-    (setq face-font-rescale-alist '(("Noto Sans Mono CJK TC" . 0.92)
-                                    ("Noto Sans Mono CJK SC" . 0.92)
-                                    ("Noto Sans Mono CJK JP" . 0.92)
-                                    ("Noto Sans Mono" . 0.92)))
     (set-face-attribute 'default nil
                         :family "IBMPlexMono"
                         :height font-height)
     (set-face-attribute 'variable-pitch nil
-                        :family "IBMPlexSerif"
+                        :family "Noto Serif CJK TC"
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
                         :family "IBMPlexMono"
                         :inherit 'default)
-    (set-face-attribute 'dashboard-items-face nil
-                        :height font-height)
     (set-face-attribute 'org-default nil
                         :inherit 'variable-pitch)
     (set-face-attribute 'org-block nil
@@ -263,32 +271,6 @@
                         :inherit 'fixed-pitch)
     (set-face-attribute 'org-property-value nil
                         :inherit 'fixed-pitch)))
-
-(defun set-fonts-frame ()
-  (let ((font-height 140))
-    (set-fontset-font "fontset-default" 'han (font-spec :family "GenYoMin TW"))
-    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinA")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'han (font-spec :family "HanaMinB")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'han
-                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
-    (set-fontset-font "fontset-default" 'han
-                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "GenYoMin TW"))
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinA")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'big5 (font-spec :family "HanaMinB")
-                      nil 'append)
-    (set-fontset-font "fontset-default" 'big5
-                      (font-spec :family "Noto Sans Mono CJK TC") nil 'append)
-    (set-fontset-font "fontset-default" 'big5
-                      (font-spec :family "Noto Sans Mono CJK SC") nil 'append)
-    (set-fontset-font "fontset-default" 'kana
-                      (font-spec :family "Noto Sans Mono CJK JP"))
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "IBMPlexMono"))
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Noto Sans Mono")
-                      nil 'append)))
 
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
@@ -334,6 +316,3 @@
   "The idle timer to run garbage collection")
 
 (add-hook 'emacs-startup-hook #'startup-function)
-
-(add-hook 'server-after-make-frame-hook
-          #'set-fonts-frame)
