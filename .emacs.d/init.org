@@ -390,9 +390,7 @@ slow Emacs down during starting.
   <<ibuf-ext>>
   <<customize-variable>>
   <<set-default-variables>>
-  <<add-hook-org-indent>>
   <<add-hook-ibuffer-group>>
-  <<add-hook-line-numbers>>
   <<savehist>>
   <<font-and-key>>
   <<org-variable-pitch>>
@@ -429,31 +427,12 @@ used when creating a new file of that language.
               perl-indent-level 2)
 #+end_src
 
-This will automatically enable ~org-indent-mode~ after one enters Org Mode.
-~org-indent-mode~ will make Org Mode looks better.
-#+begin_src elisp :noweb-ref add-hook-org-indent
-;; (add-hook 'org-mode-hook 'org-indent-mode)
-#+end_src
-
 This switches ibuffer to my customised filter group, the group definition can be
 found in ~custom-var.el~.
 #+begin_src elisp :noweb-ref add-hook-ibuffer-group
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (ibuffer-switch-to-saved-filter-groups "customized")))
-#+end_src
-
-While using Emacs to view image or webpage, you'll still get line numbers
-displayed on the left.  It's kinda annoying, so I have the following hooks to
-automatically disable ~display-line-numbers-mode~ while entering these modes.
-#+begin_src elisp :noweb-ref add-hook-line-numbers
-(add-hook 'image-mode-new-window-functions
-          (lambda (arg)
-            (display-line-numbers-mode -1)))
-
-(add-hook 'xwidget-webkit-mode-hook
-          (lambda ()
-            (display-line-numbers-mode -1)))
 #+end_src
 
 I want Emacs to remember what I typed in minibuffer, so I enable ~savehist-mode~.
@@ -494,16 +473,6 @@ insert “ and ”.  If one needs to insert ` and ', type ~C-q `~ or ~C-q '~.
 Initialize packages, i.e. get their paths into ~load-path~.
 #+begin_src elisp :noweb-ref init-package
 (package-initialize)
-#+end_src
-
-** Toggle Background Transparency
-This is a small helper function to toggle the background transparency.
-#+begin_src elisp :tangle "init.el"
-(defun toggle-transparency ()
-  (interactive)
-  (let ((alpha (frame-parameter nil 'alpha-background)))
-    (set-frame-parameter nil 'alpha-background
-                         (if (= alpha 100) 85 100))))
 #+end_src
 
 ** Setting Fonts and Faces
@@ -571,46 +540,6 @@ keybindings.  Package-related keybindings can be found in their own section.
                         ("C-M-=" . count-words)
                         ("C-x C-b" . ibuffer)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
-#+end_src
-
-** EMMS MPV Volume Change Function
-Since EMMS adjust the master volume, and that's not what I want.  So I wrote a
-function to change the volume of the MPV process.
-#+begin_src elisp :tangle "init.el"
-(defvar emms-volume--mpv)
-
-(defun emms-volume--mpv-get-volume ()
-  (emms-player-mpv-cmd '(get_property volume)
-                       (lambda (vol err)
-                         (setq emms-volume--mpv (truncate vol)))))
-
-(defun emms-volume-mpv-change (amount)
-  (unless (boundp 'emms-volume--mpv)
-    (emms-volume--mpv-get-volume))
-  (let* ((cur-vol emms-volume--mpv)
-         (new-vol (+ amount cur-vol)))
-    (cond ((> new-vol 100)
-           (setq new-vol 100))
-          ((< new-vol 0)
-           (setq new-vol 0))
-          (t nil))
-    (setq emms-volume--mpv new-vol)
-    (emms-player-mpv-cmd `(set_property volume ,new-vol))
-    (message (format "Volume: %s" new-vol))))
-#+end_src
-
-** Open Current URL in External Browser (Webkit)
-This mimics the similar function found in EWW.
-#+begin_src elisp :tangle "init.el"
-(defun xwidget-webkit-with-external-browser ()
-  (interactive nil xwidget-webkit-mode)
-  (funcall browse-url-secondary-browser-function
-           (xwidget-webkit-uri (xwidget-webkit-current-session))))
-
-(add-hook 'xwidget-webkit-mode-hook
-          (lambda ()
-            (keymap-set xwidget-webkit-mode-map "&"
-                        'xwidget-webkit-with-external-browser)))
 #+end_src
 
 ** Idle Timer for Garbage Collection

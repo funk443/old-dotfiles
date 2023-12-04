@@ -217,17 +217,9 @@
                 js-indent-level 2
                 standard-indent 2
                 perl-indent-level 2)
-  ;; (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-switch-to-saved-filter-groups "customized")))
-  (add-hook 'image-mode-new-window-functions
-            (lambda (arg)
-              (display-line-numbers-mode -1)))
-  
-  (add-hook 'xwidget-webkit-mode-hook
-            (lambda ()
-              (display-line-numbers-mode -1)))
   (savehist-mode 1)
   (set-fonts)
   (set-keys)
@@ -237,12 +229,6 @@
   (add-hook 'org-mode-hook #'electric-quote-local-mode)
   (add-hook 'org-capture-mode-hook #'electric-quote-local-mode)
   (package-initialize))
-
-(defun toggle-transparency ()
-  (interactive)
-  (let ((alpha (frame-parameter nil 'alpha-background)))
-    (set-frame-parameter nil 'alpha-background
-                         (if (= alpha 100) 85 100))))
 
 (defun set-fonts ()
   (let ((font-height 140))
@@ -279,37 +265,6 @@
                         ("C-M-=" . count-words)
                         ("C-x C-b" . ibuffer)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
-
-(defvar emms-volume--mpv)
-
-(defun emms-volume--mpv-get-volume ()
-  (emms-player-mpv-cmd '(get_property volume)
-                       (lambda (vol err)
-                         (setq emms-volume--mpv (truncate vol)))))
-
-(defun emms-volume-mpv-change (amount)
-  (unless (boundp 'emms-volume--mpv)
-    (emms-volume--mpv-get-volume))
-  (let* ((cur-vol emms-volume--mpv)
-         (new-vol (+ amount cur-vol)))
-    (cond ((> new-vol 100)
-           (setq new-vol 100))
-          ((< new-vol 0)
-           (setq new-vol 0))
-          (t nil))
-    (setq emms-volume--mpv new-vol)
-    (emms-player-mpv-cmd `(set_property volume ,new-vol))
-    (message (format "Volume: %s" new-vol))))
-
-(defun xwidget-webkit-with-external-browser ()
-  (interactive nil xwidget-webkit-mode)
-  (funcall browse-url-secondary-browser-function
-           (xwidget-webkit-uri (xwidget-webkit-current-session))))
-
-(add-hook 'xwidget-webkit-mode-hook
-          (lambda ()
-            (keymap-set xwidget-webkit-mode-map "&"
-                        'xwidget-webkit-with-external-browser)))
 
 (defvar gc-idle-timer
   (run-with-idle-timer 8 t #'garbage-collect)
