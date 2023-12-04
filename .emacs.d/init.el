@@ -182,28 +182,6 @@
 (use-package multiple-cursors
   :ensure t)
 
-(use-package paren-face
-  :ensure t
-  :custom
-  (paren-face-modes '(lisp-mode
-                      emacs-lisp-mode
-                      lisp-interaction-mode
-                      ielm-mode
-                      scheme-mode
-                      inferior-scheme-mode
-                      clojure-mode
-                      cider-repl-mode
-                      nrepl-mode
-                      sly-mrepl-mode
-                      arc-mode
-                      inferior-arc-mode
-                      racket-mode
-                      racket-repl-mode))
-  :custom-face
-  (parenthesis ((nil (:foreground "ghost white"))))
-  :config
-  (global-paren-face-mode 1))
-
 (defun startup-function ()
   (require 'org)
   (require 'ibuf-ext)
