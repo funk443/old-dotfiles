@@ -364,7 +364,6 @@ slow Emacs down during starting.
   (require 'org)
   <<ibuf-ext>>
   <<customize-variable>>
-  <<set-default-variables>>
   <<add-hook-ibuffer-group>>
   <<savehist>>
   <<font-and-key>>
@@ -389,17 +388,6 @@ so they are set here.  Package related variables are set using ~use-package~'s
       default-input-method "chinese-array30"
       completion-ignore-case t
       initial-buffer-choice (lambda () (dashboard-open)))
-#+end_src
-
-Then I set my preferred indentations for some programming languages.  These are
-used when creating a new file of that language.
-#+begin_src elisp :noweb-ref set-default-variables
-(setq-default python-indent-offset 2
-              rust-indent-offset 2
-              css-indent-offset 2
-              js-indent-level 2
-              standard-indent 2
-              perl-indent-level 2)
 #+end_src
 
 This switches ibuffer to my customised filter group, the group definition can be
@@ -471,13 +459,13 @@ These set the attributes of basic faces.  I am also setting some org faces here
 to be fixed-pitch, since I want to use Org Mode in variable-pitch.
 #+begin_src elisp :noweb-ref basic-face-attributes
 (set-face-attribute 'default nil
-                    :family "IBMPlexMono"
+                    :family "Go Mono"
                     :height font-height)
 (set-face-attribute 'variable-pitch nil
                     :family "Noto Serif CJK TC"
                     :inherit 'default)
 (set-face-attribute 'fixed-pitch nil
-                    :family "IBMPlexMono"
+                    :family "Go Mono"
                     :inherit 'default)
 (set-face-attribute 'org-default nil
                     :inherit 'variable-pitch)

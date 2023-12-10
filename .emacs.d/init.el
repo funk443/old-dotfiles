@@ -189,12 +189,6 @@
         default-input-method "chinese-array30"
         completion-ignore-case t
         initial-buffer-choice (lambda () (dashboard-open)))
-  (setq-default python-indent-offset 2
-                rust-indent-offset 2
-                css-indent-offset 2
-                js-indent-level 2
-                standard-indent 2
-                perl-indent-level 2)
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-switch-to-saved-filter-groups "customized")))
@@ -211,13 +205,13 @@
 (defun set-fonts ()
   (let ((font-height 140))
     (set-face-attribute 'default nil
-                        :family "IBMPlexMono"
+                        :family "Go Mono"
                         :height font-height)
     (set-face-attribute 'variable-pitch nil
                         :family "Noto Serif CJK TC"
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
-                        :family "IBMPlexMono"
+                        :family "Go Mono"
                         :inherit 'default)
     (set-face-attribute 'org-default nil
                         :inherit 'variable-pitch)
