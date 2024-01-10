@@ -307,28 +307,6 @@ to configure ~recentf~.  It comes with Emacs by default.
   (recentf-mode 1))
 #+end_src
 
-I use ~emms~ to play music within Emacs, and I have defined a custom function to
-change the music volume.
-| Keys    | Action                      |
-|---------+-----------------------------|
-| C-c m p | Pause current playing track |
-| C-c m + | Increase volume             |
-| C-c m - | Decrease volume             |
-#+begin_src elisp
-(use-package emms
-  :ensure t
-  :custom
-  (emms-player-list '(emms-player-mpv))
-  (emms-info-functions '(emms-info-native))
-  (emms-volume-change-function #'emms-volume-mpv-change)
-  :config
-  (emms-all)
-  :bind
-  (("C-c m p" . emms-pause)
-   ("C-c m +" . emms-volume-mode-plus)
-   ("C-c m -" . emms-volume-mode-minus)))
-#+end_src
-
 Emacs has integrated tree-sitter into it since version 29, but setting up those
 libraries are kinda annoying, so I have ~treesit-auto~ to auto set them up when
 needed.

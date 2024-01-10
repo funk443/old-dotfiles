@@ -156,19 +156,6 @@
   :config
   (recentf-mode 1))
 
-(use-package emms
-  :ensure t
-  :custom
-  (emms-player-list '(emms-player-mpv))
-  (emms-info-functions '(emms-info-native))
-  (emms-volume-change-function #'emms-volume-mpv-change)
-  :config
-  (emms-all)
-  :bind
-  (("C-c m p" . emms-pause)
-   ("C-c m +" . emms-volume-mode-plus)
-   ("C-c m -" . emms-volume-mode-minus)))
-
 (use-package treesit-auto
   :ensure t
   :custom
