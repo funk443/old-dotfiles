@@ -192,7 +192,6 @@
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-switch-to-saved-filter-groups "customized")))
-  (savehist-mode 1)
   (set-fonts)
   (set-keys)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
@@ -205,13 +204,14 @@
 (defun set-fonts ()
   (let ((font-height 140))
     (set-face-attribute 'default nil
-                        :family "Go Mono"
-                        :height font-height)
+                        :family "IBM Plex Mono"
+                        :height font-height
+                        :weight 'normal)
     (set-face-attribute 'variable-pitch nil
                         :family "Noto Serif CJK TC"
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
-                        :family "Go Mono"
+                        :family "IBM Plex Mono"
                         :inherit 'default)
     (set-face-attribute 'org-default nil
                         :inherit 'variable-pitch)

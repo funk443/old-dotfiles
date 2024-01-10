@@ -365,7 +365,6 @@ slow Emacs down during starting.
   <<ibuf-ext>>
   <<customize-variable>>
   <<add-hook-ibuffer-group>>
-  <<savehist>>
   <<font-and-key>>
   <<org-variable-pitch>>
   <<auto-fill-mode-for-org>>
@@ -396,11 +395,6 @@ found in ~custom-var.el~.
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (ibuffer-switch-to-saved-filter-groups "customized")))
-#+end_src
-
-I want Emacs to remember what I typed in minibuffer, so I enable ~savehist-mode~.
-#+begin_src elisp :noweb-ref savehist
-(savehist-mode 1)
 #+end_src
 
 Setting default coding system.
@@ -459,13 +453,14 @@ These set the attributes of basic faces.  I am also setting some org faces here
 to be fixed-pitch, since I want to use Org Mode in variable-pitch.
 #+begin_src elisp :noweb-ref basic-face-attributes
 (set-face-attribute 'default nil
-                    :family "Go Mono"
-                    :height font-height)
+                    :family "IBM Plex Mono"
+                    :height font-height
+                    :weight 'normal)
 (set-face-attribute 'variable-pitch nil
                     :family "Noto Serif CJK TC"
                     :inherit 'default)
 (set-face-attribute 'fixed-pitch nil
-                    :family "Go Mono"
+                    :family "IBM Plex Mono"
                     :inherit 'default)
 (set-face-attribute 'org-default nil
                     :inherit 'variable-pitch)
