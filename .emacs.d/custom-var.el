@@ -109,6 +109,7 @@
  '(fill-column 80)
  '(frame-resize-pixelwise t)
  '(garbage-collection-messages t)
+ '(global-hl-line-mode t)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
