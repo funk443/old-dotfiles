@@ -9,8 +9,5 @@
 (unless (file-directory-p "~/.emacs.d/undo_tree")
   (make-directory "~/.emacs.d/undo_tree"))
 
-(set-frame-parameter (selected-frame) 'alpha-background 85)
-(add-to-list 'default-frame-alist '(alpha-background . 85))
-
-(defun display-startup-echo-area-message ()
-  (message "ad astra per aspera"))
+;; (set-frame-parameter (selected-frame) 'alpha-background 85)
+;; (add-to-list 'default-frame-alist '(alpha-background . 85))
