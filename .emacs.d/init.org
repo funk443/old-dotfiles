@@ -16,6 +16,8 @@
 
 *This configuration needs Emacs 29 or later*
 
+My Emacs is configured with ~--with-pgtk --with-native-compilation=yes --with-tree-sitter --with-json --with-imagemagick CFLAGS=-O2~.
+
 * Table of Contents :TOC_1:noexport:
 - [[#license][License]]
 - [[#configure-package-archives][Configure Package Archives]]
