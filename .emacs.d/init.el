@@ -195,7 +195,7 @@
                         :height font-height
                         :weight 'normal)
     (set-face-attribute 'variable-pitch nil
-                        :family "Noto Serif CJK TC"
+                        :family "Noto Sans CJK TC"
                         :inherit 'default)
     (set-face-attribute 'fixed-pitch nil
                         :family "IBM Plex Mono"
