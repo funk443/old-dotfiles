@@ -171,14 +171,10 @@
 
 (defun startup-function ()
   (require 'org)
-  (require 'ibuf-ext)
   (setq frame-title-format "%b - GNU Emacs"
         default-input-method "chinese-array30"
         completion-ignore-case t
         initial-buffer-choice (lambda () (dashboard-open)))
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "customized")))
   (set-fonts)
   (set-keys)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
@@ -221,8 +217,7 @@
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
                         ("<C-wheel-down>" . text-scale-decrease)
                         ("C-x C-r" . recentf-open-files)
-                        ("C-M-=" . count-words)
-                        ("C-x C-b" . ibuffer)))
+                        ("C-M-=" . count-words)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
 
 (defvar gc-idle-timer

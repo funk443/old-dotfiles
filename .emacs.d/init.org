@@ -342,19 +342,12 @@ slow Emacs down during starting.
 #+begin_src elisp :noweb yes :tangle "init.el"
 (defun startup-function ()
   (require 'org)
-  <<ibuf-ext>>
   <<customize-variable>>
-  <<add-hook-ibuffer-group>>
   <<font-and-key>>
   <<org-variable-pitch>>
   <<auto-fill-mode-for-org>>
   <<electric-quote-mode-for-org>>
   <<init-package>>)
-#+end_src
-
-First, load the ~ibuf-ext~ package to have a better Ibuffer experience.
-#+begin_src elisp :noweb-ref ibuf-ext
-(require 'ibuf-ext)
 #+end_src
 
 We'll then set several variables up.  Most of my custom built-in variables are
@@ -367,14 +360,6 @@ so they are set here.  Package related variables are set using ~use-package~'s
       default-input-method "chinese-array30"
       completion-ignore-case t
       initial-buffer-choice (lambda () (dashboard-open)))
-#+end_src
-
-This switches ibuffer to my customised filter group, the group definition can be
-found in ~custom-var.el~.
-#+begin_src elisp :noweb-ref add-hook-ibuffer-group
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "customized")))
 #+end_src
 
 Setting default coding system.
@@ -469,14 +454,12 @@ keybindings.  Package-related keybindings can be found in their own section.
 | C-wheel-down | Reduce text size                                 |
 | C-x C-r      | Open a buffer displaying recently modified files |
 | C-M-=        | Count words                                      |
-| C-x C-b      | Ibuffer                                          |
 #+begin_src elisp :tangle "init.el"
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
                         ("<C-wheel-down>" . text-scale-decrease)
                         ("C-x C-r" . recentf-open-files)
-                        ("C-M-=" . count-words)
-                        ("C-x C-b" . ibuffer)))
+                        ("C-M-=" . count-words)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
 #+end_src
 
