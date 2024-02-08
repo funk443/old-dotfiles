@@ -356,8 +356,7 @@ set via Emacs' built-in "customize" functionality, and can be found in
 so they are set here.  Package related variables are set using ~use-package~'s
 ~:custom~ functionality, as you can see from previous sections.
 #+begin_src elisp :noweb-ref customize-variable
-(setq frame-title-format "%b - GNU Emacs"
-      default-input-method "chinese-array30"
+(setq default-input-method "chinese-array30"
       completion-ignore-case t
       initial-buffer-choice (lambda () (dashboard-open)))
 #+end_src
@@ -461,16 +460,6 @@ keybindings.  Package-related keybindings can be found in their own section.
                         ("C-x C-r" . recentf-open-files)
                         ("C-M-=" . count-words)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
-#+end_src
-
-** Idle Timer for Garbage Collection
-I don't want Emacs to collect garbages while I am doing stuffs, so I've set
-~gc-cons-threshold~ to a high number (currently 1G,) then have Emacs collect
-garbages while I am not using it through idle timer.
-#+begin_src elisp :tangle "init.el"
-(defvar gc-idle-timer
-  (run-with-idle-timer 8 t #'garbage-collect)
-  "The idle timer to run garbage collection")
 #+end_src
 
 * Hooks

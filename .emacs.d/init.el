@@ -171,8 +171,7 @@
 
 (defun startup-function ()
   (require 'org)
-  (setq frame-title-format "%b - GNU Emacs"
-        default-input-method "chinese-array30"
+  (setq default-input-method "chinese-array30"
         completion-ignore-case t
         initial-buffer-choice (lambda () (dashboard-open)))
   (set-fonts)
@@ -219,9 +218,5 @@
                         ("C-x C-r" . recentf-open-files)
                         ("C-M-=" . count-words)))
     (global-set-key (kbd (car keybinding)) (cdr keybinding))))
-
-(defvar gc-idle-timer
-  (run-with-idle-timer 8 t #'garbage-collect)
-  "The idle timer to run garbage collection")
 
 (add-hook 'emacs-startup-hook #'startup-function)

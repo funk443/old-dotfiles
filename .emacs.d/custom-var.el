@@ -108,7 +108,7 @@
    " ______     _          _ _ \12|  ____|   | |        | | |\12| |__   ___| |__   ___| | |\12|  __| / __| '_ \\ / _ \\ | |\12| |____\\__ \\ | | |  __/ | |\12|______|___/_| |_|\\___|_|_|\12\12Welcome to Eshell, a shell written entirely in Emacs Lisp!\12-----\12")
  '(fill-column 80)
  '(frame-resize-pixelwise t)
- '(garbage-collection-messages t)
+ '(garbage-collection-messages nil)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
@@ -147,11 +147,12 @@
  '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(org-use-sub-superscripts '{})
+ '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-                 #("eshell-prompt-extras" 0 20
-                   (escaped t))
-                 "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+              #("eshell-prompt-extras" 0 20
+                (escaped t))
+              "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
