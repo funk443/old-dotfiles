@@ -88,14 +88,6 @@ Then we'll load ~use-package~.
 :PROPERTIES:
 :header-args: :tangle "init.el"
 :END:
-A very minimal theme.  See [[http://www.linusakesson.net/programming/syntaxhighlighting/index.php][A case against syntax highlighting]].
-#+begin_src elisp
-(use-package plain-theme
-  :ensure t
-  :config
-  (load-theme 'plain t))
-#+end_src
-
 I have customised my splash screen using package ~dashboard~.  ~dashboard~ came
 with many items on display by default, and I don't like them, so I just set them
 to ~nil~.  The last part is to start ~dashboard~ properly if using an Emacs

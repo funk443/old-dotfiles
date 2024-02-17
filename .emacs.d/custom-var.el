@@ -109,6 +109,7 @@
  '(fill-column 80)
  '(frame-resize-pixelwise t)
  '(garbage-collection-messages nil)
+ '(global-font-lock-mode nil)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
@@ -132,7 +133,7 @@
  '(major-mode-remap-alist '((perl-mode . cperl-mode)))
  '(menu-bar-mode nil)
  '(mode-line-compact t)
- '(mode-line-position-column-line-format '(" (%l %c)"))
+ '(mode-line-position-column-line-format '(" L%l C%c"))
  '(org-agenda-files '("~/Documents/agenda.org"))
  '(org-edit-src-content-indentation 0)
  '(org-export-backends '(ascii html latex md odt))
@@ -149,10 +150,10 @@
  '(org-use-sub-superscripts '{})
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode dashboard unfill sly magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-              #("eshell-prompt-extras" 0 20
-                (escaped t))
-              "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode dashboard unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+         #("eshell-prompt-extras" 0 20
+           (escaped t))
+         "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)

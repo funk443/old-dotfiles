@@ -23,11 +23,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package plain-theme
-  :ensure t
-  :config
-  (load-theme 'plain t))
-
 (use-package dashboard
   :ensure t
   :custom
