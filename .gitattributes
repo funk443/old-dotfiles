@@ -1,2 +1,2 @@
-.emacs.d/HyperSpec/** linguist-documentation
+.config/emacs/HyperSpec/** linguist-documentation
 .config/qtile/traverse.py linguist-vendored
