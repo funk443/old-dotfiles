@@ -1,0 +1,73 @@
+;;-*-coding: utf-8;-*-
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("cljbuild" "(ns build
+  (:require [clojure.tools.build.api :as b]))
+
+(def lib 'id/foobar)
+(def version \"0.0.1\")
+(def basis (delay (b/create-basis)))
+(def src-dirs [\"src\"])
+(def target-dir \"target\")
+(def class-dir (format \"%s/classes\" target-dir))
+(def uber-file (format \"%s/%s.jar\" target-dir (name lib)))
+
+(defn clean [& args]
+  (b/delete {:path target-dir}))
+
+(defn uberjar [& args]
+  (clean)
+  (b/copy-dir {:target-dir class-dir
+               :src-dirs src-dirs})
+  (b/write-pom {:basis @basis
+                :class-dir class-dir
+                :lib lib
+                :version version
+                :src-dirs src-dirs})
+  (b/compile-clj {:basis @basis
+                  :class-dir class-dir
+                  :src-dirs src-dirs})
+  (b/uber {:uber-file uber-file
+           :class-dir class-dir
+           :basis @basis
+           :main 'foobar.main}))
+" nil :count 5)
+    ("cljdepsedn" "{:paths [\"src\"]
+ :deps {}
+ :aliases
+ {:build {:deps {io.github.clojure/tools.build {:mvn/version \"0.9.6\"}}
+          :ns-default build}}}" nil :count 4)
+    ("gplthisfile" "Copyright (C) 2023  CToID <funk443@yandex.com>
+
+This file is part of FOOBAR.
+
+FOOBAR is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+FOOBAR is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along
+with FOOBAR.  If not, see <https://www.gnu.org/licenses/>.
+" nil :count 4)
+    ("gplthisprogram" "Copyright (C) 2023  CToID <funk443@yandex.com>
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see <https://www.gnu.org/licenses/>.
+" nil :count 1)
+   ))
+

@@ -1,11 +1,150 @@
+;;;; Copyright (C) 2023  CToID
+
+;;;; This program is free software: you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation, either version 3 of the License, or
+;;;; (at your option) any later version.
+
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("gnu" . "https://elpa.gnu.org/packages/"))
+
+(use-package toc-org
+  :commands (toc-org-enable)
+  :ensure t
+  :hook (org-mode . toc-org-enable))
+
+(use-package htmlize
+  :ensure t)
+
+(use-package arduino-mode
+  :ensure t)
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package racket-mode
+  :ensure t)
+
+(use-package markdown-mode
+  :ensure t)
+
+(use-package racket-mode
+  :ensure t)
+
+(use-package sly
+  :ensure t
+  :init (setq inferior-lisp-program "sbcl")
+  :config
+  (setq common-lisp-hyperspec-root
+        (concat "file:///"
+                (expand-file-name (concat user-emacs-directory "HyperSpec/"))))
+  :custom
+  (sly-common-lisp-style-default "modern"))
+
+(use-package cider
+  :ensure t
+  :custom
+  (cider-font-lock-dynamically nil)
+  (cider-allow-jack-in-without-project t))
+
+(use-package magit
+  :ensure t
+  :commands (magit magit-clone))
+
+(use-package xclip
+  :ensure t)
+
+(use-package eat
+  :ensure t
+  :config
+  (eat-eshell-mode)
+  (eat-eshell-visual-command-mode)
+  :custom
+  (eshell-visual-commands nil))
+
+(use-package which-key
+  :ensure t
+  :custom
+  (which-key-side-window-location 'bottom)
+  (which-key-sort-uppercase-first nil)
+  (which-key-add-column-padding 0)
+  (which-key-max-display-columns nil)
+  (which-key-side-window-max-height 0.25)
+  (which-key-idle-delay 0.5)
+  (which-key-max-description-length 25)
+  :config
+  (which-key-mode))
+
+(use-package recentf
+  :custom
+  (recentf-max-menu-items 10)
+  (recentf-max-saved-itmes 10)
+  (add-to-list 'recentf-exclude "\\.last\\'")
+  :config
+  (recentf-mode 1))
+
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
+
+(use-package unfill
+  :ensure t)
+
+(use-package multiple-cursors
+  :ensure t)
+
+(defun startup-function ()
+  (require 'org)
+  (setq default-input-method "chinese-array30"
+        completion-ignore-case t)
+  (set-fonts)
+  (set-keys)
+  (add-hook 'org-mode-hook #'auto-fill-mode)
+  (add-hook 'org-mode-hook #'electric-quote-local-mode)
+  (add-hook 'org-capture-mode-hook #'auto-fill-mode)
+  (add-hook 'org-capture-mode-hook #'electric-quote-local-mode)
+  (package-initialize))
+
+(defun set-fonts ()
+  (let ((font-height 140))
+    (set-face-attribute 'default nil
+                        :family "IBM Plex Mono"
+                        :height font-height
+                        :weight 'normal)
+    (set-face-attribute 'variable-pitch nil
+                        :family "Noto Sans CJK TC"
+                        :inherit 'default)
+    (set-face-attribute 'fixed-pitch nil
+                        :family "IBM Plex Mono"
+                        :inherit 'default)))
+
+(defun set-keys ()
+  (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
+                        ("<C-wheel-down>" . text-scale-decrease)
+                        ("C-x C-r" . recentf-open-files)
+                        ("C-M-=" . count-words)))
+    (global-set-key (kbd (car keybinding)) (cdr keybinding))))
+
+(add-hook 'emacs-startup-hook #'startup-function)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/backup")))
  '(blink-cursor-mode t)
  '(browse-url-browser-function 'browse-url-xdg-open)
  '(browse-url-secondary-browser-function 'eww-browse-url)
@@ -150,10 +289,10 @@
  '(org-use-sub-superscripts '{})
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode dashboard unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-         #("eshell-prompt-extras" 0 20
-           (escaped t))
-         "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+                    #("eshell-prompt-extras" 0 20
+                      (escaped t))
+                    "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
