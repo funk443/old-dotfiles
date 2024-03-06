@@ -42,8 +42,9 @@ sbcl --load setup.lisp --eval "(main)"
 *I prefer doing things in simple ways now, so literal config is deprecated.*
 
 I currently have literate configuration for GNU Emacs, so if you want to know
-what does what, feel free to check out [[file:.emacs.d/init.org][init.el]].  there's also this [[file:.emacs.d/config.org][old config]] I
-used to use, it's deprecated now, but still has some information in it.
+what does what, feel free to check out [[file:.config/emacs/init.org][init.el]].
+there's also this [[file:.config/emacs/config.org][old config]] I used to use,
+it's deprecated now, but still has some information in it.
 
 * Custom Keybindings in StumpWM
 I mostly use the default keybindings that come with StumpWM, but I have changed
