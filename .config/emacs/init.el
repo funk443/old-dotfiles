@@ -270,6 +270,7 @@
  '(line-number-display-limit-width most-positive-fixnum)
  '(line-spacing nil)
  '(major-mode-remap-alist '((perl-mode . cperl-mode)))
+ '(make-backup-files nil)
  '(menu-bar-mode nil)
  '(mode-line-compact t)
  '(mode-line-position-column-line-format '(" L%l C%c"))
