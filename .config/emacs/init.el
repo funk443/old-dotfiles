@@ -10,13 +10,16 @@
 ;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;;;; GNU General Public License for more details.
 
+
 (require 'package)
 
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("gnu" . "https://elpa.gnu.org/packages/"))
 
+
 (use-package toc-org
   :commands (toc-org-enable)
   :ensure t
@@ -25,6 +28,7 @@
 (use-package htmlize
   :ensure t)
 
+
 (use-package arduino-mode
   :ensure t)
 
@@ -37,16 +41,14 @@
 (use-package markdown-mode
   :ensure t)
 
-(use-package racket-mode
-  :ensure t)
-
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
   :config
   (setq common-lisp-hyperspec-root
         (concat "file:///"
-                (expand-file-name (concat user-emacs-directory "HyperSpec/"))))
+                (expand-file-name (concat user-emacs-directory
+                                          "HyperSpec/"))))
   :custom
   (sly-common-lisp-style-default "modern"))
 
@@ -56,6 +58,7 @@
   (cider-font-lock-dynamically nil)
   (cider-allow-jack-in-without-project t))
 
+
 (use-package magit
   :ensure t
   :commands (magit magit-clone))
@@ -105,30 +108,26 @@
 (use-package multiple-cursors
   :ensure t)
 
+
 (defun startup-function ()
   (require 'org)
-  (setq default-input-method "chinese-array30"
-        completion-ignore-case t)
+  (setq completion-ignore-case t)
   (set-fonts)
   (set-keys)
   (add-hook 'org-mode-hook #'auto-fill-mode)
-  (add-hook 'org-mode-hook #'electric-quote-local-mode)
-  (add-hook 'org-capture-mode-hook #'auto-fill-mode)
-  (add-hook 'org-capture-mode-hook #'electric-quote-local-mode)
   (package-initialize))
 
 (defun set-fonts ()
   (let ((font-height 140))
     (set-face-attribute 'default nil
                         :family "IBM Plex Mono"
-                        :height font-height
-                        :weight 'normal)
+                        :height font-height)
     (set-face-attribute 'variable-pitch nil
-                        :family "Noto Sans CJK TC"
-                        :inherit 'default)
+                        :inherit 'default
+                        :family "Noto Sans CJK TC")
     (set-face-attribute 'fixed-pitch nil
-                        :family "IBM Plex Mono"
-                        :inherit 'default)))
+                        :inherit 'default
+                        :family "IBM Plex Mono")))
 
 (defun set-keys ()
   (dolist (keybinding '(("<C-wheel-up>" . text-scale-increase)
@@ -139,6 +138,7 @@
 
 (add-hook 'emacs-startup-hook #'startup-function)
 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -266,7 +266,7 @@
  '(indent-tabs-mode nil)
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
- '(js-chain-indent t)
+ '(js-indent-level 2)
  '(line-number-display-limit-width most-positive-fixnum)
  '(line-spacing nil)
  '(major-mode-remap-alist '((perl-mode . cperl-mode)))
@@ -290,10 +290,10 @@
  '(org-use-sub-superscripts '{})
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-                    #("eshell-prompt-extras" 0 20
-                      (escaped t))
-                    "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+             #("eshell-prompt-extras" 0 20
+               (escaped t))
+             "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
