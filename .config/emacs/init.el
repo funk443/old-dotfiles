@@ -278,7 +278,6 @@
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
- '(org-startup-truncated nil)
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
    '(go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
@@ -303,6 +302,7 @@
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(tool-bar-mode nil)
+ '(truncate-lines t)
  '(uniquify-buffer-name-style 'forward nil (uniquify))
  '(warning-suppress-types '((comp) (comp)))
  '(x-select-enable-clipboard-manager nil))
@@ -312,3 +312,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'scroll-left 'disabled nil)
