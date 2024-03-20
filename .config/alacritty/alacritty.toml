@@ -1,0 +1,7 @@
+import = [
+  "~/.config/alacritty/ayu_light.toml"
+]
+
+[font]
+normal = { family = "IBM Plex Mono", style = "text" }
+size = 16
