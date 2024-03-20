@@ -38,10 +38,6 @@
 (use-package racket-mode
   :ensure t)
 
-(use-package adoc-mode
-  :ensure t
-  :hook (adoc-mode . auto-fill-mode))
-
 (use-package sly
   :ensure t
   :init (setq inferior-lisp-program "sbcl")
@@ -276,26 +272,20 @@
  '(menu-bar-mode nil)
  '(mode-line-compact t)
  '(mode-line-position-column-line-format '(" L%l C%c"))
- '(org-agenda-files '("~/Documents/agenda.org"))
- '(org-edit-src-content-indentation 0)
  '(org-export-backends '(ascii html latex md odt))
- '(org-export-with-sub-superscripts '{})
- '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
  '(org-image-actual-width 500)
- '(org-log-done 'note)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
- '(org-use-sub-superscripts '{})
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(adoc-mode go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-               #("eshell-prompt-extras" 0 20
-                 (escaped t))
-               "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+             #("eshell-prompt-extras" 0 20
+               (escaped t))
+             "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
