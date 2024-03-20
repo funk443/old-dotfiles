@@ -1,5 +1,0 @@
-= ID's GNU/Linux Dotfiles
-CToID <funk443@yandex.com>
-:toc:
-
-Reworking on stuffs...

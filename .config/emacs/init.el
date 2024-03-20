@@ -279,7 +279,6 @@
  '(org-src-preserve-indentation t)
  '(org-src-tab-acts-natively t)
  '(org-startup-truncated nil)
- '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
    '(go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
