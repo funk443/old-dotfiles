@@ -38,8 +38,9 @@
 (use-package racket-mode
   :ensure t)
 
-(use-package markdown-mode
-  :ensure t)
+(use-package adoc-mode
+  :ensure t
+  :hook (adoc-mode . auto-fill-mode))
 
 (use-package sly
   :ensure t
@@ -246,9 +247,10 @@
  '(eshell-banner-message
    " ______     _          _ _ \12|  ____|   | |        | | |\12| |__   ___| |__   ___| | |\12|  __| / __| '_ \\ / _ \\ | |\12| |____\\__ \\ | | |  __/ | |\12|______|___/_| |_|\\___|_|_|\12\12Welcome to Eshell, a shell written entirely in Emacs Lisp!\12-----\12")
  '(fill-column 80)
+ '(font-lock-maximum-decoration nil)
  '(frame-resize-pixelwise t)
  '(garbage-collection-messages nil)
- '(global-font-lock-mode nil)
+ '(global-font-lock-mode t)
  '(gnus-init-file "~/dotfiles/.emacs.d/.gnus")
  '(ibuffer-saved-filter-groups
    '(("customized"
@@ -290,10 +292,10 @@
  '(org-use-sub-superscripts '{})
  '(package-install-upgrade-built-in t)
  '(package-selected-packages
-   '(go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit markdown-mode unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
-             #("eshell-prompt-extras" 0 20
-               (escaped t))
-             "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
+   '(adoc-mode go-mode kotlin-ts-mode sly bind-key eglot eldoc faceup flymake jsonrpc org project soap-client verilog-mode transient racket-mode ligature-mode "geiser-gambit" plain-theme multiple-cursors cider eat magit unfill magit-section htmlize treesit-auto vterm-toggle ladger-mode screenshot
+               #("eshell-prompt-extras" 0 20
+                 (escaped t))
+               "eshell-prompt-extras" use-package arduino-mode xclip yaml-mode visual-fill-column-mode visual-line-mode highlight-indent-guides org-present-mode toc-org neotree which-key ##))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)
  '(require-final-newline t)
