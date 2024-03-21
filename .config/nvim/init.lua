@@ -15,6 +15,11 @@ plugins = {
 }
 require("lazy").setup(plugins, opts)
 
+vim.api.nvim_create_autocmd(
+  { "BufWritePre" },
+  { command = "%s/\\s\\+$//e" }
+)
+
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.cc = '80'
