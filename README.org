@@ -1,4 +1,0 @@
-#+TITLE: ID's GNU/Linux dotfiles
-#+AUTHOR: CToID <funk443@yandex.com>
-
-Reworking...
