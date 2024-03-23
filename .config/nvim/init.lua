@@ -12,6 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 plugins = {
+  "tpope/vim-commentary"
 }
 require("lazy").setup(plugins, opts)
 
@@ -22,7 +23,8 @@ vim.api.nvim_create_autocmd(
 
 vim.opt.cursorline = true
 vim.opt.expandtab = true
-vim.opt.cc = '80'
+vim.opt.tw = 80
+vim.opt.cc = '+0'
 vim.opt.autoindent = true
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -30,5 +32,6 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 0
 vim.opt.termguicolors = true
 vim.opt.background = "light"
+vim.opt.autochdir = true
 
 vim.cmd.syntax "off"
