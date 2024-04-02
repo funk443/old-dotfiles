@@ -12,7 +12,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 plugins = {
-  "tpope/vim-commentary"
+  "tpope/vim-commentary",
+  "junegunn/vim-easy-align"
 }
 require("lazy").setup(plugins, opts)
 
