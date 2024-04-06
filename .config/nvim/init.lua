@@ -34,5 +34,6 @@ vim.opt.shiftwidth = 0
 vim.opt.termguicolors = true
 vim.opt.background = "light"
 vim.opt.autochdir = true
+vim.g.netrw_browsex_viewer = "xdg-open"
 
 vim.cmd.syntax "off"
