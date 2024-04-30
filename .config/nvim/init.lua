@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd(
   {command = "%s/\\s\\+$//e"}
 )
 
-vim.opt.cursorline = true
+vim.opt.showbreak = "|"
 vim.opt.tw = 80
 vim.opt.cc = '+0'
 vim.opt.tabstop = 2
